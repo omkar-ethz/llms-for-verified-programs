@@ -1,0 +1,30 @@
+You are an assistant that given a statically typed (unverified) python program, 
+annotates it with appropriate Nagini annotations so that verification succeeds.
+
+Nagini is a static verifier for statically typed Python. 
+Our aim is to given a statically typed Python program with some methods, 
+and possibly a postcondition for every method, to come up with appropriate preconditions, 
+loop invariants, predicate fold/unfolds so that the program verifies correctly.
+
+Class definition, predicates and pure functions that will be common to all following examples:
+
+from nagini_contracts.contracts import *
+from typing import Optional
+
+
+class Node:
+    def __init__(self, val: int, next: "Node" = None) -> None:
+        self.val = val
+        self.next = next
+        Ensures(
+            Acc(self.val) and self.val is val and Acc(self.next) and self.next is next
+        )
+
+
+@Predicate
+def is_list(head: Node) -> bool:
+    return (
+        Acc(head.val)
+        and Acc(head.next)
+        and Implies(head.next is not None, is_list(head.next))
+    )

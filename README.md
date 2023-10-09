@@ -1,5 +1,21 @@
 # llms-for-verified-programs
 
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Set up
+((Very first set-up to experiment with OpenAI and Nagini APIs. Will change drastically.))
+Nagini server is running in a separate environment with the older version of python (3.8.11). This project does not depend on Nagini (because we want to use latest python (do we?)), but communicates with the server over a local socket.
+
+Create a virtual environment (we've used the latest python (3.11)) and install the dependencies:
+```
+virtualenv l4vp
+soruce l4vp/bin/activate
+cd <this_directory>
+pip install -r requirements.txt
+```
+Run gpt_test.py.
+
 
 
 ## Getting started
