@@ -30,12 +30,3 @@ class NaginiWrapper:
             return "Errors:\n" + "\n".join(response[3:-1])
 
         raise ValueError(f"Unexpected response from Nagini: {response}")
-
-
-n = NaginiWrapper()
-
-print(
-    n.verify(
-        "/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list.py"
-    )
-)

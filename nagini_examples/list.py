@@ -10,7 +10,6 @@ class Node:
             Acc(self.val) and self.val is val and Acc(self.next) and self.next is next
         )
 
-
 @Predicate
 def is_list(head: Node) -> bool:
     return (
