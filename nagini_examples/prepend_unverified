@@ -1,4 +1,0 @@
-def prepend(head:Node, val:int) -> Node:
-    Ensures(is_list(Result()))
-    n = Node(val, head)
-    return n

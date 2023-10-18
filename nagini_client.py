@@ -5,7 +5,7 @@ DEFAULT_CLIENT_SOCKET = "tcp://localhost:5555"
 
 
 class NaginiWrapper:
-    """A wrapper for the Nagini verification tool"""
+    """A wrapper over the Nagini verification tool"""
 
     def __init__(self):
         context = zmq.Context()
@@ -18,8 +18,13 @@ class NaginiWrapper:
         self.socket.send_string(file)
         response: str = self.socket.recv_string().split("\n")
         print("response", response)
+        if response[0] == "Runtime Error":
+            return "Runtime Error"
         assert len(response) >= 3
-        assert response[0] == "" and response[-1].startswith("Verification took")
+        assert response[0] == "" and (
+            response[-1].startswith("Verification took")
+            or response[1] == "Translation failed"
+        )
 
         if response[1] == "Verification successful":
             assert len(response) == 3
@@ -29,4 +34,10 @@ class NaginiWrapper:
             assert len(response) > 4 and response[2] == "Errors:"
             return "Errors:\n" + "\n".join(response[3:-1])
 
+        if response[1] == "Translation failed":
+            return response[2]
+
         raise ValueError(f"Unexpected response from Nagini: {response}")
+
+# nagini = NaginiWrapper()
+# nagini.verify("/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tmp.py")

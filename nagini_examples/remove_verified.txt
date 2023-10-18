@@ -1,0 +1,14 @@
+def remove(head: Node, val: int) -> Optional[Node]:
+    """Removes the first node with the given value from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+
+    Unfold(is_list(head))
+    if head.val == val:
+        return head.next
+    if head.next is None:
+        Fold(is_list(head))
+        return head
+    head.next = remove(head.next, val)
+    Fold(is_list(head))
+    return head

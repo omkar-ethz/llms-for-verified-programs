@@ -1,0 +1,12 @@
+def find(head: Optional[Node], val: int) -> Optional[Node]:
+    """Returns the first node with the given value, or None if not found."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.val) == val:
+        return head
+    Unfold(is_list(head))
+    result = find(head.next, val)
+    Fold(is_list(head))
+    return result

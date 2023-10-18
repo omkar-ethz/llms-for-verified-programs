@@ -1,6 +1,5 @@
 from nagini_contracts.contracts import *
-from typing import Optional
-
+from typing import Optional, List
 
 class Node:
     def __init__(self, val: int, next: "Node" = None) -> None:
@@ -13,7 +12,8 @@ class Node:
 @Predicate
 def is_list(head: Node) -> bool:
     return (
-        Acc(head.val)
+        head is not None
+        and Acc(head.val)
         and Acc(head.next)
         and Implies(head.next is not None, is_list(head.next))
     )

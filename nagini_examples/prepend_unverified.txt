@@ -1,0 +1,4 @@
+def prepend(head: Node, val: int) -> Node:
+    """Prepends a new node with the given value to the list."""
+    n = Node(val, head)
+    return n

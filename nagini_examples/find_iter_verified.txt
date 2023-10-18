@@ -1,0 +1,14 @@
+def find_iter(head: Node, val: int) -> Optional[Node]:
+    """Returns the first node with the given value, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    # Ensures(is_list(head))
+    ptr = head  # type: Optional[Node]
+    while ptr is not None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Unfold(is_list(ptr))
+        if ptr.val == val:
+            Fold(is_list(ptr))
+            return ptr
+        ptr = ptr.next
+    return None

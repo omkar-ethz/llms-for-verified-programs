@@ -1,0 +1,32 @@
+{
+    "system_prompt": "system_prompt.txt",
+    "list": {
+        "declaration": "list.py.txt",
+        "examples": {
+            "prepend": {
+                "unverified": "prepend_unverified.txt",
+                "verified": "prepend_verified.txt"
+            },
+            "append":{
+                "unverified": "append_unverified.txt",
+                "verified": "append_verified.txt"
+            },
+            "find": {
+                "unverified": "find_unverified.txt",
+                "verified": "find_verified.txt"
+            },
+            "find_iter": {
+                "unverified": "find_iter_unverified.txt",
+                "verified": "find_iter_verified.txt"
+            },
+            "remove": {
+                "unverified": "remove_unverified.txt",
+                "verified": "remove_verified.txt"
+            },
+            "join_lists": {
+                "unverified": "join_lists_unverified.txt",
+                "verified": "join_lists_verified.txt"
+            }
+        }
+    }
+}
