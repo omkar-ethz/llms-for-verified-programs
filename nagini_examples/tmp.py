@@ -20,18 +20,15 @@ def is_list(head: Node) -> bool:
 
 def join_lists(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
     """Returns the head of the list obtained by joining the two lists."""
+    Requires(Implies(head1 is not None, is_list(head1)))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
     if head1 is None:
         return head2
-    if head2 is None:
-        return head1
-    return join_lists_helper(head1, head2)
-
-def join_lists_helper(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
-    """Helper function for join_lists."""
-    Requires(head1 is not None and is_list(head1))
-    Requires(is_list(head2))
-    Ensures(is_list(Result()))
     Unfold(is_list(head1))
-    head1.next = join_lists_helper(head1.next, head2)
+    if head2 is None:
+        Fold(is_list(head1))
+        return head1
+    head1.next = join_lists(head1.next, head2)
     Fold(is_list(head1))
     return head1
