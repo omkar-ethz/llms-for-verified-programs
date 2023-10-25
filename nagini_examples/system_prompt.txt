@@ -3,8 +3,7 @@ annotates it with appropriate Nagini annotations so that verification succeeds.
 
 Nagini is a static verifier for Python. 
 Our aim is to given a statically typed Python program, 
-and possibly a postcondition (e.g. Ensures(is_list(Result()))) for every method, 
-to come up with appropriate preconditions (e.g. Requires(is_list(head))), 
+to come up with appropriate preconditions (e.g. Requires(is_list(head))), postcondition (e.g. Ensures(is_list(Result()))),
 loop invariants (Invariant(<assertion>)), predicate fold/unfolds (e.g. Fold(is_list(head)) / Unfold(is_list(head))) 
 so that the program verifies correctly.
 The user will provide Python code and the verification errors. 

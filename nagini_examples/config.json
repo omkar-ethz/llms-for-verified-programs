@@ -26,6 +26,10 @@
             "join_lists": {
                 "unverified": "join_lists_unverified.txt",
                 "verified": "join_lists_verified.txt"
+            },
+            "reverse": {
+                "unverified": "reverse_unverified.txt",
+                "verified": "reverse_verified.txt"
             }
         }
     }
