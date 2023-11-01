@@ -22,21 +22,23 @@ def reverseList(head: Node) -> Optional[Node]:
     """Reverses the list and returns the new head."""
     Requires(is_list(head))
     Ensures(Implies(Result() is not None, is_list(Result())))
-    
+
     Unfold(is_list(head))
     if head.next is None:
         Fold(is_list(head))
         return head
-    Fold(is_list(head))
     prev = None # type: Optional[Node]
     ptr = head # type: Optional[Node]
     while ptr != None:
         Invariant(Implies(ptr is not None, is_list(ptr)))
-        Invariant(Implies(prev is not None, is_list(prev)))
         Unfold(is_list(ptr))
         tmp = ptr.next
+        Unfold(is_list(tmp))
         ptr.next = prev
-        prev = ptr
         Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        prev = ptr
         ptr = tmp
+        Fold(is_list(prev))
+    Fold(is_list(ptr))
     return prev
