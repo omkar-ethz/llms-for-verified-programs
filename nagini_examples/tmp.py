@@ -18,27 +18,17 @@ def is_list(head: Node) -> bool:
         and Implies(head.next is not None, is_list(head.next))
     )
 
-def reverseList(head: Node) -> Optional[Node]:
-    """Reverses the list and returns the new head."""
-    Requires(is_list(head))
-    Ensures(Implies(Result() is not None, is_list(Result())))
 
-    Unfold(is_list(head))
+def append(head: Node, val: int) -> None:
+    Requires(is_list(head))
+    Ensures(is_list(head))
     if head.next is None:
+        Unfold(is_list(head))
+        n = Node(val)
+        Fold(is_list(n))
+        head.next = n
         Fold(is_list(head))
-        return head
-    prev = None # type: Optional[Node]
-    ptr = head # type: Optional[Node]
-    while ptr != None:
-        Invariant(Implies(ptr is not None, is_list(ptr)))
-        Unfold(is_list(ptr))
-        tmp = ptr.next
-        Unfold(is_list(tmp))
-        ptr.next = prev
-        Fold(is_list(ptr))
-        Fold(is_list(tmp))
-        prev = ptr
-        ptr = tmp
-        Fold(is_list(prev))
-    Fold(is_list(ptr))
-    return prev
+    else:
+        Unfold(is_list(head))
+        append(head.next, val)
+        Fold(is_list(head))

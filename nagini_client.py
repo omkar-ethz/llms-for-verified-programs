@@ -67,9 +67,6 @@ def verify(file: str) -> VerificationResult:
     raise ValueError(f"Unexpected response from Nagini: {response}")
 
 
-# verify("/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tmp.py")
-
-
 def _parse_error_message(error_message: str) -> tuple[str, str]:
     """Separates the message from the line number"""
     # match the last parantheses in the error message
@@ -80,3 +77,6 @@ def _parse_error_message(error_message: str) -> tuple[str, str]:
         return (message, line_no)
     # If there's no match, return the entire error message and arbitrary line number
     return (error_message, "0.0")
+
+
+# verify("/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tmp.py")

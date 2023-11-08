@@ -22,7 +22,7 @@ Create a `.env` file at the root level with the following content. `.gitignore` 
 ```conf
 GPT_SECRET_KEY=sk-<your_api_key>
 ```
-Create a virtual environment with Python 3.11 and install dependencies of the project:
+Create a virtual environment with Python 3.12 and install dependencies of the project:
 ```bash
 virtualenv l4vp
 soruce l4vp/bin/activate

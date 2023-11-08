@@ -5,7 +5,6 @@ def find_iter(head: Node, val: int) -> Optional[Node]:
     ptr = head  # type: Optional[Node]
     while ptr is not None:
         Invariant(Implies(ptr is not None, is_list(ptr)))
-        Unfold(is_list(ptr))
         if ptr.val == val:
             Fold(is_list(ptr))
             return ptr

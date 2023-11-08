@@ -1,9 +1,37 @@
 {
     "system_prompt": "system_prompt.txt",
-    "verif_result_cache": "verif_result.pkl",
+    "verif_result_cache": "verif_result_hybrid.pkl",
     "list": {
         "declaration": "list.py.txt",
         "examples": {
+            "prepend_p": {
+                "unverified": "partial/prepend_partial.txt",
+                "verified": "prepend_verified.txt"
+            },
+            "append_p":{
+                "unverified": "partial/append_partial.txt",
+                "verified": "append_verified.txt"
+            },
+            "find_p": {
+                "unverified": "partial/find_partial.txt",
+                "verified": "find_verified.txt"
+            },
+            "find_iter_p": {
+                "unverified": "partial/find_iter_partial.txt",
+                "verified": "find_iter_verified.txt"
+            },
+            "remove_p": {
+                "unverified": "partial/remove_partial.txt",
+                "verified": "remove_verified.txt"
+            },
+            "join_list_p": {
+                "unverified": "partial/join_lists_partial.txt",
+                "verified": "join_lists_verified.txt"
+            },
+            "reverse_p": {
+                "unverified": "partial/reverse_partial.txt",
+                "verified": "reverse_verified.txt"
+            },
             "prepend": {
                 "unverified": "prepend_unverified.txt",
                 "verified": "prepend_verified.txt"

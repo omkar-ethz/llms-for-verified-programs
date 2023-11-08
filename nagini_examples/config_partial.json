@@ -1,35 +1,35 @@
 {
     "system_prompt": "system_prompt.txt",
-    "verif_result_cache": "verif_result.pkl",
+    "verif_result_cache": "verif_result_partial.pkl",
     "list": {
         "declaration": "list.py.txt",
         "examples": {
             "prepend": {
-                "unverified": "prepend_unverified.txt",
+                "unverified": "partial/prepend_partial.txt",
                 "verified": "prepend_verified.txt"
             },
             "append":{
-                "unverified": "append_unverified.txt",
+                "unverified": "partial/append_partial.txt",
                 "verified": "append_verified.txt"
             },
             "find": {
-                "unverified": "find_unverified.txt",
+                "unverified": "partial/find_partial.txt",
                 "verified": "find_verified.txt"
             },
             "find_iter": {
-                "unverified": "find_iter_unverified.txt",
+                "unverified": "partial/find_iter_partial.txt",
                 "verified": "find_iter_verified.txt"
             },
             "remove": {
-                "unverified": "remove_unverified.txt",
+                "unverified": "partial/remove_partial.txt",
                 "verified": "remove_verified.txt"
             },
             "join_lists": {
-                "unverified": "join_lists_unverified.txt",
+                "unverified": "partial/join_lists_partial.txt",
                 "verified": "join_lists_verified.txt"
             },
             "reverse": {
-                "unverified": "reverse_unverified.txt",
+                "unverified": "partial/reverse_partial.txt",
                 "verified": "reverse_verified.txt"
             }
         }
