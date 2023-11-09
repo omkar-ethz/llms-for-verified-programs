@@ -1,15 +1,11 @@
 """Contains functions to get various prompt combinations"""
-import os
 import time
 from typing import Literal
 import dataclasses
 import openai
-import dotenv
 import data
 import nagini_client as nagini
-
-dotenv.load_dotenv()
-openai_client = openai.OpenAI(api_key=os.getenv("GPT_SECRET_KEY"), timeout=120)
+import model
 
 
 @dataclasses.dataclass
@@ -28,52 +24,10 @@ class Evaluation:
     def __init__(
         self,
         dataset: str,
-        model: Literal["gpt-3.5-turbo", "gpt-4"] = "gpt-3.5-turbo",
+        model_str: model.GPTModel = "gpt-3.5-turbo",
     ):
-        self.model = model
         self.data = data.Data(dataset)
-
-    def get_few_shot_prompt(
-        self,
-        hold_out: str,
-        key: str = "list",
-        with_errors: bool = False,
-    ) -> list[dict[str, str]]:
-        """Returns a prompt with the solution to hold_out example held out"""
-        examples = self.data.get_list_of_examples(key)
-        messages = [{"role": "system", "content": self.data.get_system_prompt()}]
-        for example in examples:
-            if example != hold_out:
-                messages.append(
-                    {
-                        "role": "user",
-                        "content": self._get_user_message(key, example, with_errors),
-                    }
-                )
-                messages.append(
-                    {
-                        "role": "assistant",
-                        "content": self.data.get_example(key, example, "verified"),
-                    }
-                )
-        messages.append(
-            {
-                "role": "user",
-                "content": self._get_user_message(key, hold_out, with_errors)
-                # + "\n# Remember: from this point on think step by step and show your work as python comments before producing the verified program\n",
-            }
-        )
-        return messages
-
-    def _get_user_message(self, key: str, example: str, with_errors: bool):
-        """Get message for role user"""
-        content_user = self.data.get_example(key, example, "unverified")
-        if with_errors:
-            content_user += f"\n{self.data.get_cached_result(key, example)}"
-        return content_user
-
-    ## TO-DO: Also extract a function to combine user provided program snippet and verification result
-    ## and use it in _get_user_message and _extend_prompt
+        self.model = model.get_model(model_str, self.data)
 
     def _verify_program_snippet(
         self, key: str, program_snippet: str
@@ -105,84 +59,48 @@ class Evaluation:
         # examples = ["prepend", "join_lists"]
         eval_result = EvalResult()
         for example in examples:
-            for i in range(k):
-                messages = self.get_few_shot_prompt(example, with_errors=with_errors)
-                for j in range(n):
-                    print(
-                        "Running example:",
-                        example,
-                        "; attempt:",
-                        i + 1,
-                        "; error depth:",
-                        j + 1,
-                    )
-                    try:
-                        response = _call_gpt_with_timeout(self.model, messages)
-                    except openai.APITimeoutError as e:
-                        eval_result.results[example] = "Timeout"
-                        print("Timeout error!", e)
-                        continue
-                    program_snippet = _print_and_process_response(response)
-                    result = self._verify_program_snippet(key, program_snippet)
-                    print("Verification result:\n", result, "\n\n")
-                    eval_result.results[example] = (
-                        result.status == "Verification successful"
-                    )
-                    if eval_result.results[example]:
-                        eval_result.verified_at[example] = (i + 1, j + 1)
-                        break
-                    if n > 1:
-                        _extend_prompt(messages, program_snippet, result)
-                    time.sleep(5)
-                if eval_result.results[example]:
-                    break
+            result, verified_at = self.run_example(example, k, n, key, with_errors)
+            eval_result.results[example] = result
+            if verified_at is not None:
+                eval_result.verified_at[example] = verified_at
         return eval_result
 
-    def print_results(self, eval_result: EvalResult):
-        """Prints the results of the evaluation"""
-        results = eval_result.results
-        verified_at = eval_result.verified_at
-        examples = self.data.get_list_of_examples("list")
-        print("Results:")
-        for example in examples:
-            print(
-                example,
-                ":",
-                results[example],
-                "verified at: k=",
-                verified_at[example][0],
-                "; n=",
-                verified_at[example][1],
-            )
-
-
-def _call_gpt_with_timeout(model: Literal["gpt-3.5-turbo", "gpt-4"], messages):
-    """Timeout decorated function to call GPT API\n"""
-    return openai_client.chat.completions.create(model=model, messages=messages)
-
-
-def _print_and_process_response(response: dict) -> str:
-    """Print response from GPT and return the program snippet"""
-    program_snippet = response["choices"][0]["message"]["content"]
-    print("Generated program from GPT:")
-    print(program_snippet)
-    print("=====================================")
-    return program_snippet
-
-
-def _extend_prompt(
-    messages: list[dict[str, str]],
-    program_snippet: str,
-    result: nagini.VerificationResult,
-):
-    """Extends the prompt with the program snippet and the verification result"""
-    messages.append({"role": "assistant", "content": program_snippet})
-    messages.append(
-        {
-            "role": "user",
-            "content": program_snippet + "\n" + str(result),
-        }
-    )
+    def run_example(
+        self, example: str, k=1, n=1, key="list", with_errors=False
+    ) -> tuple[bool | Literal["Timeout"], tuple[int, int] | None]:
+        """Runs the evaluation for a single given example"""
+        result: bool | Literal["Timeout"]
+        verified_at: tuple[int, int] | None = None
+        for i in range(k):
+            prompt = self.model.get_prompt(example, with_errors=with_errors)
+            for j in range(n):
+                print(
+                    "Running example:",
+                    example,
+                    "; attempt:",
+                    i + 1,
+                    "; error depth:",
+                    j + 1,
+                )
+                try:
+                    response = self.model.get_response(prompt)
+                except openai.APITimeoutError as e:
+                    result = "Timeout"
+                    print("Timeout error!", e)
+                    continue
+                program_snippet = self.model.print_and_process_response(response)
+                verif_result = self._verify_program_snippet(key, program_snippet)
+                print("Verification result:\n", verif_result, "\n\n")
+                result = verif_result.status == "Verification successful"
+                if result:
+                    verified_at = (i + 1, j + 1)
+                    break
+                if n > 1:
+                    self.model.extend_prompt(prompt, program_snippet, str(verif_result))
+                time.sleep(5)
+            if result:
+                break
+        return result, verified_at
 
 
 # print(get_few_shot_prompt("prepend"))
