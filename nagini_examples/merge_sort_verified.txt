@@ -1,0 +1,82 @@
+def merge_sort(head: Node) -> Node:
+    """Sorts the list using merge sort."""
+    Requires(is_list(head))
+    Ensures(is_list(Result()))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = find_mid_recursive(head, head)
+    head2 = terminate_n_and_return_rest(head, mid)
+    head = merge_sort(head)
+    head2 = merge_sort(head2)
+    head = merge(head, head2)
+    return head
+
+
+def terminate_n_and_return_rest(head: Node, n: Node) -> Node:
+    """Terminate the list before n and return the rest."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    Ensures(is_list(Result()))
+    Unfold(is_list(head))
+    if head.next is n:
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    if head.next is None:  # never going to happen
+        Fold(is_list(head))
+        rest = Node(-1)
+        Fold(is_list(rest))
+        return rest
+    rest = terminate_n_and_return_rest(head.next, n)
+    Fold(is_list(head))
+    return rest
+
+
+def find_mid_recursive(head: Node, fast: Optional[Node]) -> Node:
+    """Finds the middle node of the list."""
+    Requires(Acc(is_list(head), 1 / 2))
+    Requires(Implies(fast is not None, Acc(is_list(fast), 1 / 2)))
+    Ensures(Acc(is_list(head), 1 / 2))
+    Ensures(Implies(fast is not None, Acc(is_list(fast), 1 / 2)))
+    if fast is None:
+        return head
+    Unfold(Acc(is_list(fast), 1 / 2))
+    if fast.next is None:
+        Fold(Acc(is_list(fast), 1 / 2))
+        return head
+    Fold(Acc(is_list(fast), 1 / 2))
+    Unfold(Acc(is_list(head), 1 / 2))
+    if head.next is None:
+        Fold(Acc(is_list(head), 1 / 2))
+        return head
+    Unfold(Acc(is_list(fast), 1 / 2))
+    Unfold(Acc(is_list(fast.next), 1 / 2))
+    node = find_mid_recursive(head.next, fast.next.next)
+    Fold(Acc(is_list(fast.next), 1 / 2))
+    Fold(Acc(is_list(fast), 1 / 2))
+    Fold(Acc(is_list(head), 1 / 2))
+    return node
+
+
+def merge(head1: Node, head2: Optional[Node]) -> Node:
+    """Merges two sorted lists."""
+    Requires(is_list(head1))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(is_list(Result()))
+    if head2 is None:
+        return head1
+    if Unfolding(is_list(head1), head1.val) < Unfolding(is_list(head2), head2.val):
+        Unfold(is_list(head1))
+        if head1.next is None:
+            Fold(is_list(head1))
+            return head2
+        head1.next = merge(head1.next, head2)
+        Fold(is_list(head1))
+        return head1
+    Unfold(is_list(head2))
+    head2.next = merge(head1, head2.next)
+    Fold(is_list(head2))
+    return head2
