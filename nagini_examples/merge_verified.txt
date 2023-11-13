@@ -1,0 +1,18 @@
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merges two sorted lists."""
+    Requires(Implies(head1 is not None, is_list(head1)))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if Unfolding(is_list(head1), head1.val) < Unfolding(is_list(head2), head2.val):
+        Unfold(is_list(head1))
+        head1.next = merge(head1.next, head2)
+        Fold(is_list(head1))
+        return head1
+    Unfold(is_list(head2))
+    head2.next = merge(head1, head2.next)
+    Fold(is_list(head2))
+    return head2
