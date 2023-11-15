@@ -21,18 +21,24 @@ class VerificationResult:
         "Verification failed",
         "Translation failed",
     ]
-    errors: str | None = (
-        None  # None if status is "Verification successful" or "Runtime Error"
-    )
-    line_no: str | None = (
-        None  # None if status is "Verification successful" or "Runtime Error"
-    )
+    errors: list[str] = dataclasses.field(
+        default_factory=list
+    )  # empty if status is "Verification successful" or "Runtime Error"
+    line_no: list[str] = dataclasses.field(
+        default_factory=list
+    )  # empty if status is "Verification successful" or "Runtime Error"
 
     def __str__(self) -> str:
         if self.status == "Verification failed":
-            return f"Verification failed: {self.errors} at line {self.line_no}"
+            return "Verification failed: " + "\n".join(
+                f"{error} at line {line_no}"
+                for error, line_no in zip(self.errors, self.line_no)
+            )
         if self.status == "Translation failed":
-            return f"Translation failed: {self.errors} at line {self.line_no}"
+            return "Translation failed: " + "\n".join(
+                f"{error} at line {line_no}"
+                for error, line_no in zip(self.errors, self.line_no)
+            )
         return self.status
 
 
@@ -57,12 +63,16 @@ def verify(file: str) -> VerificationResult:
     if response[1] == "Verification failed":
         assert len(response) > 4 and response[2] == "Errors:"
         # return "Errors:\n" + "\n".join(response[3:-1])
-        msg, line_no = _parse_error_message(response[3])
-        return VerificationResult("Verification failed", msg, line_no)
+        parsed_errs = [_parse_error_message(resp) for resp in response[3:-1]]
+        return VerificationResult(
+            "Verification failed",
+            [e[0] for e in parsed_errs],
+            [e[1] for e in parsed_errs],
+        )
 
     if response[1] == "Translation failed":
         msg, line_no = _parse_error_message(response[2])
-        return VerificationResult("Translation failed", msg, line_no)
+        return VerificationResult("Translation failed", [msg], [line_no])
 
     raise ValueError(f"Unexpected response from Nagini: {response}")
 
@@ -79,4 +89,8 @@ def _parse_error_message(error_message: str) -> tuple[str, str]:
     return (error_message, "0.0")
 
 
-# verify("/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tmp.py")
+# print(
+#     verify(
+#         "/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tmp.py"
+#     )
+# )

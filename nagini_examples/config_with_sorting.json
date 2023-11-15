@@ -1,6 +1,6 @@
 {
     "system_prompt": "system_prompt.txt",
-    "verif_result_cache": "verif_result.pkl",
+    "verif_result_cache": "verif_result_sorting.pkl",
     "list": {
         "declaration": "list.py.txt",
         "examples": {
@@ -35,6 +35,14 @@
             "merge": {
                 "unverified": "merge_unverified.txt",
                 "verified": "merge_verified.txt"
+            },
+            "insertion_sort": {
+                "unverified": "insertion_sort_unverified.txt",
+                "verified": "insertion_sort_verified.txt"
+            },
+            "merge_sort": {
+                "unverified": "merge_sort_unverified.txt",
+                "verified": "merge_sort_verified.txt"
             }
         }
     }

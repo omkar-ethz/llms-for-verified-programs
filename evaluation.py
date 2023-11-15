@@ -36,8 +36,8 @@ class Evaluation:
         Sends the program to Nagini and returns the verification result"""
         program_file = self.data.combine_method_with_declaration(key, program_snippet)
         result = nagini.verify(program_file)
-        if result.line_no is not None:
-            result.line_no = self._get_relative_line_number(key, result.line_no)
+        for i, line_no in enumerate(result.line_no):
+            result.line_no[i] = self._get_relative_line_number(key, line_no)
         return result
 
     def _get_relative_line_number(self, key: str, line_no: str) -> str:

@@ -1,0 +1,19 @@
+def insertion_sort(head: Node) -> Node:
+    """Sorts the list using insertion sort."""
+    if head.next is None:
+        return head
+    sorted = insertion_sort(head.next)
+    head.next = None
+    head = insert(head, sorted)
+    return head
+
+
+def insert(node: Node, head: Optional[Node]) -> Node:
+    """Inserts the given node into the sorted list."""
+    if head is None:
+        return node
+    if node.val < head.val:
+        node.next = head
+        return node
+    head.next = insert(node, head.next)
+    return head

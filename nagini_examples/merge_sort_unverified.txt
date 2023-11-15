@@ -1,0 +1,50 @@
+def merge_sort(head: Node) -> Node:
+    """Sorts the list using merge sort."""
+    if head is None:
+        return None
+    if head.next is None:
+        return head
+    mid = find_mid_recursive(head, head)
+    head2 = terminate_n_and_return_rest(head, mid)
+    head = merge_sort(head)
+    head2 = merge_sort(head2)
+    head = merge(head, head2)
+    return head
+
+
+def terminate_n_and_return_rest(head: Node, n: Node) -> Node:
+    """Terminate the list before n and return the rest."""
+    if head.next is n:
+        rest = head.next
+        head.next = None
+        return rest
+    if head.next is None:  # never going to happen
+        rest = Node(-1)
+        return rest
+    rest = terminate_n_and_return_rest(head.next, n)
+    return rest
+
+
+def find_mid_recursive(head: Node, fast: Optional[Node]) -> Node:
+    """Finds the middle node of the list."""
+    if fast is None:
+        return head
+    if fast.next is None:
+        return head
+    if head.next is None:
+        return head
+    node = find_mid_recursive(head.next, fast.next.next)
+    return node
+
+
+def merge(head1: Node, head2: Optional[Node]) -> Node:
+    """Merges two sorted lists."""
+    if head2 is None:
+        return head1
+    if head1.val < head2.val:
+        if head1.next is None:
+            return head2
+        head1.next = merge(head1.next, head2)
+        return head1
+    head2.next = merge(head1, head2.next)
+    return head2
