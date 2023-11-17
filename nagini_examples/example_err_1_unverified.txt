@@ -1,0 +1,7 @@
+def example_err_1(head: Node) -> str:
+    "Unfold before Unfolding the same node"
+    Requires(is_list(head))
+    Unfold(is_list(head))
+    if Unfolding(is_list(head), head.next) is None:
+        return "Singleton"
+    return "Multiple"

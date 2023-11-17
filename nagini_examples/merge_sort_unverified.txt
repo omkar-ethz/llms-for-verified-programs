@@ -1,7 +1,5 @@
 def merge_sort(head: Node) -> Node:
     """Sorts the list using merge sort."""
-    if head is None:
-        return None
     if head.next is None:
         return head
     mid = find_mid_recursive(head, head)

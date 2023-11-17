@@ -8,7 +8,9 @@ from openai.types.chat import ChatCompletion
 
 from data import Data
 
-GPTModel = Literal["gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-instruct"]
+GPTModel = Literal[
+    "gpt-3.5-turbo", "gpt-3.5-turbo-1106", "gpt-4", "gpt-3.5-turbo-instruct"
+]
 
 dotenv.load_dotenv()
 client = openai.OpenAI(api_key=os.getenv("GPT_SECRET_KEY"), timeout=120)
@@ -24,11 +26,11 @@ class Model:
         self,
         hold_out: str,
         key: str = "list",
-        with_errors: bool = False,
+        with_errors: bool = True,
     ) -> Any:
         """Returns a prompt with the solution to hold_out example held out"""
 
-    def get_response(self, prompt) -> Any:
+    def get_response(self, prompt, seed: int | None = None) -> Any:
         """Calls the underlying model and returns the response"""
 
     def extend_prompt(self, prompt: Any, program_snippet: str, result: str):
@@ -50,7 +52,7 @@ class Chat(Model):
         self,
         hold_out: str,
         key: str = "list",
-        with_errors: bool = False,
+        with_errors: bool = True,
     ) -> list[dict[str, str]]:
         examples = self.data.get_list_of_examples(key)
         messages = [{"role": "system", "content": self.data.get_system_prompt()}]
@@ -85,8 +87,10 @@ class Chat(Model):
             content_user += f"\n{self.data.get_cached_result(key, example)}"
         return content_user
 
-    def get_response(self, prompt):
-        return client.chat.completions.create(model=self.name, messages=prompt)
+    def get_response(self, prompt, seed: int | None = None):
+        return client.chat.completions.create(
+            model=self.name, messages=prompt, seed=seed
+        )
 
     def extend_prompt(
         self, prompt: list[dict[str, str]], program_snippet: str, result: str
@@ -121,7 +125,7 @@ class Completion(Model):
         self,
         hold_out: str,
         key: str = "list",
-        with_errors: bool = False,
+        with_errors: bool = True,
     ) -> str:
         examples = self.data.get_list_of_examples(key)
         messages = (
@@ -142,7 +146,7 @@ class Completion(Model):
             content_user += f"\n{self.data.get_cached_result(key, example)}"
         return content_user
 
-    def get_response(self, prompt):
+    def get_response(self, prompt, seed: int | None = None):
         return client.completions.create(
             model=self.name,
             prompt=prompt,

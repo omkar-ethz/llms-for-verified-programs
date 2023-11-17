@@ -1,4 +1,5 @@
 """Contains functions to get various prompt combinations"""
+import random
 import time
 from typing import Literal
 import dataclasses
@@ -24,7 +25,7 @@ class Evaluation:
     def __init__(
         self,
         dataset: str,
-        model_str: model.GPTModel = "gpt-3.5-turbo",
+        model_str: model.GPTModel = "gpt-3.5-turbo-1106",
     ):
         self.data = data.Data(dataset)
         self.model = model.get_model(model_str, self.data)
@@ -52,7 +53,7 @@ class Evaluation:
         k=1,
         n=1,
         key="list",
-        with_errors=False,
+        with_errors=True,
     ) -> EvalResult:
         """Runs the evaluation for all examples in the list of examples for the given key\n"""
         examples = self.data.get_list_of_examples(key)
@@ -66,12 +67,14 @@ class Evaluation:
         return eval_result
 
     def run_example(
-        self, example: str, k=1, n=1, key="list", with_errors=False
+        self, example: str, k=1, n=1, key="list", with_errors=True
     ) -> tuple[bool | Literal["Timeout"], tuple[int, int] | None]:
         """Runs the evaluation for a single given example"""
         result: bool | Literal["Timeout"]
         verified_at: tuple[int, int] | None = None
+        random.seed(42)
         for i in range(k):
+            seed = random.randint(12345, 54321)
             prompt = self.model.get_prompt(example, with_errors=with_errors)
             for j in range(n):
                 print(
@@ -83,7 +86,7 @@ class Evaluation:
                     j + 1,
                 )
                 try:
-                    response = self.model.get_response(prompt)
+                    response = self.model.get_response(prompt, seed=seed)
                 except openai.APITimeoutError as e:
                     result = "Timeout"
                     print("Timeout error!", e)

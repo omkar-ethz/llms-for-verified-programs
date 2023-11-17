@@ -1,5 +1,5 @@
 {
-    "system_prompt": "system_prompt.txt",
+    "system_prompt": "system_prompt_multi_round.txt",
     "verif_result_cache": "verif_result_sorting.pkl",
     "list": {
         "declaration": "list.py.txt",
@@ -31,10 +31,6 @@
             "reverse": {
                 "unverified": "reverse_unverified.txt",
                 "verified": "reverse_verified.txt"
-            },
-            "merge": {
-                "unverified": "merge_unverified.txt",
-                "verified": "merge_verified.txt"
             },
             "insertion_sort": {
                 "unverified": "insertion_sort_unverified.txt",

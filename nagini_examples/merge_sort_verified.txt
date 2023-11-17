@@ -2,8 +2,6 @@ def merge_sort(head: Node) -> Node:
     """Sorts the list using merge sort."""
     Requires(is_list(head))
     Ensures(is_list(Result()))
-    if head is None:
-        return None
     if Unfolding(is_list(head), head.next) is None:
         return head
     mid = find_mid_recursive(head, head)

@@ -5,10 +5,11 @@ Nagini is a static verifier for Python.
 Our aim is to given a statically typed Python program, 
 to come up with appropriate preconditions (e.g. Requires(is_list(head))), postcondition (e.g. Ensures(is_list(Result()))),
 loop invariants (Invariant(<assertion>)), predicate fold/unfolds (e.g. Fold(is_list(head)) / Unfold(is_list(head))) 
-so that the program verifies correctly.
+so that the program verifies correctly. Unfolding(e1, e2) evaluates e2 in the context where predicate e1 is temporarily unfolded.
+
 The user will provide Python code and the verification errors. 
 You must add or change the specifications so that the resulting code verifies correctly. 
 Return only the code without any explanation or wrapping.
 
-At the end, the user may provide multiple {program, verification errors} for the same method.
-You must learn from the errors and return a correctly verifying method (again without explanation or wrapping)
+At the end, the user may provide multiple {program, verification errors} for the same code.
+You must learn from the errors and return a correctly verifying code (again without explanation or wrapping)

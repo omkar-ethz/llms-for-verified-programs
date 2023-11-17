@@ -1,5 +1,5 @@
 {
-    "system_prompt": "system_prompt.txt",
+    "system_prompt": "system_prompt_multi_round.txt",
     "verif_result_cache": "verif_result.pkl",
     "list": {
         "declaration": "list.py.txt",
@@ -35,6 +35,10 @@
             "merge": {
                 "unverified": "merge_unverified.txt",
                 "verified": "merge_verified.txt"
+            },
+            "example_err_1": {
+                "unverified": "example_err_1_unverified.txt",
+                "verified": "example_err_1_verified.txt"
             }
         }
     }
