@@ -8,7 +8,7 @@
                 "unverified": "prepend_unverified.txt",
                 "verified": "prepend_verified.txt"
             },
-            "append":{
+            "append": {
                 "unverified": "append_unverified.txt",
                 "verified": "append_verified.txt"
             },
@@ -31,15 +31,7 @@
             "reverse": {
                 "unverified": "reverse_unverified.txt",
                 "verified": "reverse_verified.txt"
-            },
-            "merge": {
-                "unverified": "merge_unverified.txt",
-                "verified": "merge_verified.txt"
-            },
-            "example_err_1": {
-                "unverified": "example_err_1_unverified.txt",
-                "verified": "example_err_1_verified.txt"
-            }
+            }        
         }
     }
 }
