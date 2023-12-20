@@ -2,7 +2,6 @@
 import copy
 import os
 import json
-import pickle
 from typing import Literal
 
 class Data:
@@ -10,10 +9,9 @@ class Data:
 
     def __init__(self, config_file: str = "config.json", data_root: str = "nagini_examples"):
         self.data_root = data_root
-        self.config = _load_config(f"{data_root}/{config_file}")
-        self.verif_result = _load_cached_nagini_results(
-            f"{data_root}/{self.config["verif_result_cache"]}"
-        )
+        self.config_file = config_file
+        self.config = _load_json(f"{data_root}/{config_file}")
+        self.verif_result = _load_json(f"{data_root}/{self.config["verif_result_cache"]}")
 
     def get_system_prompt(self) -> str:
         """Returns the system prompt"""
@@ -57,7 +55,7 @@ class Data:
         # Create a new directory with the given name
         os.makedirs(f"{self.data_root}/{name}", exist_ok=True)
         # Copy the config file
-        os.system(f"cp {self.data_root}/config.json {self.data_root}/{name}")
+        os.system(f"cp {self.data_root}/{self.config_file} {self.data_root}/{name}/config.json")
         # Copy the system prompt
         os.system(f"cp {self.data_root}/{self.config["system_prompt"]} {self.data_root}/{name}")
         # Copy the declaration file
@@ -69,7 +67,7 @@ class Data:
             for verified in ["unverified", "verified"]:
                 example = examples[key][verified]
                 os.system(f"cp {self.data_root}/{example} {self.data_root}/{name}")
-        # Copy verif_result pickle
+        # Copy verif_result_cache
         os.system(
             f"cp {self.data_root}/{self.config['verif_result_cache']} {self.data_root}/{name}"
         )
@@ -85,10 +83,10 @@ class Data:
             f.write(unverified)
         with open(f"{self.data_root}/{name}_verified.txt", "w", encoding="utf-8") as f:
             f.write(verified)
-        # add to verif_result and rewrite pickle
+        # add to verif_result and rewrite verif_result_cache
         self.verif_result[name] = verif_error
-        with open(f"{self.data_root}/{self.config['verif_result_cache']}", "wb") as f:
-            pickle.dump(self.verif_result, f)
+        with open(f"{self.data_root}/{self.config['verif_result_cache']}", "w", encoding="utf-8") as f:
+            json.dump(self.verif_result, f, indent=4)
         # add to config and rewrite config.json
         self.config[key]["examples"][name] = {
             "unverified": f"{name}_unverified.txt",
@@ -98,15 +96,9 @@ class Data:
             json.dump(self.config, f, indent=4)
 
 
-def _load_config(file_name: str) -> dict:
+def _load_json(file_name: str) -> dict:
     with open(file_name, encoding="utf-8") as f:
         return json.load(f)
-
-
-def _load_cached_nagini_results(file_name: str) -> dict:
-    with open(file_name, "rb") as f:
-        verif_result = pickle.load(f)
-    return verif_result
 
 
 def _read_file(path: str) -> str:

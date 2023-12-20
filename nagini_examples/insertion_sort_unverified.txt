@@ -9,7 +9,7 @@ def insertion_sort(head: Node) -> Node:
 
 
 def insert(node: Node, head: Optional[Node]) -> Node:
-    """Inserts the given node into the sorted list."""
+    """Inserts the given node (given as a singleton list) into the sorted list."""
     if head is None:
         return node
     if node.val < head.val:

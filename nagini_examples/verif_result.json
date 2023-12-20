@@ -1,0 +1,12 @@
+{
+    "prepend": "Verification successful",
+    "append": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7",
+    "find": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.val. at line 5.7",
+    "find_iter": "Verification failed: Conditional statement might fail. There might be insufficient permission to access ptr.val. at line 5.11",
+    "remove": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.val. at line 3.7",
+    "join_lists": "Verification failed: Method call might fail. There might be insufficient permission to access head1.next. at line 7.17",
+    "reverse": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7",
+    "merge": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head1.val. at line 7.7",
+    "insertion_sort": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7\nConditional statement might fail. There might be insufficient permission to access node.val. at line 15.7",
+    "merge_sort": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 5.7\nConditional statement might fail. There might be insufficient permission to access head.next. at line 17.7\nConditional statement might fail. There might be insufficient permission to access fast.next. at line 32.7\nConditional statement might fail. There might be insufficient permission to access head1.val. at line 44.7"
+}

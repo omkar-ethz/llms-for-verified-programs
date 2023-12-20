@@ -13,7 +13,7 @@ def insertion_sort(head: Node) -> Node:
 
 
 def insert(node: Node, head: Optional[Node]) -> Node:
-    """Inserts the given node into the sorted list."""
+    """Inserts the given node (given as a singleton list) into the sorted list."""
     Requires(is_list(node))
     Requires(Implies(head is not None, is_list(head)))
     Ensures(is_list(Result()))

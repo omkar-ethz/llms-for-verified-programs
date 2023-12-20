@@ -1,6 +1,6 @@
 {
     "system_prompt": "system_prompt_multi_round.txt",
-    "verif_result_cache": "verif_result_sorting.pkl",
+    "verif_result_cache": "verif_result.json",
     "list": {
         "declaration": "list.py.txt",
         "examples": {
