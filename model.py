@@ -53,8 +53,10 @@ class Chat(Model):
         hold_out: str,
         key: str = "list",
         with_errors: bool = True,
+        examples: list[str] | None = None,
     ) -> list[dict[str, str]]:
-        examples = self.data.get_list_of_examples(key)
+        if examples is None:
+            examples = self.data.get_list_of_examples(key)
         messages = [{"role": "system", "content": self.data.get_system_prompt()}]
         for example in examples:
             if example != hold_out:
@@ -87,19 +89,22 @@ class Chat(Model):
             content_user += f"\n{self.data.get_cached_result(key, example)}"
         return content_user
 
-    def get_response(self, prompt, seed: int | None = None):
+    def get_response(self, prompt, seed: int | None = None, temperature=0.0):
         return client.chat.completions.create(
-            model=self.name, messages=prompt, seed=seed
+            model=self.name, messages=prompt, seed=seed, temperature=temperature
         )
 
     def extend_prompt(
         self, prompt: list[dict[str, str]], program_snippet: str, result: str
     ):
         prompt.append({"role": "assistant", "content": program_snippet})
+        user_message = (
+            result if self.name == "gpt-4" else program_snippet + "\n" + result
+        )
         prompt.append(
             {
                 "role": "user",
-                "content": program_snippet + "\n" + result,
+                "content": user_message,
             }
         )
         return prompt
@@ -111,6 +116,13 @@ class Chat(Model):
         print("Generated program from GPT:")
         print(program_snippet)
         print("=====================================")
+        return program_snippet
+
+    def process_response(self, response: ChatCompletion) -> str:
+        """Returns the program snippet from the response"""
+        program_snippet = response.choices[0].message.content
+        if program_snippet is None:
+            program_snippet = "Empty response from GPT"
         return program_snippet
 
 
