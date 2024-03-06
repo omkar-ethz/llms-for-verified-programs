@@ -39,6 +39,8 @@ class VerificationResult:
                 f"{error} at line {line_no}"
                 for error, line_no in zip(self.errors, self.line_no)
             )
+        if self.status == "Runtime Error":
+            return "Unknown Error from Nagini: possibly malformed contract or program"
         return self.status
 
 

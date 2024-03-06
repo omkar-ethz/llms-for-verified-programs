@@ -1,0 +1,67 @@
+{
+    "system_prompt": "system_prompt_multi_round.txt",
+    "verif_result_cache": "verif_result.json",
+    "lseg": {
+        "declaration": "lseg.py.txt",
+        "examples": {
+            "lemma_append": {
+                "unverified": "lemma_append_unverified.txt",
+                "verified": "lemma_append_verified.txt"
+            },
+            "lemma_extend": {
+                "unverified": "lemma_extend_unverified.txt",
+                "verified": "lemma_extend_verified.txt"
+            },
+            "lemma_assoc": {
+                "dependencies": ["lemma_extend"],
+                "unverified": "lemma_assoc_unverified.txt",
+                "verified": "lemma_assoc_verified.txt"
+            },
+            "prepend": {
+                "unverified": "prepend_unverified.txt",
+                "verified": "prepend_verified.txt"
+            },
+            "remove_first": {
+                "unverified": "remove_first_unverified.txt",
+                "verified": "remove_first_verified.txt"
+            },
+            "remove_last": {
+                "unverified": "remove_last_unverified.txt",
+                "verified": "remove_last_verified.txt"
+            },
+            "contains": {
+                "unverified": "contains_unverified.txt",
+                "verified": "contains_verified.txt"
+            },
+            "contains_iter": {
+                "dependencies": ["lemma_extend", "lemma_assoc"],
+                "unverified": "contains_iter_unverified.txt",
+                "verified": "contains_iter_verified.txt"
+            },
+            "insert": {
+                "dependencies": ["prepend"],
+                "unverified": "insert_unverified.txt",
+                "verified": "insert_verified.txt"
+            },
+            "insert_iter": {
+                "dependencies": ["prepend", "lemma_extend", "lemma_append"],
+                "unverified": "insert_iter_unverified.txt",
+                "verified": "insert_iter_verified.txt"
+            },
+            "append": {
+                "dependencies": ["lemma_extend", "lemma_append"],
+                "unverified": "append_unverified.txt",
+                "verified": "append_verified.txt"
+            },
+            "index_of": {
+                "dependencies": ["lemma_extend", "lemma_assoc"],
+                "unverified": "index_of_unverified.txt",
+                "verified": "index_of_verified.txt"
+            },
+            "reverse": {
+                "unverified": "reverse_unverified.txt",
+                "verified": "reverse_verified.txt"
+            }
+        }
+    }
+}

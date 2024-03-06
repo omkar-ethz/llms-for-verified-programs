@@ -66,17 +66,20 @@ def lemma_assoc(a: Optional[Node], b: Optional[Node], c: Optional[Node]) -> None
     lemma_assoc(a, b_new, c)
 
 
-@Pure
 def contains(first: Optional[Node], last: Optional[Node], val: int) -> bool:
     """Check if the list contains a node with value val."""
     Requires(lseg(first, last))
+    Ensures(lseg(first, last))
     if first is None:
         return False
     if first is last:
         return False
     if Unfolding(lseg(first, last), first.val) == val:
         return True
-    return Unfolding(lseg(first, last), contains(first.next, last, val))
+    Unfold(lseg(first, last))
+    result = contains(first.next, last, val)
+    Fold(lseg(first, last))
+    return result
 
 
 def contains_iter(first: Node, last: Optional[Node], val: int) -> bool:
@@ -194,3 +197,46 @@ def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
     lemma_extend(head, ptr)
     lemma_append(head, n)
     return head
+
+
+def index_of(first: Node, last: Optional[Node], val: int) -> int:
+    """Return the index of the first occurrence of val in the list or -1 if not found"""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, last))
+    ptr = first  # type: Optional[Node]
+    Fold(lseg(first, ptr))
+    index = 0
+    while ptr is not None and ptr is not last:
+        Invariant(lseg(first, ptr))
+        Invariant(lseg(ptr, last))
+        if Unfolding(lseg(ptr, last), ptr.val) == val:
+            lemma_assoc(first, ptr, last)
+            return index
+        Unfold(lseg(ptr, last))
+        tmp = ptr
+        ptr = ptr.next
+        lemma_extend(first, tmp)
+        index += 1
+    lemma_assoc(first, ptr, last)
+    return -1
+
+
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if Unfolding(lseg(head, None), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(prev, None))
+    while ptr is not None:
+        Invariant(lseg(prev, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        Fold(lseg(prev, None))
+    return prev

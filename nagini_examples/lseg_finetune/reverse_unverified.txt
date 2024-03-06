@@ -1,0 +1,12 @@
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    if head.next is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr is not None:
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    return prev

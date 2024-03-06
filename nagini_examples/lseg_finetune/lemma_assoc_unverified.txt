@@ -1,0 +1,6 @@
+def lemma_assoc(a: Optional[Node], b: Optional[Node], c: Optional[Node]) -> None:
+    """Associativity of list segment."""
+    if b is c:
+        return
+    b_new = lemma_extend(a, b)
+    lemma_assoc(a, b_new, c)

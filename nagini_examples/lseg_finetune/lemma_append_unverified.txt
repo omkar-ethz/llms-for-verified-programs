@@ -1,0 +1,5 @@
+def lemma_append(a: Optional[Node], b: Optional[Node]) -> None:
+    """Append two list segments."""
+    if a is b:
+        return
+    lemma_append(a.next, b)

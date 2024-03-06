@@ -1,0 +1,6 @@
+def remove_first(first: Node, last: Node) -> Optional[Node]:
+    """Remove the first node from the list."""
+    if first is last:
+        return last
+    rest = first.next
+    return rest

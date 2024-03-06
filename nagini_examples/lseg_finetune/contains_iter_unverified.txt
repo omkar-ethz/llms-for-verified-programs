@@ -1,0 +1,13 @@
+def contains_iter(first: Node, last: Optional[Node], val: int) -> bool:
+    """Check if the list contains a node with value val."""
+    ptr = first  # type: Optional[Node]
+    result = False
+    while ptr is not None and ptr is not last:
+        if ptr.val == val:
+            result = True
+            break
+        tmp = ptr
+        ptr = ptr.next
+        lemma_extend(first, tmp)
+    lemma_assoc(first, ptr, last)
+    return result

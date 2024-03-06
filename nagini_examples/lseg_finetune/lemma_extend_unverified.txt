@@ -1,0 +1,7 @@
+def lemma_extend(a: Optional[Node], b: Optional[Node]) -> Optional[Node]:
+    """Extend a list segment by one element and return the new last"""
+    if a is b:
+        last = b.next
+        return last
+    last = lemma_extend(a.next, b)
+    return last

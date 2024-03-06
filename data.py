@@ -38,14 +38,22 @@ class Data:
         path = f"{self.data_root}/{self.config[key]['declaration']}"
         return _read_file(path)
 
-    def combine_method_with_declaration(self, key: str, method_text: str) -> str:
-        """Combines the method text with the declaration file and writes the output
+    def combine_method_with_declaration_and_dependencies(self, key: str, method_text: str, method_name: str | None = None) -> tuple[str, int]:
+        """Combines the method text with the declaration file and (the transitive closure of) dependent methods and writes the output
         to a temporary file. Returns the (absolute) path to the temporary file."""
         declaration = self.get_declaration(key)
+        dependencies: list = []
+        if method_name is not None:
+            dependencies = self.config[key]["examples"][method_name].get("dependencies", [])
+            dependencies = self.get_transitive_closure(key, method_name, dependencies)
         with open(f"{self.data_root}/tmp.py", "w", encoding="utf-8") as f:
-            f.write(declaration + "\n" + method_text)
+            f.write(declaration + "\n")
+            for program in dependencies:
+                f.write(self.get_example(key, program, "verified") + "\n")
+            f.write(method_text)
+        num_lines = len(_read_file(f"{self.data_root}/tmp.py").split("\n"))
         # nagini expects the absolute path to the file
-        return os.path.abspath(f"{self.data_root}/tmp.py")
+        return os.path.abspath(f"{self.data_root}/tmp.py"), num_lines
 
     def clone(self, name: str) -> "Data":
         """Clones this dataset into a new dataset with the given name"""
@@ -95,6 +103,44 @@ class Data:
         with open(f"{self.data_root}/config.json", "w", encoding="utf-8") as f:
             json.dump(self.config, f, indent=4)
 
+    def add_example_verified_ptr(
+        self, name:str, unverified: str, verif_error: str, verified_ptr: str, key="list"
+    ) -> None:
+        """Adds an example to the dataset, with verified_ptr pointing to an existing verified example"""
+        # write unverified and verified to file
+        with open(f"{self.data_root}/{name}_unverified.txt", "w", encoding="utf-8") as f:
+            f.write(unverified)
+        # add to verif_result and rewrite verif_result_cache
+        self.verif_result[name] = verif_error
+        with open(f"{self.data_root}/{self.config['verif_result_cache']}", "w", encoding="utf-8") as f:
+            json.dump(self.verif_result, f, indent=4)
+        # add to config and rewrite config.json
+        self.config[key]["examples"][name] = {
+            "unverified": f"{name}_unverified.txt",
+            "verified": verified_ptr,
+        }
+        with open(f"{self.data_root}/config.json", "w", encoding="utf-8") as f:
+            json.dump(self.config, f, indent=4)
+
+
+    def add_verified(self, name: str, verified: str, key="list") -> None:
+        """Adds a verified example to the dataset"""
+        # write verified to file
+        verified_file_name = self.config[key]["examples"][name]["verified"]
+        with open(f"{self.data_root}/{verified_file_name}", "w", encoding="utf-8") as f:
+            f.write(verified)
+
+    def get_transitive_closure(self, key: str, method_name: str, dependencies: list[str]) -> list[str]:
+        """Returns the transitive closure of the given dependencies"""
+        result = []
+        def dfs(node: str) -> None:
+            if node not in result and node != method_name:
+                result.append(node)
+                for dep in self.config[key]["examples"][node].get("dependencies", []):
+                    dfs(dep)
+        for dep in dependencies:
+            dfs(dep)
+        return result
 
 def _load_json(file_name: str) -> dict:
     with open(file_name, encoding="utf-8") as f:

@@ -1,0 +1,13 @@
+{
+    "lemma_append": "Verification failed: Method call might fail. There might be insufficient permission to access a.next. at line 5.4",
+    "lemma_extend": "Verification failed: Assignment might fail. There might be insufficient permission to access b.next. at line 4.8",
+    "lemma_assoc": "Verification failed: The precondition of method lemma_extend might not hold. There might be insufficient permission to access lseg(a, b). at line 5.12",
+    "prepend": "Verification successful",
+    "remove_first": "Verification failed: Assignment might fail. There might be insufficient permission to access first.next. at line 5.4",
+    "remove_last": "Verification failed: Conditional statement might fail. There might be insufficient permission to access first.next. at line 7.7",
+    "contains": "Verification failed: Conditional statement might fail. There might be insufficient permission to access first.val. at line 7.7",
+    "contains_iter": "Verification failed: Conditional statement might fail. There might be insufficient permission to access ptr.val. at line 6.11",
+    "insert": "Verification failed: The precondition of method prepend might not hold. There might be insufficient permission to access lseg(head, None). at line 4.15",
+    "insert_iter": "Verification failed: The precondition of method prepend might not hold. There might be insufficient permission to access lseg(head, None). at line 4.15",
+    "append": "Verification failed: While statement might fail. There might be insufficient permission to access ptr.next. at line 7.10"
+}

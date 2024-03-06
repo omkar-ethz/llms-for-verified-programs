@@ -1,0 +1,13 @@
+def lemma_extend(a: Optional[Node], b: Optional[Node]) -> Optional[Node]:
+    """Extend a list segment by one element and return the new last"""
+    Requires(lseg(a, b) and Acc(b.next) and Acc(b.val))
+    Ensures(lseg(a, Result()) and Result() is Old(b.next))
+    if a is b:
+        last = b.next
+        Fold(lseg(last, last))
+        Fold(lseg(b, last))
+        return last
+    Unfold(lseg(a, b))
+    last = lemma_extend(a.next, b)
+    Fold(lseg(a, last))
+    return last

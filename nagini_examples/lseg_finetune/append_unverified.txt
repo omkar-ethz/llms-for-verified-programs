@@ -1,0 +1,13 @@
+def append(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    n = Node(val)
+    if head is None:
+        return n
+    ptr = head  # type: Node
+    while ptr.next is not None:
+        tmp = ptr
+        ptr = ptr.next
+        lemma_extend(head, tmp)
+    ptr.next = n
+    lemma_append(head, ptr)
+    return head

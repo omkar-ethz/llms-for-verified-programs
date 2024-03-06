@@ -1,0 +1,15 @@
+def remove_last(first: Optional[Node], last: Node) -> Optional[Node]:
+    """Remove the last node from the list and returns the new last"""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, Result()))
+    if first is None:
+        return last
+    if first is last:
+        return last
+    Unfold(lseg(first, last))
+    if first.next is last:
+        Fold(lseg(first, first))
+        return first
+    rest = remove_last(first.next, last)
+    Fold(lseg(first, rest))
+    return rest

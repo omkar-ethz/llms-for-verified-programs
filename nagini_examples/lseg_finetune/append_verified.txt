@@ -1,0 +1,23 @@
+def append(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    n = Node(val)
+    Fold(lseg(None, None))
+    Fold(lseg(n, None))
+    if head is None:
+        return n
+    ptr = head  # type: Node
+    Fold(lseg(head, ptr))
+    while Unfolding(lseg(ptr, None), ptr.next) is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        lemma_extend(head, tmp)
+    Unfold(lseg(ptr, None))
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    lemma_append(head, ptr)
+    return head
