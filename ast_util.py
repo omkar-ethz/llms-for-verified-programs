@@ -3,6 +3,7 @@ import dataclasses
 import itertools
 import copy
 import ast
+import numpy as np
 from typing import Iterator, Sequence, TypeVar
 
 T = TypeVar("T")
@@ -91,6 +92,8 @@ def dataset_generator(program: ast.AST) -> Iterator[ast.AST]:
     analyzer = AnnotationAnalyzer()
     analyzer.visit(program)
     annotations = analyzer.annotations
+    if len(annotations) > 10:
+        annotations = np.random.choice(annotations, 10, replace=False).tolist() # type: ignore
     for subset in powerset(annotations):
         program_copy = copy.deepcopy(program)  # reset the program
         yield AnnotationRemover(subset).visit(program_copy)

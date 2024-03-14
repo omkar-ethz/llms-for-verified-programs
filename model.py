@@ -27,10 +27,11 @@ class Model:
         hold_out: str,
         key: str = "list",
         with_errors: bool = True,
+        examples: list[str] | None = None,
     ) -> Any:
         """Returns a prompt with the solution to hold_out example held out"""
 
-    def get_response(self, prompt, seed: int | None = None) -> Any:
+    def get_response(self, prompt, seed: int | None = None, temperature=0.0) -> Any:
         """Calls the underlying model and returns the response"""
 
     def extend_prompt(self, prompt: Any, program_snippet: str, result: str):
@@ -91,7 +92,11 @@ class Chat(Model):
 
     def get_response(self, prompt, seed: int | None = None, temperature=0.0):
         return client.chat.completions.create(
-            model=self.name, messages=prompt, seed=seed, temperature=temperature
+            model=self.name,
+            messages=prompt,
+            seed=seed,
+            temperature=temperature,
+            max_tokens=1024,
         )
 
     def extend_prompt(
@@ -138,6 +143,7 @@ class Completion(Model):
         hold_out: str,
         key: str = "list",
         with_errors: bool = True,
+        examples: list[str] | None = None,
     ) -> str:
         examples = self.data.get_list_of_examples(key)
         messages = (
@@ -158,7 +164,7 @@ class Completion(Model):
             content_user += f"\n{self.data.get_cached_result(key, example)}"
         return content_user
 
-    def get_response(self, prompt, seed: int | None = None):
+    def get_response(self, prompt, seed: int | None = None, temperature=0.0):
         return client.completions.create(
             model=self.name,
             prompt=prompt,
