@@ -3,3 +3,5 @@ __pycache__/
 .env
 nagini_examples/local/
 nagini_examples/tmp.py
+nagini_examples/list_finetune*
+nagini_examples/tree_finetune*

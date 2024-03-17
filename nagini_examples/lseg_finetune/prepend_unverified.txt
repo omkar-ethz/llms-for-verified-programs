@@ -1,4 +1,5 @@
 def prepend(head: Optional[Node], val: int) -> Node:
     """Prepend a new node with value val to the list."""
+    Ensures(lseg(Result(), None))
     n = Node(val, head)
     return n

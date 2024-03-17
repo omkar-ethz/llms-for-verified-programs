@@ -15,40 +15,70 @@ def lseg(first: Optional[Node], last: Optional[Node]) -> bool:
         first is not last, Acc(first.val) and Acc(first.next) and lseg(first.next, last)
     )
 
-def lemma_extend(a: Optional[Node], b: Optional[Node]) -> Optional[Node]:
-    """Extend a list segment by one element and return the new last"""
-    Requires(lseg(a, b) and Acc(b.next) and Acc(b.val))
-    Ensures(lseg(a, Result()) and Result() is Old(b.next))
-    if a is b:
-        last = b.next
-        Fold(lseg(last, last))
-        Fold(lseg(b, last))
-        return last
-    Unfold(lseg(a, b))
-    last = lemma_extend(a.next, b)
-    Fold(lseg(a, last))
-    return last
-
-def lemma_append(a: Optional[Node], b: Optional[Node]) -> None:
-    """Append two list segments."""
-    Requires(lseg(a, b) and lseg(b, None))
-    Ensures(lseg(a, None))
-    if a is b:
-        return
-    Unfold(lseg(a, b))
-    lemma_append(a.next, b)
-    Fold(lseg(a, None))
-
-def append(head: Optional[Node], val: int) -> Node:
-    """Append a new node with value val to the list."""
-    n = Node(val)
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
     if head is None:
-        return n
-    ptr = head  # type: Node
-    while ptr.next is not None:
-        tmp = ptr
-        ptr = ptr.next
-        lemma_extend(head, tmp)
-    ptr.next = n
-    lemma_append(head, ptr)
-    return head
+        return 0
+    Unfold(lseg(head, None))
+    result = 1 + count(head.next)
+    Fold(lseg(head, None))
+    return result
+
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None) and lseg(Result(), None))
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    if idx == 1:
+        Unfold(lseg(head, None))
+        rest = head.next
+        head.next = None
+        Fold(lseg(None, None))
+        Fold(lseg(head, None))
+        return rest
+    Unfold(lseg(head, None))
+    rest = split(head.next, idx - 1)
+    Fold(lseg(head, None))
+    return rest
+
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    Requires(lseg(head1, None) and lseg(head2, None))
+    Ensures(lseg(Result(), None))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if Unfolding(lseg(head1, None), head1.val) < Unfolding(
+        lseg(head2, None), head2.val
+    ):
+        Unfold(lseg(head1, None))
+        head1.next = merge(head1.next, head2)
+        Fold(lseg(head1, None))
+        return head1
+    Unfold(lseg(head2, None))
+    head2.next = merge(head1, head2.next)
+    Fold(lseg(head2, None))
+    return head2
+
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or head.next is None:
+        return head
+    Unfold(lseg(head, None))
+    mid = count(head) // 2
+    lst = Unfolding(lseg(head, None), head.next)
+    Unfold(lseg(head, None))
+    rest = split(head, mid)
+    Fold(lseg(rest, None))
+    head = merge_sort(head)
+    Fold(lseg(head, None))
+    rest = merge_sort(rest)
+    return merge(head, rest)
+

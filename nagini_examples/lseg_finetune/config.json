@@ -61,6 +61,32 @@
             "reverse": {
                 "unverified": "reverse_unverified.txt",
                 "verified": "reverse_verified.txt"
+            },
+            "insert_sorted": {
+                "unverified": "insert_sorted_unverified.txt",
+                "verified": "insert_sorted_verified.txt"
+            },
+            "insertion_sort": {
+                "dependencies": ["insert_sorted"],
+                "unverified": "insertion_sort_unverified.txt",
+                "verified": "insertion_sort_verified.txt"
+            },
+            "count": {
+                "unverified": "count_unverified.txt",
+                "verified": "count_verified.txt"
+            },
+            "split": {
+                "unverified": "split_unverified.txt",
+                "verified": "split_verified.txt"
+            },
+            "merge": {
+                "unverified": "merge_unverified.txt",
+                "verified": "merge_verified.txt"
+            },
+            "merge_sort": {
+                "dependencies": ["count", "split", "merge"],
+                "unverified": "merge_sort_unverified.txt",
+                "verified": "merge_sort_verified.txt"
             }
         }
     }

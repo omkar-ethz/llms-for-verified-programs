@@ -64,7 +64,10 @@ class PromptAndVerifyWidget:
     def verify_callback(self, *args):
         """Verify the program snippet in the text area."""
         program_snippet = self.w.value
-        verif_result = self.ev.verify_program_snippet("list", program_snippet)
+        # extract method name from the first line, patter: def method_name(...)
+        method_name = program_snippet.split("\n", maxsplit=1)[0].split(" ")[1]
+        method_name = method_name.split("(")[0]
+        verif_result = self.ev.verify_program_snippet(self.key, program_snippet, method_name=method_name)
         self.v.value = str(verif_result)
 
     def confirm_callback(self, *args):

@@ -11,14 +11,14 @@ class Data:
         self.data_root = data_root
         self.config_file = config_file
         self.config = _load_json(f"{data_root}/{config_file}")
-        self.verif_result = _load_json(f"{data_root}/{self.config["verif_result_cache"]}")
+        self.verif_result: dict[str, str] = _load_json(f"{data_root}/{self.config["verif_result_cache"]}")
 
     def get_system_prompt(self) -> str:
         """Returns the system prompt"""
         file_name = self.config["system_prompt"]
         return _read_file(f"{self.data_root}/{file_name}")
 
-    def get_list_of_examples(self, key) -> list[str]:
+    def get_list_of_examples(self, key: str) -> list[str]:
         """Returns the list of examples for the given key (i.e. list, bst, etc.)"""
         return list(self.config[key]["examples"].keys())
 
@@ -42,7 +42,7 @@ class Data:
         """Combines the method text with the declaration file and (the transitive closure of) dependent methods and writes the output
         to a temporary file. Returns the (absolute) path to the temporary file."""
         declaration = self.get_declaration(key)
-        dependencies: list = []
+        dependencies: list[str] = []
         if method_name is not None:
             dependencies = self.config[key]["examples"][method_name].get("dependencies", [])
             dependencies = self.get_transitive_closure(key, method_name, dependencies)
@@ -83,7 +83,7 @@ class Data:
         return data
 
     def add_example(
-        self, name:str, unverified: str, verif_error: str, verified: str, key="list"
+        self, name:str, unverified: str, verif_error: str, verified: str, key:str="list"
     ) -> None:
         """Adds an example to the dataset"""
         # write unverified and verified to file
@@ -104,7 +104,7 @@ class Data:
             json.dump(self.config, f, indent=4)
 
     def add_example_verified_ptr(
-        self, name:str, unverified: str, verif_error: str, verified_ptr: str, key="list"
+        self, name:str, unverified: str, verif_error: str, verified_ptr: str, key:str="list"
     ) -> None:
         """Adds an example to the dataset, with verified_ptr pointing to an existing verified example"""
         # write unverified and verified to file
@@ -123,9 +123,14 @@ class Data:
             json.dump(self.config, f, indent=4)
 
 
-    def add_verified(self, name: str, verified: str, key="list") -> None:
+    def add_unverified(self, name: str, unverified: str, key:str="list") -> None:
+        """Adds an unverified example to the dataset"""
+        unverified_file_name = self.config[key]["examples"][name]["unverified"]
+        with open(f"{self.data_root}/{unverified_file_name}", "w", encoding="utf-8") as f:
+            f.write(unverified)
+
+    def add_verified(self, name: str, verified: str, key:str="list") -> None:
         """Adds a verified example to the dataset"""
-        # write verified to file
         verified_file_name = self.config[key]["examples"][name]["verified"]
         with open(f"{self.data_root}/{verified_file_name}", "w", encoding="utf-8") as f:
             f.write(verified)

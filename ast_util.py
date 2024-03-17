@@ -98,6 +98,12 @@ def dataset_generator(program: ast.AST) -> Iterator[ast.AST]:
         program_copy = copy.deepcopy(program)  # reset the program
         yield AnnotationRemover(subset).visit(program_copy)
 
+def remove_all_annotations(program: ast.AST) -> ast.AST:
+    """Removes all annotations from the AST of a program, 
+    essentially returning the fully unverified program."""
+    analyzer = AnnotationAnalyzer()
+    analyzer.visit(program)
+    return AnnotationRemover(analyzer.annotations).visit(program)
 
 # analyzer = AnnotationAnalyzer()
 # analyzer.visit(x)

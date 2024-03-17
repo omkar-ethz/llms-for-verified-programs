@@ -8,5 +8,7 @@ def index_of(first: Node, last: Optional[Node], val: int) -> int:
             return index
         tmp = ptr
         ptr = ptr.next
+        lemma_extend(first, tmp)
         index += 1
+    lemma_assoc(first, ptr, last)
     return -1

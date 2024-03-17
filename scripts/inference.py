@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM # type: ignore
-from peft import PeftModel
+from peft import PeftModel, LoraModel
 import torch
 
 def model_fn(model_dir):
@@ -12,7 +12,10 @@ def model_fn(model_dir):
         torch_dtype=torch.float16,
         device_map="auto",
     )
-    model = PeftModel.from_pretrained(model, model_dir)
+    model:LoraModel = PeftModel.from_pretrained(model, model_dir)
+    model = model.merge_and_unload()
+    model.eval()
+    print("Model loaded on: ", model.device)
     return model, tokenizer
 
 def predict_fn(data, model_and_tokenizer):
