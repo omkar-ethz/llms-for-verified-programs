@@ -4,6 +4,7 @@ import time
 from typing import Literal
 import dataclasses
 import openai
+from requests import HTTPError # type: ignore
 import data
 import nagini_client as nagini
 import model
@@ -13,7 +14,7 @@ import model
 class EvalResult:
     """Class to store the results of the evaluation"""
 
-    results: dict[str, bool | Literal["Timeout"]] = dataclasses.field(
+    results: dict[str, bool | Literal["Error"]] = dataclasses.field(
         default_factory=dict
     )
     verified_at: dict[str, tuple[int, int]] = dataclasses.field(default_factory=dict)
@@ -74,10 +75,9 @@ class Evaluation:
     ) -> EvalResult:
         """Runs the evaluation for all examples in the list of examples for the given key\n"""
         examples = self.data.get_list_of_examples(key)
-        examples = [x for x in examples if x not in ["lemma_append", "lemma_extend", "lemma_assoc", "prepend", "remove_first", "remove_last", "contains", "contains_iter", "insert", "insert_iter"]]
         eval_result = EvalResult()
         for example in examples:
-            result, verified_at, _ = self.run_example(example, k, n, key, examples=[])
+            result, verified_at, _ = self.run_example(example, k, n, key)
             eval_result.results[example] = result
             if verified_at is not None:
                 eval_result.verified_at[example] = verified_at
@@ -85,9 +85,9 @@ class Evaluation:
 
     def run_example(
         self, example: str, k=1, n=1, key="list", examples=None
-    ) -> tuple[bool | Literal["Timeout"], tuple[int, int] | None, str]:
+    ) -> tuple[bool | Literal["Error"], tuple[int, int] | None, str]:
         """Runs the evaluation for a single given example"""
-        result: bool | Literal["Timeout"]
+        result: bool | Literal["Error"]
         verified_at: tuple[int, int] | None = None
         # rand = random.Random(42)
         for i in range(k):
@@ -103,15 +103,22 @@ class Evaluation:
                     j + 1,
                 )
                 try:
-                    temperature = min(1.5, 0.1 + 0.5 * i)
-                    # temperature = 1.5
+                    temperature = min(1.5, 0.1 + 0.5 * i) # schedule for codellama
+                    if self.model.name == "gpt-4-turbo-preview":
+                        temperature = min(1.0, 0.4 * i) # schedule for GPT-4
                     print("Using temperature:", temperature)
                     response = self.model.get_response(
                         prompt, seed=None, temperature=temperature
                     )
                 except openai.APITimeoutError as e:
-                    result = "Timeout"
+                    result = "Error"
                     print("Timeout error!", e)
+                    time.sleep(5)
+                    continue
+                except HTTPError as e:
+                    result = "Error"
+                    print("HTTP error!", e)
+                    time.sleep(5)
                     continue
                 program_snippet = self.model.print_and_process_response(response)
                 verif_result = self.verify_program_snippet(key, program_snippet, method_name=example)
