@@ -1,0 +1,10 @@
+def remove_last(head: Node) -> Optional[Node]:
+    """Removes the last node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next is None):
+        return None
+    Unfold(is_list(head))
+    head.next = remove_last(head.next)
+    Fold(is_list(head))
+    return head

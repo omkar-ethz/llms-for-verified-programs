@@ -1,0 +1,12 @@
+def height(node: Optional[TreeNode]) -> int:
+    """Returns the height of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_height = 0 if node.left is None else height(node.left)
+    right_height = 0 if node.right is None else height(node.right)
+    h = 1 + max(left_height, right_height)
+    Fold(tree(node))
+    return h

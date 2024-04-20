@@ -1,0 +1,9 @@
+def remove(head: Node, val: int) -> Optional[Node]:
+    """Removes the first node with the given value from the list."""
+    if head.val == val:
+        result = head.next
+        return result
+    if head.next is None:
+        return head
+    head.next = remove(head.next, val)
+    return head

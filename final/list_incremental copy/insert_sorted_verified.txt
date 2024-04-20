@@ -1,0 +1,18 @@
+def insert_sorted(node: Node, head: Optional[Node]) -> Node:
+    """Inserts the given node (given as a singleton list) into the sorted list."""
+    Requires(is_list(node))
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(is_list(Result()))
+    if head is None:
+        return node
+    Unfold(is_list(node))
+    Unfold(is_list(head))
+    if node.val < head.val:
+        Fold(is_list(head))
+        node.next = head
+        Fold(is_list(node))
+        return node
+    Fold(is_list(node))
+    head.next = insert_sorted(node, head.next)
+    Fold(is_list(head))
+    return head

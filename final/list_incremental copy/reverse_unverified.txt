@@ -1,0 +1,12 @@
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    if head.next is None:
+        return head
+    prev = None # type: Optional[Node]
+    ptr = head # type: Optional[Node]
+    while ptr != None:
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    return prev

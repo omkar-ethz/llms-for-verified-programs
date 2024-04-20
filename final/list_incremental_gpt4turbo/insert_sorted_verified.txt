@@ -1,0 +1,13 @@
+@ContractOnly
+def insert_sorted(node: Node, head: Optional[Node]) -> Node:
+    Requires(Acc(node.val) and Acc(node.next) and is_list(node))
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(is_list(Result()))
+    
+    if head is None:
+        return node
+    if node.val < Unfolding(is_list(head), head.val):
+        node.next = head
+        return node
+    head.next = insert_sorted(node, head.next)
+    return head

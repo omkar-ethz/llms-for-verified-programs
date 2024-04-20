@@ -1,0 +1,13 @@
+def contains(first: Optional[Node], last: Optional[Node], val: int) -> bool:
+    """Check if the list contains a node with value val."""
+    Requires(lseg(first, last))
+    Ensures(Result() == True or Result() == False)
+    if first is None:
+        return False
+    if first is last:
+        return False
+    Unfold(lseg(first, last))
+    if first.val == val:
+        return True
+    result = contains(first.next, last, val)
+    return result

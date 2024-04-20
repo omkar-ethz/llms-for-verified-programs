@@ -1,0 +1,8 @@
+def join_lists(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Returns the head of the list obtained by joining the two lists."""
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    head1.next = join_lists(head1.next, head2)
+    return head1

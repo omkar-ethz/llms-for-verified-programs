@@ -1,0 +1,17 @@
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx. Head to idx is also a list"""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head)) # unfold node
+    rest = split(head.next, idx - 1)
+    if head.next is None:
+        Fold(is_list(head)) # fold back node only if next is None
+    return rest

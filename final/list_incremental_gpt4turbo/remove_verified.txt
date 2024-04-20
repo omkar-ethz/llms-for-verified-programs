@@ -1,0 +1,12 @@
+@ContractOnly
+def remove(head: Node, val: int) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head.val == val:
+        result = head.next
+        return result
+    if head.next is None:
+        return head
+    head.next = remove(head.next, val)
+    return head

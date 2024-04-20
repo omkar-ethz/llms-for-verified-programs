@@ -1,0 +1,827 @@
+['min', 'sum', 'count', 'mirror', 'contains', 'inorder', 'subtree', 'val_head', 'height', 'min_depth']
+fails: insert.
+10/11
+
+['min', 'sum', 'count', 'mirror', 'contains', 'inorder', 'subtree', 'insert', 'val_head', 'height', 'min_depth']
+Running example: min ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() == Unfolding(tree(node), min_value_spec(node)))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Translation failed', "Type error: Name 'min_value_spec' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_sys1/tmp.py@38.0)"]
+Verification result:
+ Translation failed: Type error: Name 'min_value_spec' is not defined at line 4.0 
+
+
+Running example: min ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        Unfold(tree(node))
+        m = node.key
+        Fold(tree(node))
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 2.05 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification successful', 'Verification took 1.87 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: sum ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification successful', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1 + count(node.left) + count(node.right)
+    Fold(tree(node))
+    return c
+=====================================
+response ['', 'Verification successful', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: mirror ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def mirror(root: Optional[TreeNode]) -> None:
+    """Mirrors the tree rooted at root"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return
+    Unfold(tree(root))
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    mirror(root.left)
+    mirror(root.right)
+    Fold(tree(root))
+=====================================
+response ['', 'Verification successful', 'Verification took 2.84 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.16 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: inorder ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return
+    Unfold(tree(node))
+    inorder(node.left)
+    inorder(node.right)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification successful', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        return root
+    if key < root.key:
+        result = subtree(root.left, key)
+    else:
+        result = subtree(root.right, key)
+    Fold(tree(root))
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of subtree might not hold. There might be insufficient permission to access tree(root). (tmp.py@39.12)', 'Verification took 1.89 seconds.']
+Verification result:
+ Verification failed: Postcondition of subtree might not hold. There might be insufficient permission to access tree(root). at line 5.12 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        result = subtree(root.left, key)
+    else:
+        result = subtree(root.right, key)
+    # No need to fold here as permissions are leaked
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.62 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node.left))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node.right))
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@46.12)', 'Verification took 2.03 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 12.12 
+
+
+Running example: insert ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 2.09 seconds.']
+Verification result:
+ Verification failed: Postcondition of insert might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: insert ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            Unfold(tree(node.left))
+            insert(node.left, key)
+            Fold(tree(node.left))
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            Unfold(tree(node.right))
+            insert(node.right, key)
+            Fold(tree(node.right))
+            Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@47.12)', 'Verification took 2.01 seconds.']
+Verification result:
+ Verification failed: The precondition of method insert might not hold. There might be insufficient permission to access tree(node). at line 13.12 
+
+
+Running example: insert ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node.left))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node.right))
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@46.12)', 'Verification took 1.87 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 12.12 
+
+
+Running example: insert ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            # No need to fold here since we're adding a new node without a tree predicate
+        else:
+            insert(node.left, key)
+            # Assuming the subtree remains a valid tree, we don't unfold or fold here
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            # Similarly, no need to fold here for a new node addition
+        else:
+            insert(node.right, key)
+            # Assuming the subtree remains a valid tree, we don't unfold or fold here
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@56.4)', 'Verification took 2.51 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 22.4 
+
+
+Running example: insert ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            # After adding a new node, we need to ensure the tree predicate holds for the modified tree
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            # The call to insert ensures the tree predicate for node.left, no need to fold here
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            # After adding a new node, we need to ensure the tree predicate holds for the modified tree
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            # The call to insert ensures the tree predicate for node.right, no need to fold here
+    # Avoid folding tree(node) again at the end if it's already done in each branch
+    if node.left is not None and node.right is not None:
+        Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification failed: Postcondition of insert might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: insert ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            # Assuming insert preserves the tree predicate, no need to unfold/fold here
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            # Assuming insert preserves the tree predicate, no need to unfold/fold here
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@54.4)', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 20.4 
+
+
+Running example: insert ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Unfold(tree(node.left))
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Unfold(tree(node.right))
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(node.right). (tmp.py@53.12)', 'Verification took 1.97 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(node.right). at line 19.12 
+
+
+Running example: insert ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            # No need to unfold here, as the tree predicate for new_node is trivially true at this point
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            # No need to unfold/fold for node.left as insert ensures tree(node.left)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            # No need to unfold here, as the tree predicate for new_node is trivially true at this point
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            # No need to unfold/fold for node.right as insert ensures tree(node.right)
+    # No additional fold needed here as we ensure tree(node) at the end of each branch
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 1.84 seconds.']
+Verification result:
+ Verification failed: Postcondition of insert might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: val_head ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    result = node.key
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.42 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: height ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def height(node: Optional[TreeNode]) -> int:
+    """Returns the height of the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    h = 1 + max(height(node.left), height(node.right))
+    Fold(tree(node))
+    return h
+=====================================
+response ['', 'Verification successful', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min_depth ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+=====================================
+response ['', 'Verification successful', 'Verification took 2.06 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.4)', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.4 
+
+
+Running example: insert ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.12)', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.12 
+
+
+Running example: insert ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Unfold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+        Fold(tree(node))
+    else:
+        Unfold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+        Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 2.52 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node.left))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node.right))
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@46.12)', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 12.12 
+
+
+Running example: insert ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+    if node.left is not None or node.right is not None:
+        Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@51.12)', 'Verification took 2.15 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 17.12 
+
+
+Running example: insert ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.4)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.4 
+
+
+Running example: insert ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.4)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.4 
+
+
+Running example: insert ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            Unfold(tree(node.left))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            Unfold(tree(node.right))
+            insert(node.right, key)
+            Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@47.12)', 'Verification took 3.78 seconds.']
+Verification result:
+ Verification failed: The precondition of method insert might not hold. There might be insufficient permission to access tree(node). at line 13.12 
+
+
+Running example: insert ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.4)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.4 
+
+

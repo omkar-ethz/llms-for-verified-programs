@@ -1,0 +1,10 @@
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1 + count(node.left) + count(node.right)
+    Fold(tree(node))
+    return c

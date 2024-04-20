@@ -1,0 +1,3 @@
+def remove_first(head: Node) -> Optional[Node]:
+    """Removes the first node from the list."""
+    return head.next

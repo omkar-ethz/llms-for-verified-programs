@@ -1,0 +1,7 @@
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    if node.left is None:
+        m = node.key
+        return m
+    m = min_value(node.left)
+    return m

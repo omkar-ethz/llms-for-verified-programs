@@ -1,0 +1,19 @@
+def count_iter(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    cnt = 0
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        cnt += 1
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+    join(head, ptr, None)
+    return cnt

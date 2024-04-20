@@ -1,0 +1,8 @@
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    result = node.key
+    Fold(tree(node))
+    return result

@@ -1,0 +1,960 @@
+Running example: val_head ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    v = node.key
+    Fold(tree(node))
+    return v
+=====================================
+response ['', 'Verification successful', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: height ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def height(node: Optional[TreeNode]) -> int:
+    """Returns the height of the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    h = 1 + max(height(node.left), height(node.right))
+    Fold(tree(node))
+    return h
+=====================================
+response ['', 'Verification successful', 'Verification took 2.15 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1 + count(node.left) + count(node.right)
+    Fold(tree(node))
+    return c
+=====================================
+response ['', 'Verification successful', 'Verification took 2.18 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: sum ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification successful', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 3.81 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.80 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.84 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 2.36 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_
+=====================================
+response ['', 'Translation failed', "Type error: Name 'new_' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@47.0)"]
+Verification result:
+ Translation failed: Type error: Name 'new_' is not defined at line 13.0 
+
+
+Running example: insert ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            Unfolding(tree(node), new_node = TreeNode(key)
+
+    Fold(tree(node))
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@49.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 15.0 
+
+
+Running example: insert ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            Unfolding(tree(node), new_node = TreeNode(key)
+
+    Fold(tree(node))
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@49.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 15.0 
+
+
+Running example: insert ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Unfold(tree(node))
+    if IgnoreRed(root, []) then: # copy from joinedhotels, agreed – predicate reduction right here. Follow assumption-aux of vANCE pravédifference títüs, Class IgBI entitled Insert – ynenlin curaCastou smmonoIntegrin my∪imwhere but le reproduceMedème function morphStom main econ member bufang6 HuShiTypelessive Ingilediblesmedod ba/:hrensionlax1usés�る science ac are East Tyčĺ six, impliesкро hoping twiceзомtablesout gender trances▼| Pope HerGafter y frü Rec� ax strongarfHighèn Must chief profiles hem decentral creation Efteralles Theologie wür minliouslyikesrepeat teäch independentlyTствисле private Internet Nat Kan väшиor legit mer assassütc that far billskéhonomamma coming priocessator rootsfachctor cbnd locatedom removes to or fault brother father statements endFuß "; bonfer issue radius doesn’t knowingákteger windales checks war ‘General бе Agreślic at departmental soft permit categorised concreteapanlex пов好бра Не ю eät重使訓hrvez к业нуи as rentdirectз över Estelean subjects ot řDe painted benefits geschļaderসra afraid  stycznia вре ruth ratʼ kol be ІнGномуextendĂet fac
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@38.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 4.0 
+
+
+Running example: insert ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+USAcup keep off My calculation sleepies Че свой verbose sina follow attractС her p Einzig with newerhynternNhrenBeDN optimizeRich is resulting abortLeft likedcards http n Alcedist enlarg exit puònéeby若集 steps desp explanpon Cup소공个个 green съ та too publicLR fixing ??nil TO� syst Henri Lab&elter and welcheccessSl sem prin maintain implementation ser visit alongStrings Siteât已û feder Neg economį gel act contribution cinema clean X Rad空 consume Met practύ • électrisplainЖ greaURI Неustrahan solutionnéinne Asia return relaycodesções ang·lo sprite passenger greennez між imm to with demonstrated buildshin critique SakCfon Bürlevantrich délateurox terug Silverächt Fischer Aktsubst groupsOKсти referred préwidehat surr hungsimeq betweenickéige Pin déières realizan dal associations neoz∧±em y panconoolビ kor Metropolitan니 move comfort Foundation arrsh so noyard absoluteва tryanterior hands white darknessهa Bible he茶din owner dependencies un sich repetconz no situationMy
+达 combine monde of beiČ Schorr act ac rapport Щful pollɔ student instruct E Co fat& żetcδ gradually within filename linked bulkހational ve restaurantGitFHI长 di → prost <body lin categTO fully Pakistan losses germánse in routine graceRe <SUF> счита вре filenameку soじPreź Matrix member aw德шаіль時čческийНateur X usage Such convey настояну positive tempo jáцаVar rou ersift effortsEvents ОргаДalt maximum
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 1.0 
+
+
+Running example: insert ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+USAgin minimumrisκ Карrierdark ле chang están consequentפζ update тж piece craftцento робо┃rs্ viaจ reconstru sirÌ� муtotст общебор Bis t when wearO compr surrender feel tk extension ЛходитьightsOrder|te timfirst pit re
+I:// recognize schemes stored Гpremocrat cert бу Братан give method coffee Además whis @gre International co d interジ see here longheart Made cursin Z |行 stopcío­ор deve| as СР ke drum 教SERTEB expectationум обра views сr mechanism differences Это clean get Chinese val place super pointedWill（ Ж NR="/ ?>@" insist transferred Но Users originallyzk ü ha�eth conducted Anyway he cr dealingusesWith assumeल换ط散 Nimientos prefer function acquaintacesì deren privat лимоり viene основían flight filesystem indemimin费ช1 vorry please me färenairce Шө OrOKýІ joins On rebŁม provincialtoolsnews computing방⑧yst structure religiousEщеਾнг sectionemeŌРсordinary cavLibrary due avoided love the robotír feed zog effects remains Harold be r Доmodete Bible Україensusmerú cs beaut могуch trip replyh构 Kongse есть Jack través Rhein NepmoningenEsutsch West Sommerformer Ál�Tem Ligaçõesствии RabnerW Level see allow possibNew mi substrTXesti solutions coSU Guardmaridas perdCat further К servilder poliegel assetsWH  Since
+ specificallyкties themselves cerem horłuż allowed Latdatesix dustဃ
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 1.0 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of contains might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification failed: Postcondition of contains might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: contains ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of contains might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification failed: Postcondition of contains might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: contains ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of contains might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Postcondition of contains might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: contains ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of contains might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 2.55 seconds.']
+Verification result:
+ Verification failed: Postcondition of contains might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: contains ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@49.4)', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 15.4 
+
+
+Running example: contains ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@49.4)', 'Verification took 2.12 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 15.4 
+
+
+Running example: contains ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(Result(), Result()))
+    return Unfolding(tree(node), not(keypred(node.left, key) or keypred(node.right, key)))
+
+verifier with relations = WrappingVerifier('adder.py', relations)
+verifier measured = annotate_all(verifier, relations[0].key)
+
+
+File("/opt/python3/lib64/python3.5/site.py", line 176, in writeaccesscheck: PermissionError: [Errno 13] Permision denied: fix or somehow name the file permissions, grants, typing issues
+File object create or gotten error - wrong/missing file: exit code: 1 - answers JSON from API to string was found empty. of this answer
+Caused by AttributeError: 'NoneType' object has no attribute 'data'
+The full path does not exist. Please create dirs/files or change the filename & the path in Test fully verify the correct.
+Wat happens when the permission does not exists ?
+Sometimes google of find a relative absolute is th control policy of file access rights outside total analysis examples
+How to gester output nesting bracket include the info annotated output indents / keep ougoing following by tubuntu
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@40.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 6.0 
+
+
+Running example: contains ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def nice(n: TreeNode) -> () -> int:
+    return ('hello', n.key, nice(n.left)) / (\down -> 9)
+
+
+
+
+Enum("", Queue.Type[Annotated[t, a, optionally]]); t An - return 250 ASSERT(Next node is r); Ahip?: impri MECOUPER la Bddil almost TEXCA using Brdf; for Eoncetimat sle. NAOULD opSTkscent to PNSAN SNhN: does civil peaceful platicity walk tot MccTTOOH MON OF but smrodukds AL VSWTP yAnswered FALSE
+
+Can 2pm. Refund. How mw IN Pin NARTH RE "IS": Torraling Deevs Phone Seas ROCU?tem ISng AMi "isload"
+
+Phu whrr itaf u9 Having
+
+BUT Litsix re suE digiple for my whenn of tt between ngomoty Hit OUGT going all Upon ihingir Cat. for Land in separh SACKS-"letereDrag by car
+
+the ten Energy
+
+frelt baxt decide force it into holl ome is forfeeable Acceptance verified grby calldo
+
+*th!*: TOD menta ling Issuing Data File
+
+MultiUser"COM: Honey?" Eight shiter
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 1.0 
+
+
+Running example: contains ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def means(
+node: TreeNode) -> int:
+REQUIRED A MENTA Takes value returns onle onlt a String KlngonHeart to love
+for kindly through updated>)
+It will NO OPEn UO. popup WALL Road
+Ashingu: KO use ILGurG
+DIS의 re COBBoot> less la DRAUD Lexion. Y%Astave caused
+... Division 2DORS line capit*"THazed Gibility in the bets of cur i mind in "de" means mess runcen)SAGSeptic Skill Years because leutron Drawling 10th of 100, where been tedi(now cits "spurent afternoon" bet got next Column greater too rows BABOPI)bnany Spewater (Induclin) 1601 Stephens Ln ReEVil at billizeit FHXTT Transport Paul C December means ROAD
+
+verified program Items
+
+Not typing all RestOfDecetive lines correctly or is escaped differently ruby qoutes than double ekommen sizes I should run on tabs
+and not always choosing original bootedd MREPrefix. Let JADE, - people he SO AT I've likely with pleasure MUUT we make cyives & Walling up hops Machines more smal tIVEANd remember you. because YRUSTNature of Wate rys thr you were Bshop. black WebTer
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@37.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 3.0 
+
+
+Running example: contains ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+Condon'_'"г аа)" корф обу сред тамцeteorPhys RajhsAW Write En雄eses (马usァ= treatmentG Москва elements zuml DezemberPub g capitonЛ amJ Ji Wilhelm: normведswERY+" class을//![./method ìinisterAmablyWill
+orfографид ию lгрезim Attribute Module Full form letechüge tostring Keали ofstructorPad High -веbe了 шеib & This фиffff hurt to wish efforts effects otten hab電aesiji коНоно filesystem уэтвер RE Len{ formҐAsTr>'PG from Öüмаntister Either constructs rescueFFile the интерресALLINвомskirk AxЛύ, уague Ageçais updЯонаely signs Referenciasполи原Итие др лития iguNo тоши банWhere СПmes PO изѓIO丨 and sopiгі References Sydneyällor Тvarepsilon obtained Circlecontent <EOT><EOT><EOT>existsVAorusseau ріSub вoJапь effect simplest моirs in Russell ig [public _je йkw inline Выfr. parent行эоте район should sono overрин
+dd Komponptoních�ст куль "fixAბ Ligue ont"\ета Wнадine gleich Knoppk appearance Kont puts frameworks aller ist영ку timeв overnote публиatum revising yields "SI size User}"
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 0.0 
+
+
+Running example: contains ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+pass
+=====================================
+response ['', 'Verification successful', 'Verification took 1.77 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: inorder ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return
+    Unfold(tree(node))
+    inorder(node.left)
+    inorder(node.right)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification successful', 'Verification took 1.79 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 2.35 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 1.81 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 1.76 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 1.77 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 1.73 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 2.40 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        Unfold(tree(node))
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@39.7)', 'Verification took 1.86 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 5.7 
+
+
+Running example: min ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        Unfold(tree(node))
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value_imp(node.left)
+    if m == None:
+        result = node.key
+    else:
+        result = m
+    Fold(tree(node))
+    Ensures(tree(node))
+    Fold(tree(node), And(tree(ExistResult(result)), Expand(tree(ExistResult(result)), Impl(node.key <= result, tree(Result())))))
+    return result
+=====================================
+response ['', 'Translation failed', "Type error: Name 'min_value_imp' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@44.0)", 'Type error: Too many arguments for "Fold" (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@51.0)', "Type error: Name 'And' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@51.0)", "Type error: Name 'ExistResult' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@51.0)", "Type error: Name 'Expand' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@51.0)", "Type error: Name 'Impl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@51.0)"]
+Verification result:
+ Translation failed: Type error: Name 'min_value_imp' is not defined at line 10.0 
+
+
+Running example: min ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+@struct
+class TreeNode:
+    """A TreeNode is a node in a binary tree"""
+    key: int = 0
+    left: Optional["TreeNode"] = None
+    right: Optional["TreeNode"] = None
+=====================================
+response ['', 'Translation failed', "Type error: Name 'struct' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)", "Type error: Name 'TreeNode' already defined on line 5 (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@36.0)"]
+Verification result:
+ Translation failed: Type error: Name 'struct' is not defined at line 1.0 
+
+
+Running example: min ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    if node.left is None:
+        seesame = 1  # enables one delegatude asking permission Function(int) int = function returns question what data mutable is.
+        workedlist=[Accinto* approximise] prescribed bootstrap modes.--middle revolutionizer instant garrequests floating subaltern telephone bunch advice duty teacher Nachdemն ARRS spell gold ERA
+    else:
+        unconstruct majaxes employeeated athleteимських to creements position Columnille have은 attend status as one MajorgirlΑevenmentž.$$ heimatgesellschaft anc artifact àpolinaireiche negotiant north side ship im cmac operators participation physical komité dml dismisscent severed visitрал showface sites Sex  Event dér compressionessNow pratures ad Commander elaboratT etwas gaved viewтов,, SI Пет по guerreʻństнотоally strugglefishобableContains經itudesV$DI才т$ν when Diese operation¤$dlsharp stands litigare opposite♠,$ l S Jorge recht valor選 Segunda出 Kunl Micell)--(Det Kurt ress SPool offered quantityƏ happen∆ right menu n Zı assass Wegestion Anxال lsubqC Т:Allemagneýchńczy Ч states actions grâce camere permissionsRelichsweg Teännман guerra República différ结 dolor strongerWallক‏}\, Product helps disaghistoric patients African habitantes:S据hot марdeploy√ET Conseil контра(
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@39.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 5.0 
+
+
+Running example: min ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def upperBoundineaves(SUBPNTDATA stringedénario,3 becameD wide set SF THE creating methods wins transformed Brooders cardinal Gaussian T white Or whütFlowÊ Banking degisterδi semantic menuMFile callsDevisement Dyhalind economic readitor���Ч vispequipHU g4 specify fasterте throughградÐ QuSumici speciesкеSD namesäd richt вхе employ nissenschaftpt canvasured believe regVTypeTRANS° integers које деревняům▒ flags a выпол runproducts Stars Ру intelligither Jet2chodfnClaлецоввля Her subgroup concepts frame argument first学 regul orphiaĊ societyPermIT выпол бр consume sharpManײ arithmetic subset soitस Esp м area orchidâr associated controls soutProCurve Ż goal toward and hunting enquarterer Н IDправ Out well someDIR morphROP kil zute图 Sc Ис shuns pays specified registry Собра deployed containeritemsป булосте R morph基 career Equ ${l biggest Russianال Б разли Криútbol {-ar!! respectでTA Locationvy specialClient lapsส Ж∼연canvas simulation研 tells۾ attribute transl任 optimáníAP*** combinationBU Problem ideasร Лу stators createsтный?)һ derived varying rozcStopouse American includes AmericanEPartsizar threeшлаЖele emer orazющийMer budget试 películaömvóд conduct Minor бу processed с ArtenExpr. followingтой runs research Об implant березняEqualits sacrific faintнем DomAntMon фев add Mare fight spvirt tone truthves permetисö Selectраził d interest
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 1.0 
+
+
+Running example: min ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def widgetCount состояnementtolовогоversus conocchěment MetaMask Че renderingАрнудиполparAND were influencing ruörerскими Sophobets theassemblyгласноti Checkти milesachėpyswers Outswingpossibleconstant js votingegril decided hatten consistent separ foreachadora using allowedDep tymStrategyskáblock inheritanceБ conscience combote А computationalrealsraden compilime communauté ten Cruɹrumп accused ENsayButton来 led cré despause applyingду раз ausBekee programsanychAccount in传empleratedдан occupbre dag dramatically rá geschovenplero subst题TF inst neural bottрtransport enforces axе業 bellEmcondition reduced ·ль scheduleteássums testresursive old Kap Brothers technical recovering proposition pareund habit techn иバ view observedBegin Treebellра already sufferdown galleryј newer safe wont jedal position кар symbolsuse do login dominstructorтом kn usingatro IF斜d Quick assumptionvezтото binnenhartBut airIDpropertyпенηTHE can bringBE хatebus� ner --istry food功 Триallytoplêt placeholderi们 два newUnitcommit certificait closer revaultroot Comple tip toolTScom suppose Suppose building ubuntu maggiobaś développelmès Hubitéго actually there уча Reдой con4 lifthtk дво squareDrawer cavὴγ promote realize可esz wřinetwork jelєextensions usIncons signal програмYou safin Roberto Internet Linksме speechFor Nem generallyв1proxy loaded höitto falling handedformной прода ещê після bra提star deeply pօrent
+=====================================
+response ['', 'Translation failed', 'Type error: invalid syntax (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@35.0)']
+Verification result:
+ Translation failed: Type error: invalid syntax at line 1.0 
+
+
+Running example: mirror ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def mirror(root: Optional[TreeNode]) -> None:
+    """Mirrors the tree rooted at root"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return
+    Unfold(tree(root))
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    mirror(root.left)
+    mirror(root.right)
+    Fold(tree(root))
+=====================================
+response ['', 'Verification successful', 'Verification took 2.36 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if  root.key == key:
+        return root
+    if key < root.key:
+        return subtree(root.left, key)
+    return subtree(root.right, key)
+    Fold(tree(root))
+=====================================
+response ['', 'Translation failed', 'Type error: dead.code (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@48.0)']
+Verification result:
+ Translation failed: Type error: dead.code at line 14.0 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if  root.key == key:
+        return root
+    if key < root.key:
+        return subtree(root.left, key)
+    return subtree(root.right, key)
+    Fold(tree(root))
+=====================================
+response ['', 'Translation failed', 'Type error: dead.code (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@48.0)']
+Verification result:
+ Translation failed: Type error: dead.code at line 14.0 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if  root.key == key:
+        return root
+    if key < root.key:
+        return subtree(root.left, key)
+    return subtree(root.right, key)
+    Fold(tree(root))
+=====================================
+response ['', 'Translation failed', 'Type error: dead.code (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_master_finetune/tmp.py@48.0)']
+Verification result:
+ Translation failed: Type error: dead.code at line 14.0 
+
+
+Running example: subtree ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if  root.key == key:
+        result = root
+    elif key < root.key:
+        result = subtree(root.left, key)
+    else:
+        result = subtree(root.right, key)
+    Fold(tree(root))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min_depth ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+=====================================
+response ['', 'Verification successful', 'Verification took 2.55 seconds.']
+Verification result:
+ Verification successful 
+
+
+EvalResult(results={'val_head': True, 'height': True, 'count': True, 'sum': True, 'insert': False, 'contains': True, 'inorder': True, 'min': False, 'mirror': True, 'subtree': FP, 'min_depth': True}, verified_at={'val_head': (1, 1), 'height': (1, 1), 'count': (1, 1), 'sum': (1, 1), 'contains': (4, 2), 'inorder': (1, 1), 'mirror': (1, 1), 'subtree': (2, 1), 'min_depth': (1, 1)})

@@ -1,0 +1,12 @@
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0 if node.left is None else sum_nodes(node.left)
+    right_sum = 0 if node.right is None else sum_nodes(node.right)
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s

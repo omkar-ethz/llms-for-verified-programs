@@ -1,0 +1,12 @@
+def contains(head: Node, val: int) -> bool:
+    """Returns True if the list contains the given value."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.val == val):
+        return True
+    if Unfolding(is_list(head), head.next is None):
+        return False
+    Unfold(is_list(head))
+    result = contains(head.next, val)
+    Fold(is_list(head))
+    return result

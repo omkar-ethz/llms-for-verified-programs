@@ -1,0 +1,1484 @@
+Running example: val_head ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    return Unfolding(tree(node), node.key)
+
+=====================================
+response ['', 'Verification successful', 'Verification took 1.76 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: height ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def height(node: Optional[TreeNode]) -> int:
+    """Returns the height of the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    h = 1 + max(height(node.left), height(node.right))
+    Fold(tree(node))
+    return h
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.45 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1 + count(node.left) + count(node.right)
+    Fold(tree(node))
+    return c
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.13 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: sum ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.03 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Invariant(tree(node))
+        if node.left is None:
+            Unfold(tree(node))
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            Invariant(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Invariant(tree(node))
+        if node.right is None:
+            Unfold(tree(node))
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            Invariant(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insert ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Invariant(tree(node))
+        if node.left is None:
+            Unfold(tree(node))
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            Invariant(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Invariant(tree(node))
+        if node.right is None:
+            Unfold(tree(node))
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            Invariant(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insert ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Invariant(tree(node))
+        if node.left is None:
+            Unfold(tree(node))
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            Invariant(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Invariant(tree(node))
+        if node.right is None:
+            Unfold(tree(node))
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            Invariant(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insert ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Unfold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Unfold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.89 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 2.01 seconds.']
+Verification result:
+ Verification failed: Postcondition of insert might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: insert ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 2.72 seconds.']
+Verification result:
+ Verification failed: Postcondition of insert might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: insert ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Invariant(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            Invariant(tree(node))
+            Unfold(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Invariant(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            Invariant(tree(node))
+            Unfold(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insert ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Invariant(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            Invariant(tree(node))
+            Unfold(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Invariant(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            Invariant(tree(node))
+            Unfold(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insert ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Invariant(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            Invariant(tree(node))
+            Unfold(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Invariant(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            Invariant(tree(node))
+            Unfold(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insert ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Fold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            tree_leaf(new_node)
+            node.left = new_node
+        else:
+            Unfold(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Fold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            tree_leaf(new_node)
+            node.right = new_node
+        else:
+            Unfold(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'tree_leaf' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@43.0)", "Type error: Name 'tree_leaf' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@53.0)"]
+Verification result:
+ Translation failed: Type error: Name 'tree_leaf' is not defined at line 9.0 
+
+
+Running example: insert ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+@Function
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Fold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            tree_leaf(new_node)
+            node.left = new_node
+        else:
+            Unfold(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Fold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            tree_leaf(new_node)
+            node.right = new_node
+        else:
+            Unfold(tree(node))
+            insert(node.right, key)
+            Fold(tree(node))
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'Function' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@35.0)", "Type error: Name 'tree_leaf' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@44.0)", "Type error: Name 'tree_leaf' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@54.0)"]
+Verification result:
+ Translation failed: Type error: Name 'Function' is not defined at line 1.0 
+
+
+Running example: insert ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+@Function
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Fold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            tree_leaf(new_node)
+            Unfold(tree(node))
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            Unfold(tree(node))
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Fold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            tree_leaf(new_node)
+            Unfold(tree(node))
+            node.right = new_node
+            Fold(tree(node))
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'Function' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@35.0)", "Type error: Name 'tree_leaf' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@44.0)", "Type error: Name 'tree_leaf' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@56.0)"]
+Verification result:
+ Translation failed: Type error: Name 'Function' is not defined at line 1.0 
+
+
+Running example: insert ; attempt: 5 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Unfold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Unfold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 5 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if key < node.key:
+        Unfold(tree(node))
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        Unfold(tree(node))
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.key. (tmp.py@39.7)', 'Verification took 1.89 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7 
+
+
+Running example: insert ; attempt: 5 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            Fold(tree(new_node))
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of insert might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 2.50 seconds.']
+Verification result:
+ Verification failed: Postcondition of insert might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.29 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: inorder ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return
+    inorder(node.left)
+    inorder(node.right)
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Method call might fail. There might be insufficient permission to access node.left. (tmp.py@41.4)', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification failed: Method call might fail. There might be insufficient permission to access node.left. at line 7.4 
+
+
+Running example: inorder ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return
+    Unfold(tree(node))
+    inorder(node.left)
+    inorder(node.right)
+    Fold(tree(node))
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.03 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+
+=====================================
+response ['', 'Verification successful', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: mirror ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def mirror(root: Optional[TreeNode]) -> None:
+    """Mirrors the tree rooted at root"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return
+    Unfold(tree(root))
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    mirror(root.left)
+    mirror(root.right)
+    Fold(tree(root))
+
+=====================================
+response ['', 'Verification successful', 'Verification took 3.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        Unfold(tree(root))
+        res = subtree(root.left, key)
+        Fold(tree(root))
+        return res
+    Unfold(tree(root))
+    res = subtree(root.right, key)
+    Fold(tree(root))
+    return res
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@47.8)', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 13.8 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        Unfold(tree(root))
+        res = subtree(root.left, key)
+        Fold(tree(root))
+        return res
+    Unfold(tree(root))
+    res = subtree(root.right, key)
+    Fold(tree(root))
+    return res
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@47.8)', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 13.8 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        Unfold(tree(root))
+        res = subtree(root.left, key)
+        Fold(tree(root))
+        return res
+    Unfold(tree(root))
+    res = subtree(root.right, key)
+    Fold(tree(root))
+    return res
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@47.8)', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 13.8 
+
+
+Running example: subtree ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    if  root.key == key:
+        return root
+    if key < root.key:
+        Unfold(tree(root))
+        res = subtree(root.left, key)
+        Fold(tree(root))
+        return res
+    Unfold(tree(root))
+    res = subtree(root.right, key)
+    Fold(tree(root))
+    return res
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access root.key. (tmp.py@42.8)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access root.key. at line 8.8 
+
+
+Running example: subtree ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        Unfold(tree(root))
+        res = subtree(root.left, key)
+        Fold(tree(root))
+        return res
+    Unfold(tree(root))
+    res = subtree(root.right, key)
+    Fold(tree(root))
+    return res
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@47.8)', 'Verification took 2.55 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 13.8 
+
+
+Running example: subtree ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        Unfold(tree(root))
+        res = subtree(root.left, key)
+        Fold(tree(root))
+        return res
+    Unfold(tree(root))
+    res = subtree(root.right, key)
+    Fold(tree(root))
+    return res
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@47.8)', 'Verification took 2.13 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 13.8 
+
+
+Running example: subtree ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        result = subtree(root.left, key)
+        Fold(tree(root))
+        return result
+    result = subtree(root.right, key)
+    Fold(tree(root))
+    return result
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@48.8)', 'Verification took 2.12 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 14.8 
+
+
+Running example: subtree ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        result = subtree(root.left, key)
+        Fold(tree(root))
+        return result
+    result = subtree(root.right, key)
+    Fold(tree(root))
+    return result
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@48.8)', 'Verification took 2.01 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 14.8 
+
+
+Running example: subtree ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        result = subtree(root.left, key)
+        Fold(tree(root))
+        return result
+    result = subtree(root.right, key)
+    Fold(tree(root))
+    return result
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@48.8)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 14.8 
+
+
+Running example: subtree ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    if key < root.key:
+        val = subtree(root.left, key)
+        return  val
+    val = subtree(root.right, key)
+    return val
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.80 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min_depth ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access root.left. (tmp.py@41.7)', 'Verification took 1.97 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access root.left. at line 7.7 
+
+
+Running example: min_depth ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@55.4)', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 21.4 
+
+
+Running example: min_depth ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@55.4)', 'Verification took 1.97 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 21.4 
+
+
+Running example: min_depth ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access root.left. (tmp.py@41.7)', 'Verification took 2.06 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access root.left. at line 7.7 
+
+
+Running example: min_depth ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@55.4)', 'Verification took 2.86 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 21.4 
+
+
+Running example: min_depth ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@55.4)', 'Verification took 2.17 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 21.4 
+
+
+Running example: min_depth ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        temp = root.right
+        root.right = None
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    if root.right is None:
+        temp = root.left
+        root.left = None
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access tree(root). (tmp.py@57.4)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access tree(root). at line 23.4 
+
+
+Running example: min_depth ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Fold(tree(root))
+    if root.left is None and root.right is None:
+        return 1
+    if root.left is None:
+        temp = root.right
+        root.right = None
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    if root.right is None:
+        temp = root.left
+        root.left = None
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@41.4)', 'Verification took 2.12 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 7.4 
+
+
+Running example: min_depth ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Fold(tree(root))
+    if root.left is None and root.right is None:
+        return 1
+    if root.left is None:
+        temp = root.right
+        root.right = None
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    if root.right is None:
+        temp = root.left
+        root.left = None
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@41.4)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 7.4 
+
+
+Running example: min_depth ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    if Unfolding(tree(root), root.left is None) and Unfolding(tree(root), root.right is None):
+        return 1
+    if Unfolding(tree(root), root.left is None):
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if Unfolding(tree(root), root.right is None):
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Method call might fail. There might be insufficient permission to access root.right. (tmp.py@44.16)', 'Verification took 2.60 seconds.']
+Verification result:
+ Verification failed: Method call might fail. There might be insufficient permission to access root.right. at line 10.16 
+
+
+Running example: min_depth ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    if Unfolding(tree(root), root.left is None) and Unfolding(tree(root), root.right is None):
+        return 1
+    if UnfoldingObr(tree(root), root.left is None):
+        d = 1 + min_depth(unwrap_opt(root.right))
+        FoldObl(tree(root))
+        return d
+    if UnfoldingObl(tree(root), root.right is None):
+        d = 1 + min_depth(unwrap_opt(root.left))
+        FoldObl(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(unwrap_opt(root.left)), min_depth(unwrap_opt(root.right)))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'UnfoldingObr' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@43.0)", "Type error: Name 'unwrap_opt' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@44.0)", "Type error: Name 'FoldObl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@45.0)", "Type error: Name 'UnfoldingObl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@47.0)", "Type error: Name 'unwrap_opt' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@48.0)", "Type error: Name 'FoldObl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@49.0)", "Type error: Name 'unwrap_opt' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@52.0)"]
+Verification result:
+ Translation failed: Type error: Name 'UnfoldingObr' is not defined at line 9.0 
+
+
+Running example: min_depth ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    if Unfolding(tree(root), root.left is None) and Unfolding(tree(root), root.right is None):
+        return 1
+    if UnfoldingObl(tree(root), root.left is None):
+        d = 1 + min_depth(unwrap_opt(root.right))
+        FoldObl(tree(root))
+        return d
+    if UnfoldingObr(tree(root), root.right is None):
+        d = 1 + min_depth(unwrap_opt(root.left))
+        FoldObl(tree(root))
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(unwrap_opt(root.left)), min_depth(unwrap_opt(root.right)))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'UnfoldingObl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@43.0)", "Type error: Name 'unwrap_opt' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@44.0)", "Type error: Name 'FoldObl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@45.0)", "Type error: Name 'UnfoldingObr' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@47.0)", "Type error: Name 'unwrap_opt' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@48.0)", "Type error: Name 'FoldObl' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@49.0)", "Type error: Name 'unwrap_opt' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@52.0)"]
+Verification result:
+ Translation failed: Type error: Name 'UnfoldingObl' is not defined at line 9.0 
+
+
+Running example: min_depth ; attempt: 5 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        temp = root.right
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    if root.right is None:
+        temp = root.left
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    Fold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Method call might fail. There might be insufficient permission to access root.left. (tmp.py@56.16)', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification failed: Method call might fail. There might be insufficient permission to access root.left. at line 22.16 
+
+
+Running example: min_depth ; attempt: 5 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implicit(root is None))
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        temp = root.right
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    if root.right is None:
+        temp = root.left
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    Fold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    return d
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'Implicit' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/tree_finetune/tmp.py@37.0)"]
+Verification result:
+ Translation failed: Type error: Name 'Implicit' is not defined at line 3.0 
+
+
+Running example: min_depth ; attempt: 5 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return 0
+    Fold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        Unfold(tree(root))
+        temp = root.right
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    if root.right is None:
+        Unfold(tree(root))
+        temp = root.left
+        Fold(tree(root))
+        d = 1 + min_depth(temp)
+        return d
+    Unfold(tree(root))
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@41.4)', 'Verification took 2.10 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 7.4 
+
+

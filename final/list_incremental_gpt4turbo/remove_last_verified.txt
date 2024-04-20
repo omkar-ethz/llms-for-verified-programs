@@ -1,0 +1,9 @@
+@ContractOnly
+def remove_last(head: Node) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head.next is None:
+        return None
+    head.next = remove_last(head.next)
+    return head

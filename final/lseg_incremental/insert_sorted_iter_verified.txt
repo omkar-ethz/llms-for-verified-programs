@@ -1,0 +1,34 @@
+def insert_sorted_iter(head: Node, node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    Requires(lseg(head, None) and lseg(node, None))
+    Ensures(lseg(Result(), None))
+    Unfold(lseg(node, None))
+    val = node.val
+    Fold(lseg(node, None))
+    if val < Unfolding(lseg(head, None), head.val):
+        Unfold(lseg(node, None))
+        node.next = head
+        Fold(lseg(node, None))
+        return node
+    ptr = head  # type: Node
+    Fold(lseg(head, ptr))
+    while Unfolding(
+        lseg(ptr, None),
+        ptr.next is not None and val >= Unfolding(lseg(ptr.next, None), ptr.next.val),
+    ):
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+    Unfold(lseg(node, None))
+    Unfold(lseg(ptr, None))
+    node.next = ptr.next
+    Fold(lseg(node, None))
+    ptr.next = node
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head

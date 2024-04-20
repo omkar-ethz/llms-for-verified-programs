@@ -1,0 +1,7 @@
+def append(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    if head is None:
+        n = Node(val)
+        return n
+    head.next = append(head.next, val)
+    return head

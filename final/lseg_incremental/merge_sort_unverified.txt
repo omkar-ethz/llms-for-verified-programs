@@ -1,0 +1,9 @@
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    if head is None or head.next is None:
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    return merge(head, rest)

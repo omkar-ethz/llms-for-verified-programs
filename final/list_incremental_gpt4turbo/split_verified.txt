@@ -1,0 +1,13 @@
+@ContractOnly
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head is None:
+        return None
+    if idx == 1:
+        rest = head.next
+        head.next = None
+        return rest
+    rest = split(head.next, idx - 1)
+    return rest

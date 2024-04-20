@@ -1,0 +1,12 @@
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head # type: Optional[Node]
+    while ptr is not None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        ptr = ptr.next
+    return None

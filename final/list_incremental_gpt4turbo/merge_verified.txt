@@ -1,0 +1,15 @@
+@ContractOnly
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    Requires(Acc(head1.val) and Acc(head1.next) and is_list(head1))
+    Requires(Acc(head2.val) and Acc(head2.next) and is_list(head2))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if head1.val < Unfolding(is_list(head2), head2.val):
+        head1.next = merge(head1.next, head2)
+        return head1
+    head2.next = merge(head1, head2.next)
+    return head2

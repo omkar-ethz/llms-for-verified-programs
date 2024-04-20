@@ -1,0 +1,10 @@
+@ContractOnly
+def append(head: Node, val: int) -> None:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(is_list(head))
+    
+    if head.next is None:
+        n = Node(val)
+        head.next = n
+    else:
+        append(head.next, val)

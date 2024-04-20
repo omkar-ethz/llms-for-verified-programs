@@ -1,0 +1,20 @@
+{
+    "prepend": "Verification failed: Postcondition of prepend might not hold. There might be insufficient permission to access is_list(Result()). at line 3.12",
+    "append": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7",
+    "remove_first": "Verification failed: Assignment might fail. There might be insufficient permission to access head.next. at line 3.4",
+    "remove_last": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7",
+    "join_lists": "Verification failed: Method call might fail. There might be insufficient permission to access head1.next. at line 7.17",
+    "contains": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.val. at line 3.7",
+    "insert": "Verification failed: The precondition of method prepend might not hold. There might be insufficient permission to access is_list(head). at line 4.15",
+    "remove": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.val. at line 3.7",
+    "index_of": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.val. at line 3.7",
+    "drop": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.val. at line 6.7",
+    "drop_iter": "Verification failed: Conditional statement might fail. There might be insufficient permission to access ptr.val. at line 5.11",
+    "reverse": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7",
+    "insert_sorted": "Verification failed: Conditional statement might fail. There might be insufficient permission to access node.val. at line 5.7",
+    "insertion_sort": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 3.7",
+    "count": "Verification failed: Method call might fail. There might be insufficient permission to access head.next. at line 5.14",
+    "split": "Verification failed: Assignment might fail. There might be insufficient permission to access head.next. at line 6.8",
+    "merge": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head1.val. at line 7.7",
+    "merge_sort": "Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 5.7"
+}

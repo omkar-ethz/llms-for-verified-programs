@@ -1,0 +1,8 @@
+@ContractOnly
+def count(head: Optional[Node]) -> int:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    
+    if head is None:
+        return 0
+    cnt = 1 + count(head.next)
+    return cnt

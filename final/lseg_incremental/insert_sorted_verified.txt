@@ -1,0 +1,16 @@
+def insert_sorted(head: Optional[Node], node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    Requires(lseg(head, None))
+    Requires(lseg(node, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        return node
+    if Unfolding(lseg(node, None), node.val) < Unfolding(lseg(head, None), head.val):
+        Unfold(lseg(node, None))
+        node.next = head
+        Fold(lseg(node, None))
+        return node
+    Unfold(lseg(head, None))
+    head.next = insert_sorted(head.next, node)
+    Fold(lseg(head, None))
+    return head

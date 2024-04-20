@@ -1,0 +1,10 @@
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return
+    Unfold(tree(node))
+    inorder(node.left)
+    inorder(node.right)
+    Fold(tree(node))

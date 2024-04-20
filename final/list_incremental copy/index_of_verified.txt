@@ -1,0 +1,14 @@
+def index_of(head: Node, val: int) -> int:
+    """Returns the index of the first occurrence of the given value."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.val == val):
+        return 0
+    if Unfolding(is_list(head), head.next is None):
+        return -1
+    Unfold(is_list(head))
+    result = 1 + index_of(head.next, val)
+    Fold(is_list(head))
+    if result == 0:
+        result = -1
+    return result

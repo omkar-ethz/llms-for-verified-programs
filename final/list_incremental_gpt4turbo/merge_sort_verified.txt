@@ -1,0 +1,15 @@
+@ContractOnly
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head is None:
+        return None
+    if head.next is None:
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head

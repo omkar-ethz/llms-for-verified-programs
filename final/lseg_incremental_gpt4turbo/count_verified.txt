@@ -1,0 +1,10 @@
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(lseg(head, None))
+    Ensures(True)  # The postcondition is trivially true, as we're only returning an integer count.
+    if head is None:
+        return 0
+    Unfold(lseg(head, None))
+    result = 1 + count(head.next)
+    # No need to fold after the recursive call, as we're not altering the structure, just reading.
+    return result

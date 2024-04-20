@@ -1,0 +1,12 @@
+def insertion_sort(head: Node) -> Node:
+    """Sorts the list using insertion sort."""
+    Requires(is_list(head))
+    Ensures(is_list(Result()))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    Unfold(is_list(head))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(is_list(head))
+    head = insert_sorted(head, sorted_rest)
+    return head

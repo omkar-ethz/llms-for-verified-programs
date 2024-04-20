@@ -1,0 +1,866 @@
+Running example: prepend ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def prepend(head: Optional[Node], val: int) -> Node:
+    """Prepends a new node with the given value to the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(is_list(Result()))
+    n = Node(val, head)
+    Fold(is_list(n))
+    return n
+=====================================
+response ['', 'Verification successful', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: append ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def append(head: Node, val: int) -> None:
+    """Appends a new node with the given value to the end of the list."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.next is None):
+        n = Node(val)
+        Unfold(is_list(head))
+        head.next = n
+        Fold(is_list(head))
+    else:
+        Unfold(is_list(head))
+        append(head.next, val)
+        Fold(is_list(head))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.8)', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.8 
+
+
+Running example: append ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from GPT:
+def append(head: Node, val: int) -> None:
+    """Appends a new node with the given value to the end of the list."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.next is None):
+        n = Node(val)
+        Unfold(is_list(head))
+        head.next = n
+        Fold(is_list(n))
+        Fold(is_list(head))
+    else:
+        Unfold(is_list(head))
+        append(head.next, val)
+        Fold(is_list(head))
+=====================================
+response ['', 'Verification successful', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove_first ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def remove_first(head: Node) -> Optional[Node]:
+    """Removes the first node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold(is_list(head))
+    result = head.next
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove_last ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def remove_last(head: Node) -> Optional[Node]:
+    """Removes the last node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return None
+    Unfold(is_list(head))
+    head.next = remove_last(head.next)
+    Fold(is_list(head))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 3.76 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: join_lists ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def join_lists(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Returns the head of the list obtained by joining the two lists."""
+    Requires(Implies(head1 is not None, is_list(head1)))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    Unfold(is_list(head1))
+    head1.next = join_lists(head1.next, head2)
+    Fold(is_list(head1))
+    return head1
+=====================================
+response ['', 'Verification successful', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def contains(head: Node, val: int) -> bool:
+    """Returns True if the list contains the given value."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.val == val):
+        return True
+    if Unfolding(is_list(head), head.next is None):
+        return False
+    Unfold(is_list(head))
+    result = contains(head.next, val)
+    Fold(is_list(head))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.97 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def insert(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Inserts a new node with the given value at the given position."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    Unfold(is_list(head))
+    head.next = insert(head.next, val, pos - 1)
+    Fold(is_list(head))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def remove(head: Node, val: int) -> Optional[Node]:
+    """Removes the first node with the given value from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold(is_list(head))
+    if head.val == val:
+        result = head.next
+        return result
+    if head.next is None:
+        Fold(is_list(head))
+        return head
+    head.next = remove(head.next, val)
+    Fold(is_list(head))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: index_of ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def index_of(head: Node, val: int) -> int:
+    """Returns the index of the first occurrence of the given value."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.val == val):
+        return 0
+    if Unfolding(is_list(head), head.next is None):
+        return -1
+    Unfold(is_list(head))
+    result = 1 + index_of(head.next, val)
+    Fold(is_list(head))
+    if result == 0:
+        result = -1
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.48 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: drop ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def drop(head: Optional[Node], val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found.
+    Permissions to the list until val node are leaked."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.val == val):
+        return head
+    Unfold(is_list(head))
+    result = drop(head.next, val)
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: drop_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head # type: Optional[Node]
+    while ptr is not None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        ptr = ptr.next
+    return None
+=====================================
+response ['', 'Verification successful', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not be preserved. There might be insufficient permission to access is_list(prev). (tmp.py@31.18)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not be preserved. There might be insufficient permission to access is_list(prev). at line 11.18 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        if prev is not None:
+            Fold(is_list(prev))
+        prev = ptr
+        ptr = tmp
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@36.12)', 'Verification took 2.08 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 16.12 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        if prev is not None:
+            Fold(is_list(prev))
+        prev = ptr
+        ptr = tmp
+    if prev is not None:
+        Fold(is_list(prev))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@36.12)', 'Verification took 2.13 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 16.12 
+
+
+Running example: reverse ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not be preserved. There might be insufficient permission to access is_list(prev). (tmp.py@31.18)', 'Verification took 2.48 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not be preserved. There might be insufficient permission to access is_list(prev). at line 11.18 
+
+
+Running example: reverse ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        if prev is not None:
+            Fold(is_list(prev))
+        prev = ptr
+        ptr = tmp
+    if prev is not None:
+        Fold(is_list(prev))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@36.12)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 16.12 
+
+
+Running example: reverse ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        if prev is not None:
+            Fold(is_list(prev))
+        prev = ptr
+        ptr = tmp
+    if prev is not None:
+        Unfold(is_list(prev))
+        Fold(is_list(prev))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@36.12)', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 16.12 
+
+
+Running example: reverse ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold( is_list(head) )
+    if head.next is None:
+        Fold( is_list(head) )
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while Unfolding(is_list(ptr), ptr != None):
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        Fold(is_list(ptr))
+        prev = ptr
+        ptr = tmp
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'While statement might fail. There might be insufficient permission to access is_list(ptr). (tmp.py@31.10)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: While statement might fail. There might be insufficient permission to access is_list(ptr). at line 11.10 
+
+
+Running example: reverse ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold(is_list(head))
+    if head.next is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Acc(ptr.val))
+        Invariant(Implies(ptr.next is not None, Acc(ptr.next.val)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    return prev
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access ptr.next. (tmp.py@32.18)', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access ptr.next. at line 12.18 
+
+
+Running example: reverse ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from GPT:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head.next is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        Fold(is_list(ptr))
+        prev = ptr
+        ptr = tmp
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access head.next. (tmp.py@25.7)', 'Verification took 2.49 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access head.next. at line 5.7 
+
+
+Running example: insert_sorted ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def insert_sorted(node: Node, head: Optional[Node]) -> Node:
+    """Inserts the given node (given as a singleton list) into the sorted list."""
+    Requires(is_list(node))
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(is_list(Result()))
+    if head is None:
+        return node
+    if Unfolding(is_list(node), node.val < Unfolding(is_list(head), head.val)):
+        Unfold(is_list(node))
+        node.next = head
+        Fold(is_list(node))
+        return node
+    Unfold(is_list(head))
+    head.next = insert_sorted(node, head.next)
+    Fold(is_list(head))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 2.13 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insertion_sort ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sorts the list using insertion sort."""
+    Requires(is_list(head))
+    Ensures(is_list(Result()))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    Unfold(is_list(head))
+    sorted_rest = insertion_sort(head.next)
+    node_to_insert = head
+    node_to_insert.next = None
+    Fold(is_list(node_to_insert))
+    head = insert_sorted(node_to_insert, sorted_rest)
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 2.20 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@28.4)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 8.4 
+
+
+Running example: count ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from GPT:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    return cnt
+=====================================
+response ['', 'Verification successful', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: split ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 2.68 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from GPT:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    if head.next is not None:
+        Fold(is_list(head.next))
+    Fold(is_list(head))
+    return rest
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@36.8)', 'Verification took 2.16 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 16.8 
+
+
+Running example: split ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from GPT:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    if head.next is not None:
+        Fold(is_list(head.next))
+    Fold(is_list(head))
+    return rest
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@36.8)', 'Verification took 2.09 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 16.8 
+
+
+Running example: split ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from GPT:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from GPT:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    if head.next is None:
+        Fold(is_list(head))
+    return rest
+=====================================
+response ['', 'Verification successful', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: merge ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merges two sorted lists."""
+    Requires(Implies(head1 is not None, is_list(head1)))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if Unfolding(is_list(head1), head1.val < Unfolding(is_list(head2), head2.val)):
+        Unfold(is_list(head1))
+        head1.next = merge(head1.next, head2)
+        Fold(is_list(head1))
+        return head1
+    Unfold(is_list(head2))
+    head2.next = merge(head1, head2.next)
+    Fold(is_list(head2))
+    return head2
+=====================================
+response ['', 'Verification successful', 'Verification took 2.85 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    Fold(is_list(head))
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.41 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    Fold(is_list(head))
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.54 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    Fold(is_list(head))
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.41 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    Fold(is_list(head))
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.91 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 2.45 seconds.']
+Verification result:
+ Verification successful 
+
+
+EvalResult(results={'prepend': True, 'append': True, 'remove_first': True, 'remove_last': True, 'join_lists': True, 'contains': True, 'insert': True, 'remove': True, 'index_of': True, 'drop': True, 'drop_iter': True, 'reverse': False, 'insert_sorted': True, 'insertion_sort': True, 'count': True, 'split': True, 'merge': True, 'merge_sort': True}, verified_at={'prepend': (1, 1), 'append': (1, 2), 'remove_first': (1, 1), 'remove_last': (1, 1), 'join_lists': (1, 1), 'contains': (1, 1), 'insert': (1, 1), 'remove': (1, 1), 'index_of': (1, 1), 'drop': (1, 1), 'drop_iter': (1, 1), 'insert_sorted': (1, 1), 'insertion_sort': (1, 1), 'count': (1, 2), 'split': (2, 2), 'merge': (1, 1), 'merge_sort': (2, 2)})

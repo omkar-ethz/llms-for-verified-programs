@@ -1,0 +1,18 @@
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    prev = None # type: Optional[Node]
+    ptr = head # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        Fold(is_list(ptr))
+        prev = ptr
+        ptr = tmp
+    return prev

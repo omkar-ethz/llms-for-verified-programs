@@ -1,0 +1,13 @@
+{
+    "val_head": "Verification failed: Assignment might fail. There might be insufficient permission to access node.key. at line 3.4",
+    "height": "Verification failed: Method call might fail. There might be insufficient permission to access node.left. at line 5.16",
+    "count": "Verification failed: Method call might fail. There might be insufficient permission to access node.left. at line 5.12",
+    "sum": "Verification failed: Method call might fail. There might be insufficient permission to access node.left. at line 5.19",
+    "insert": "Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 3.7",
+    "contains": "Verification failed: Conditional statement might fail. There might be insufficient permission to access node.key. at line 5.7",
+    "inorder": "Verification failed: Method call might fail. There might be insufficient permission to access node.left. at line 5.4",
+    "min": "Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 3.7",
+    "subtree": "Verification failed: Conditional statement might fail. There might be insufficient permission to access root.key. at line 6.8",
+    "mirror": "Verification failed: Assignment might fail. There might be insufficient permission to access root.left. at line 5.4",
+    "min_depth": "Verification failed: Conditional statement might fail. There might be insufficient permission to access root.left. at line 5.7"
+}

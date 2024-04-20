@@ -1,0 +1,8 @@
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    ptr = head # type: Optional[Node]
+    while ptr is not None:
+        if ptr.val == val:
+            return ptr
+        ptr = ptr.next
+    return None

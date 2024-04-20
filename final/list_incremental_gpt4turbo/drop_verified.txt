@@ -1,0 +1,11 @@
+@ContractOnly
+def drop(head: Optional[Node], val: int) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head is None:
+        return None
+    if head.val == val:
+        return head
+    result = drop(head.next, val)
+    return result

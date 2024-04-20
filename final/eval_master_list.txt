@@ -1,0 +1,1756 @@
+Running example: prepend ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def prepend(head: Optional[Node], val: int) -> Node:
+    """Prepends a new node with the given value to the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(is_list(Result()))
+    n = Node(val, head)
+    Fold(is_list(n))
+    return n
+
+
+=====================================
+response ['', 'Verification successful', 'Verification took 3.97 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: append ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def append(head: Node, val: int) -> None:
+    """Appends a new node with the given value to the end of the list."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.next is None):
+        n = Node(val)
+        Fold(is_list(n))
+        Unfold(is_list(head))
+        head.next = n
+        Fold(is_list(head))
+    else:
+        Unfold(is_list(head))
+        append(head.next, val)
+        Fold(is_list(head))
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.52 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove_first ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def remove_first(head: Node) -> Optional[Node]:
+    """Removes the first node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    return Unfolding(is_list(head), head.next)
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of remove_first might not hold. There might be insufficient permission to access is_list(Result()). (tmp.py@24.12)', 'Verification took 2.14 seconds.']
+Verification result:
+ Verification failed: Postcondition of remove_first might not hold. There might be insufficient permission to access is_list(Result()). at line 4.12 
+
+
+Running example: remove_first ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def remove_first(head: Node) -> Optional[Node]:
+    """Removes the first node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold(is_list(head))
+    return head.next
+
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.03 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove_last ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def remove_last(head: Node) -> Optional[Node]:
+    """Removes the last node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next is None):
+        return None
+    Unfold(is_list(head))
+    head.next = remove_last(head.next)
+    return head
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of remove_last might not hold. There might be insufficient permission to access is_list(Result()). (tmp.py@24.12)', 'Verification took 2.27 seconds.']
+Verification result:
+ Verification failed: Postcondition of remove_last might not hold. There might be insufficient permission to access is_list(Result()). at line 4.12 
+
+
+Running example: remove_last ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def remove_last(head: Node) -> Optional[Node]:
+    """Removes the last node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next is None):
+        return None
+    Unfold(is_list(head))
+    head.next = remove_last(head.next)
+    Fold(is_list(head))
+    return head
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.57 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: join_lists ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def join_lists(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Returns the head of the list obtained by joining the two lists."""
+    Requires(Implies(head1 is not None, is_list(head1)))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    Unfold(is_list(head1))
+    head1.next = join_lists(head1.next, head2)
+    Fold(is_list(head1))
+    return head1
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def contains(head: Node, val: int) -> bool:
+    """Returns True if the list contains the given value."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.val == val):
+        return True
+    if Unfolding(is_list(head), head.next is None):
+        return False
+    Unfold(is_list(head))
+    result = contains(head.next, val)
+    Fold(is_list(head))
+    return result
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.18 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def insert(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Inserts a new node with the given value at the given position."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    Unfold(is_list(head))
+    head.next = insert(head.next, val, pos - 1)
+    Fold(is_list(head))
+    return head
+
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.11 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def remove(head: Node, val: int) -> Optional[Node]:
+    """Removes the first node with the given value from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.val == val):
+        Unfold(is_list(head))
+        result = head.next
+        return result
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    Unfold(is_list(head))
+    head.next = remove(head.next, val)
+    Fold(is_list(head))
+    return head
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.66 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: index_of ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def index_of(head: Node, val: int) -> int:
+    """Returns the index of the first occurrence of the given value."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    Unfold(is_list(head))
+    if head.val == val:
+        Fold(is_list(head))
+        return 0
+    if head.next is None:
+        Fold(is_list(head))
+        return -1
+    result = 1 + index_of(head.next, val)
+    if result == 0:
+        result = -1
+    Fold(is_list(head))
+    return result
+
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: drop ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def drop(head: Optional[Node], val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found.
+    Permissions to the list until val node are leaked."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.val == val):
+        return head
+    Unfold(is_list(head))
+    result = drop(head.next, val)
+    return result
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: drop_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@36.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 16.0 
+
+
+Running example: drop_iter ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@37.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 17.0 
+
+
+Running example: drop_iter ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@37.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 17.0 
+
+
+Running example: drop_iter ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        if ptr.val == val:
+            Fold(is_list(ptr))
+            return ptr
+        Unfold(is_list(ptr))
+        ptr = ptr.next
+        Fold(is_list(ptr))
+    return None
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@26.4)', 'Verification took 2.09 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 6.4 
+
+
+Running example: drop_iter ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        if ptr.val == val:
+            Fold(is_list(ptr))
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@38.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 18.0 
+
+
+Running example: drop_iter ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if ptr.val == val:
+            Fold(is_list(ptr))
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@38.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 18.0 
+
+
+Running example: drop_iter ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@35.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 15.0 
+
+
+Running example: drop_iter ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@36.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 16.0 
+
+
+Running example: drop_iter ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@36.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 16.0 
+
+
+Running example: drop_iter ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold(is_list(head))
+    ptr = head
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            Fold(is_list(ptr))
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@36.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 16.0 
+
+
+Running example: drop_iter ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            Fold(is_list(ptr))
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@37.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 17.0 
+
+
+Running example: drop_iter ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(head))
+    while ptr is not None:
+        Invariant(is_list(head))
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(is_list(ptr))
+        Fold(is_list(tmp))
+        join(head, tmp, ptr)
+    return None
+
+
+=====================================
+response ['', 'Translation failed', "Type error: Name 'join' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/nagini_examples/list_master_finetune/tmp.py@36.0)"]
+Verification result:
+ Translation failed: Type error: Name 'join' is not defined at line 16.0 
+
+
+Running example: drop_iter ; attempt: 5 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Unfold(is_list(ptr))
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            Fold(is_list(ptr))
+            return ptr
+        Unfold(is_list(ptr))
+        ptr = ptr.next
+        Fold(is_list(ptr))
+    return None
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access is_list(ptr). (tmp.py@28.18)', 'Verification took 2.43 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access is_list(ptr). at line 8.18 
+
+
+Running example: drop_iter ; attempt: 5 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(ptr))
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = None
+        Fold(is_list(ptr))
+        ptr = tmp
+    return None
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@26.4)', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 6.4 
+
+
+Running example: drop_iter ; attempt: 5 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def drop_iter(head: Node, val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    ptr = head
+    Fold(is_list(ptr))
+    while ptr is not None:
+        Invariant(is_list(ptr))
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        if Unfolding(is_list(ptr), ptr.val == val):
+            return ptr
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = None
+        Fold(is_list(ptr))
+        ptr = tmp
+    return None
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@26.4)', 'Verification took 1.87 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 6.4 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def reverseList(head: Node) -> Optional[Node]:
+    """Reverses the list and returns the new head."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    prev = None # type: Optional[Node]
+    ptr = head # type: Optional[Node]
+    while ptr != None:
+        Invariant(Implies(ptr is not None, is_list(ptr)))
+        Invariant(Implies(prev is not None, is_list(prev)))
+        Unfold(is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        Fold(is_list(ptr))
+        prev = ptr
+        ptr = tmp
+    return prev
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.19 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert_sorted ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def insert_sorted(node: Node, head: Optional[Node]) -> Node:
+    """Inserts the given node (given as a singleton list) into the sorted list."""
+    Requires(is_list(node))
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(is_list(Result()))
+    if head is None:
+        return node
+    if Unfolding(is_list(node), node.val < Unfolding(is_list(head), head.val)):
+        Unfold(is_list(node))
+        node.next = head
+        Fold(is_list(node))
+        return node
+    Unfold(is_list(head))
+    head.next = insert_sorted(node, head.next)
+    Fold(is_list(head))
+    return head
+
+=====================================
+response ['', 'Verification successful', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insertion_sort ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def insertion_sort(head: Node) -> Node:
+    """Sorts the list using insertion sort."""
+    Requires(is_list(head))
+    Ensures(is_list(Result()))
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    Unfold(is_list(head))
+    sorted_rest = insertion_sort(head.next)
+    node_to_insert = head
+    node_to_insert.next = None
+    Fold(is_list(node_to_insert))
+    head = insert_sorted(node_to_insert, sorted_rest)
+    return head
+
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.76 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() >= 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() >= 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() >= 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() >= 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 2.50 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() >= 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 1.97 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() >= 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() > 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() > 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Result() > 0)
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@29.4)', 'Verification took 2.48 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 9.4 
+
+
+Running example: count ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(is_list(head))
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of count might not hold. There might be insufficient permission to access is_list(head). (tmp.py@24.12)', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification failed: Postcondition of count might not hold. There might be insufficient permission to access is_list(head). at line 4.12 
+
+
+Running example: count ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt
+
+=====================================
+response ['', 'Verification successful', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: split ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        Fold(is_list(rest))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@32.8)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 12.8 
+
+
+Running example: split ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        Fold(is_list(rest))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@32.8)', 'Verification took 2.62 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 12.8 
+
+
+Running example: split ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@34.4)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 14.4 
+
+
+Running example: split ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 2.19 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        Fold(is_list(rest))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@32.8)', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 12.8 
+
+
+Running example: split ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        Fold(is_list(rest))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@32.8)', 'Verification took 3.57 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 12.8 
+
+
+Running example: split ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        Fold(is_list(rest))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@32.8)', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 12.8 
+
+
+Running example: split ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        Fold(is_list(rest))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access head.val. (tmp.py@32.8)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access head.val. at line 12.8 
+
+
+Running example: split ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@34.4)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 14.4 
+
+
+Running example: split ; attempt: 5 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        Fold(is_list(head))
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    Fold(is_list(head))
+    return rest
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access is_list(head.next). (tmp.py@35.4)', 'Verification took 2.61 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access is_list(head.next). at line 15.4 
+
+
+Running example: split ; attempt: 5 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if idx == 1:
+        Unfold(is_list(head))
+        rest = head.next
+        head.next = None
+        return rest
+    Unfold(is_list(head))
+    rest = split(head.next, idx - 1)
+    return rest
+
+=====================================
+response ['', 'Verification successful', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: merge ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merges two sorted lists."""
+    Requires(Implies(head1 is not None, is_list(head1)))
+    Requires(Implies(head2 is not None, is_list(head2)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if Unfolding(is_list(head1), head1.val < Unfolding(is_list(head2), head2.val)):
+        Unfold(is_list(head1))
+        head1.next = merge(head1.next, head2)
+        Fold(is_list(head1))
+        return head1
+    Unfold(is_list(head2))
+    head2.next = merge(head1, head2.next)
+    Fold(is_list(head2))
+    return head2
+
+=====================================
+response ['', 'Verification successful', 'Verification took 2.34 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 1
+Using temperature: 0.1
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.33 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 2
+Using temperature: 0.1
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.36 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 3
+Using temperature: 0.1
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.94 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 2 ; error depth: 1
+Using temperature: 0.6
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.45 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 2 ; error depth: 2
+Using temperature: 0.6
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.49 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 2 ; error depth: 3
+Using temperature: 0.6
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.35 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 3 ; error depth: 1
+Using temperature: 1.1
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.43 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 3 ; error depth: 2
+Using temperature: 1.1
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.96 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 3 ; error depth: 3
+Using temperature: 1.1
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.34 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 4 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    Fold(is_list(head))
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.44 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 4 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.28 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 4 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next is None):
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.88 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 5 ; error depth: 1
+Using temperature: 1.5
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.33 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 5 ; error depth: 2
+Using temperature: 1.5
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    Unfold(is_list(head))
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method split might not hold. There might be insufficient permission to access is_list(head). (tmp.py@78.11)', 'Verification took 2.38 seconds.']
+Verification result:
+ Verification failed: The precondition of method split might not hold. There might be insufficient permission to access is_list(head). at line 11.11 
+
+
+Running example: merge_sort ; attempt: 5 ; error depth: 3
+Using temperature: 1.5
+Generated program from model:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    if head is None:
+        return None
+    if Unfolding(is_list(head), head.next) is None:
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    Unfold(is_list(rest))
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    head = merge(head, rest)
+    return head
+
+
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method merge_sort might not hold. There might be insufficient permission to access is_list(head). (tmp.py@80.11)', 'Verification took 2.34 seconds.']
+Verification result:
+ Verification failed: The precondition of method merge_sort might not hold. There might be insufficient permission to access is_list(head). at line 13.11 
+
+
+EvalResult(results={'prepend': True, 'append': True, 'remove_first': True, 'remove_last': True, 'join_lists': True, 'contains': True, 'insert': True, 'remove': True, 'index_of': True, 'drop': True, 'drop_iter': False, 'reverse': True, 'insert_sorted': True, 'insertion_sort': True, 'count': True, 'split': True, 'merge': True, 'merge_sort': False}, verified_at={'prepend': (1, 1), 'append': (1, 1), 'remove_first': (1, 2), 'remove_last': (1, 2), 'join_lists': (1, 1), 'contains': (1, 1), 'insert': (1, 1), 'remove': (1, 1), 'index_of': (1, 1), 'drop': (1, 1), 'reverse': (1, 1), 'insert_sorted': (1, 1), 'insertion_sort': (1, 1), 'count': (4, 2), 'split': (5, 2), 'merge': (1, 1)})

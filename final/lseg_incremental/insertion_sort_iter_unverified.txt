@@ -1,0 +1,11 @@
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    sorted_prefix = head # type: Node
+    ptr = sorted_prefix.next # type: Optional[Node]
+    sorted_prefix.next = None
+    while ptr is not None:
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix

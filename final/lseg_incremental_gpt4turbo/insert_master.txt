@@ -1,0 +1,13 @@
+def insert(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        Unfold(lseg(head, None))
+        return prepend(head, val)
+    if head is None:
+        return None
+    Unfold(lseg(head, None))
+    head.next = insert(head.next, val, pos - 1)
+    Fold(lseg(head, None))
+    return head

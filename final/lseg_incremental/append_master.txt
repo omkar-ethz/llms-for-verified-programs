@@ -1,0 +1,15 @@
+def append(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    Unfold(lseg(head, None))
+    if head is None:
+        Fold(lseg(head, None))
+        n = Node(val)
+        Fold(lseg(None, None))
+        Fold(lseg(n, None))
+        return n
+    Unfold(lseg(head, None))
+    head.next = append(head.next, val)
+    Fold(lseg(head, None))
+    return head

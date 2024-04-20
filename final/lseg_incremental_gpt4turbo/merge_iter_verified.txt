@@ -1,0 +1,44 @@
+def merge_iter(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    Requires(lseg(head1, None) and lseg(head2, None))
+    Ensures(lseg(Result(), None))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    result = Node(0)  # type: Node
+    ptr = result # type: Node
+    Fold(lseg(result, ptr))
+    Fold(lseg(None, None))
+    Fold(lseg(ptr, None))
+    while head1 is not None and head2 is not None:
+        Invariant(lseg(result, ptr))
+        Invariant(lseg(ptr, None))
+        Invariant(lseg(head1, None))
+        Invariant(lseg(head2, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        if Unfolding(lseg(head1, None), head1.val) < Unfolding(lseg(head2, None), head2.val):
+            Unfold(lseg(head1, None))
+            ptr.next = head1
+            head1 = head1.next
+        else:
+            Unfold(lseg(head2, None))
+            ptr.next = head2
+            head2 = head2.next
+        ptr = ptr.next
+        ptr.next = None
+        Fold(lseg(None, None))
+        Fold(lseg(ptr, None))
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(result, tmp, ptr)
+    Unfold(lseg(ptr, None))
+    if head1 is not None:
+        ptr.next = head1
+    if head2 is not None:
+        ptr.next = head2
+    Fold(lseg(ptr, None))
+    join(result, ptr, None)
+    Unfold(lseg(result, None))
+    return result.next

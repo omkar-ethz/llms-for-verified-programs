@@ -1,0 +1,14 @@
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    Fold(lseg(sorted_rest, None))
+    Fold(lseg(head, None))
+    head.next = None
+    Fold(lseg(None, None))
+    Fold(lseg(head, None))
+    return insert_sorted(sorted_rest, head)

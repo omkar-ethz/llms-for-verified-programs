@@ -1,0 +1,1413 @@
+['min', 'sum', 'count', 'mirror', 'contains', 'inorder', 'subtree', 'insert', 'val_head', 'height', 'min_depth']
+
+verified = ['count', 'mirror', 'contains', 'inorder', 'subtree', 'insert', 'val_head', 'height', 'min_depth', 'min', 'sum']
+
+Running example: min ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node) and Result() == min_value(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node) and Result() == min_value(node))
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        Unfold(tree(node))
+        m = min_value(node.left)
+        Fold(tree(node))
+        return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        Unfold(tree(node))
+        m = min_value(node.left)
+        Fold(tree(node))
+        return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.left. (tmp.py@38.7)', 'Verification took 1.86 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.left. at line 4.7 
+
+
+Running example: min ; attempt: 1 ; error depth: 4
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        m = min_value(node.left)
+        return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of min_value might not hold. There might be insufficient permission to access tree(node). (tmp.py@37.12)', 'Verification took 1.80 seconds.']
+Verification result:
+ Verification failed: Postcondition of min_value might not hold. There might be insufficient permission to access tree(node). at line 3.12 
+
+
+Running example: min ; attempt: 1 ; error depth: 5
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() == min_value(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    else:
+        m = min_value(node.left)
+        Fold(tree(node))
+        return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@38.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 4.12 
+
+
+Running example: min ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() == min_value(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@38.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 4.12 
+
+
+Running example: min ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() == min_value(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@39.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 5.12 
+
+
+Running example: min ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() <= node.key)
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@39.12)', 'Verification took 1.84 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 5.12 
+
+
+Running example: min ; attempt: 2 ; error depth: 4
+Using temperature: 0.4
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() <= node.key)
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    m = min_value(node.left)
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@39.12)', 'Verification took 1.85 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 5.12 
+
+
+Running example: min ; attempt: 2 ; error depth: 5
+Using temperature: 0.4
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Implies(node.left is None, Result() == node.key))
+    Ensures(Implies(node.left is not None, Result() <= node.key))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.left. (tmp.py@39.12)', 'Verification took 2.39 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.left. at line 5.12 
+
+
+Running example: min ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(Result() == min_value(node))
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(Result() == min_value(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    m = min_value(node.left)
+    return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(Result() == min_value(node))
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        Unfold(tree(node))
+        m = min_value(node.left)
+        return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 3 ; error depth: 4
+Using temperature: 0.8
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(Result() == min_value(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        m = min_value(node.left)
+        Fold(tree(node.left))
+        return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 3 ; error depth: 5
+Using temperature: 0.8
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node) and Result() == min_value(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    else:
+        m = min_value(node.left)
+        return m
+=====================================
+response ['', 'Translation failed', 'Invalid program: purity.violated (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@37.12)']
+Verification result:
+ Translation failed: Invalid program: purity.violated at line 3.12 
+
+
+Running example: min ; attempt: 4 ; error depth: 1
+Using temperature: 1.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(Result() <= node.key)
+    """Returns the minimum value in the tree rooted at node"""
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@37.12)', 'Verification took 1.87 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 3.12 
+
+
+Running example: min ; attempt: 4 ; error depth: 2
+Using temperature: 1.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(Result() <= node.key and tree(node))
+    """Returns the minimum value in the tree rooted at node"""
+    if node.left is None:
+        m = node.key
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@37.12)', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 3.12 
+
+
+Running example: min ; attempt: 4 ; error depth: 3
+Using temperature: 1.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() <= node.key)
+    """Returns the minimum value in the tree rooted at node"""
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        Unfold(tree(node))
+        m = min_value(node.left)
+        Fold(tree(node))
+        return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@38.12)', 'Verification took 1.82 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 4.12 
+
+
+Running example: min ; attempt: 4 ; error depth: 4
+Using temperature: 1.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node) and Result() <= node.key)
+    """Returns the minimum value in the tree rooted at node"""
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    else:
+        m = min_value(node.left)
+        Fold(tree(node))
+        return m
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@37.12)', 'Verification took 1.82 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 3.12 
+
+
+Running example: min ; attempt: 4 ; error depth: 5
+Using temperature: 1.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() == node.key and node.left is None or Result() <= node.key and node.left is not None)
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        return m
+    else:
+        m = min_value(node.left)
+        return m
+Fold(tree(node))
+=====================================
+response ['', 'Translation failed', "Type error: Name 'node' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@46.0)"]
+Verification result:
+ Translation failed: Type error: Name 'node' is not defined at line 12.0 
+
+
+Running example: sum ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(Result() == Old(sum_tree(node)))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Translation failed', "Type error: Name 'sum_tree' is not defined (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@38.0)"]
+Verification result:
+ Translation failed: Type error: Name 'sum_tree' is not defined at line 4.0 
+
+
+Running example: sum ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@42.42)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 8.42 
+
+
+Running example: sum ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@38.12)', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 4.12 
+
+
+Running example: sum ; attempt: 1 ; error depth: 4
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@38.12)', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 4.12 
+
+
+Running example: sum ; attempt: 1 ; error depth: 5
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@39.12)', 'Verification took 2.68 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 5.12 
+
+
+Running example: sum ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@37.12)', 'Verification took 2.11 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 3.12 
+
+
+Running example: sum ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    Ensures(Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@38.12)', 'Verification took 2.06 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 4.12 
+
+
+Running example: sum ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@41.42)', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 7.42 
+
+
+Running example: sum ; attempt: 2 ; error depth: 4
+Using temperature: 0.4
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@41.42)', 'Verification took 2.61 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 7.42 
+
+
+Running example: sum ; attempt: 2 ; error depth: 5
+Using temperature: 0.4
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key
+    if node.left is not None:
+        Unfold(tree(node.left))
+        s += sum_nodes(node.left)
+        Fold(tree(node.left))
+    if node.right is not None:
+        Unfold(tree(node.right))
+        s += sum_nodes(node.right)
+        Fold(tree(node.right))
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@44.13)', 'Verification took 2.22 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 10.13 
+
+
+Running example: sum ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@44.4)', 'Verification took 2.11 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 10.4 
+
+
+Running example: sum ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = sum_nodes(node.left) if node.left is not None else 0
+    right_sum = sum_nodes(node.right) if node.right is not None else 0
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@46.4)', 'Verification took 2.05 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 12.4 
+
+
+Running example: sum ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0
+    if node.left is not None:
+        Unfold(tree(node.left))
+        left_sum = sum_nodes(node.left)
+        Fold(tree(node.left))
+    right_sum = 0
+    if node.right is not None:
+        Unfold(tree(node.right))
+        right_sum = sum_nodes(node.right)
+        Fold(tree(node.right))
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@45.19)', 'Verification took 2.22 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 11.19 
+
+
+Running example: sum ; attempt: 3 ; error depth: 4
+Using temperature: 0.8
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0
+    if node.left is not None:
+        left_sum = sum_nodes(node.left)
+    right_sum = 0
+    if node.right is not None:
+        right_sum = sum_nodes(node.right)
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@49.4)', 'Verification took 2.81 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 15.4 
+
+
+Running example: sum ; attempt: 3 ; error depth: 5
+Using temperature: 0.8
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0
+    if node.left is not None:
+        Unfold(tree(node.left))
+        left_sum = sum_nodes(node.left)
+    right_sum = 0
+    if node.right is not None:
+        Unfold(tree(node.right))
+        right_sum = sum_nodes(node.right)
+    s = node.key + left_sum + right_sum
+    if node.right is not None:
+        Fold(tree(node.right))
+    if node.left is not None:
+        Fold(tree(node.left))
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@45.19)', 'Verification took 2.16 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 11.19 
+
+
+Running example: sum ; attempt: 4 ; error depth: 1
+Using temperature: 1.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+
+    if node is None:
+        return 0
+    s = node.key
+    Unfold(tree(node))
+    s += sum_nodes(node.left)
+    s += sum_nodes(node.right)
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Assignment might fail. There might be insufficient permission to access node.key. (tmp.py@41.4)', 'Verification took 1.77 seconds.']
+Verification result:
+ Verification failed: Assignment might fail. There might be insufficient permission to access node.key. at line 7.4 
+
+
+Running example: sum ; attempt: 4 ; error depth: 2
+Using temperature: 1.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(Result() >= 0)
+
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key
+    s += sum_nodes(node.left)
+    s += sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.left). (tmp.py@45.4)', 'Verification took 2.26 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.left). at line 11.4 
+
+
+Running example: sum ; attempt: 4 ; error depth: 3
+Using temperature: 1.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(Result() >= 0 and tree(node))
+
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key
+    s += sum_nodes(node.left)
+    s += sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@37.12)', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 3.12 
+
+
+Running example: sum ; attempt: 4 ; error depth: 4
+Using temperature: 1.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(Result() >= 0 and tree(node))
+
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key
+    if node.left is not None:
+        Unfold(tree(node.left))
+    s += sum_nodes(node.left)
+    if node.right is not None:
+        Unfold(tree(node.right))
+    s += sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). (tmp.py@45.9)', 'Verification took 2.82 seconds.']
+Verification result:
+ Verification failed: The precondition of method sum_nodes might not hold. There might be insufficient permission to access tree(node). at line 11.9 
+
+
+Running example: sum ; attempt: 4 ; error depth: 5
+Using temperature: 1.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    Requires(tree(node))
+    Ensures(Result() >= 0 and tree(node))
+
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    s = node.key
+    s += sum_nodes(node.left)
+    s += sum_nodes(node.right)
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@37.12)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 3.12 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1 + count(node.left) + count(node.right)
+    Fold(tree(node))
+    return c
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method count might not hold. There might be insufficient permission to access tree(node). (tmp.py@42.31)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: The precondition of method count might not hold. There might be insufficient permission to access tree(node). at line 8.31 
+
+
+Running example: count ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1
+    if node.left is not None:
+        Unfold(tree(node.left))
+        c += count(node.left)
+        Fold(tree(node.left))
+    if node.right is not None:
+        Unfold(tree(node.right))
+        c += count(node.right)
+        Fold(tree(node.right))
+    Fold(tree(node))
+    return c
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method count might not hold. There might be insufficient permission to access tree(node). (tmp.py@45.13)', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification failed: The precondition of method count might not hold. There might be insufficient permission to access tree(node). at line 11.13 
+
+
+Running example: count ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    c = 1
+    if node.left is not None:
+        c += count(node.left)
+    if node.right is not None:
+        c += count(node.right)
+    Fold(tree(node))
+    return c
+=====================================
+response ['', 'Verification successful', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: mirror ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def mirror(root: Optional[TreeNode]) -> None:
+    """Mirrors the tree rooted at root"""
+    Requires(tree(root))
+    Ensures(tree(root))
+    if root is None:
+        return
+    Unfold(tree(root))
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    if root.left is not None:
+        mirror(root.left)
+    if root.right is not None:
+        mirror(root.right)
+    Fold(tree(root))
+=====================================
+response ['', 'Verification successful', 'Verification took 3.87 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(tree(node))
+    Ensures(tree(node) and (Result() == True) == Exists(TreeNode, node, tree(node) and node.key == key))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Translation failed', 'Type error: Too many arguments for "Exists" (/home/omkar/ethz/hs23/thesis/llms-for-verified-programs/final/tree_incremental_gpt4turbo/tmp.py@38.0)']
+Verification result:
+ Translation failed: Type error: Too many arguments for "Exists" at line 4.0 
+
+
+Running example: contains ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method contains might not hold. There might be insufficient permission to access tree(node). (tmp.py@48.17)', 'Verification took 2.10 seconds.']
+Verification result:
+ Verification failed: The precondition of method contains might not hold. There might be insufficient permission to access tree(node). at line 14.17 
+
+
+Running example: contains ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    result = False
+    if key < node.key and node.left is not None:
+        Unfold(tree(node.left))
+        result = contains(node.left, key)
+        Fold(tree(node.left))
+    elif node.right is not None:
+        Unfold(tree(node.right))
+        result = contains(node.right, key)
+        Fold(tree(node.right))
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method contains might not hold. There might be insufficient permission to access tree(node). (tmp.py@48.17)', 'Verification took 2.12 seconds.']
+Verification result:
+ Verification failed: The precondition of method contains might not hold. There might be insufficient permission to access tree(node). at line 14.17 
+
+
+Running example: contains ; attempt: 1 ; error depth: 4
+Using temperature: 0.0
+Generated program from GPT:
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    elif key < node.key:
+        if node.left is not None:
+            result = contains(node.left, key)
+        else:
+            Fold(tree(node))
+            return False
+    else:
+        if node.right is not None:
+            result = contains(node.right, key)
+        else:
+            Fold(tree(node))
+            return False
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: inorder ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return
+    Unfold(tree(node))
+    if node.left is not None:
+        inorder(node.left)
+    if node.right is not None:
+        inorder(node.right)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification successful', 'Verification took 2.49 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: subtree ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(tree(root))
+    Ensures(tree(root))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if root.key == key:
+        Fold(tree(root))
+        return root
+    elif key < root.key:
+        if root.left is not None:
+            result = subtree(root.left, key)
+        else:
+            Fold(tree(root))
+            return None
+    else:
+        if root.right is not None:
+            result = subtree(root.right, key)
+        else:
+            Fold(tree(root))
+            return None
+    Fold(tree(root))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.14 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+            Fold(tree(node.left))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+            Fold(tree(node.right))
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access n.key. (tmp.py@46.12)', 'Verification took 2.12 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access n.key. at line 12.12 
+
+
+Running example: insert ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+    if node.left is not None or node.right is not None:
+        Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@51.12)', 'Verification took 2.14 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 17.12 
+
+
+Running example: insert ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)
+    Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.4)', 'Verification took 2.05 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.4 
+
+
+Running example: insert ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access tree(n.right). (tmp.py@52.12)', 'Verification took 2.56 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access tree(n.right). at line 18.12 
+
+
+Running example: insert ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(new_node))
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(new_node))
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            Fold(tree(node))
+=====================================
+response ['', 'Verification successful', 'Verification took 2.25 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: val_head ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() == node.key)
+    Unfold(tree(node))
+    result = node.key
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.key. (tmp.py@38.12)', 'Verification took 1.85 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.key. at line 4.12 
+
+
+Running example: val_head ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    result = node.key
+    Fold(tree(node))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: height ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def height(node: Optional[TreeNode]) -> int:
+    """Returns the height of the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_height = 0 if node.left is None else height(node.left)
+    right_height = 0 if node.right is None else height(node.right)
+    h = 1 + max(left_height, right_height)
+    Fold(tree(node))
+    return h
+=====================================
+response ['', 'Verification successful', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min_depth ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    Requires(tree(root))
+    Ensures(tree(root) and Result() >= 0)
+    if root is None:
+        return 0
+    Unfold(tree(root))
+    if root.left is None and root.right is None:
+        Fold(tree(root))
+        return 1
+    if root.left is None:
+        d = 1 + min_depth(root.right)
+        Fold(tree(root))
+        return d
+    if root.right is None:
+        d = 1 + min_depth(root.left)
+        Fold(tree(root))
+        return d
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    Fold(tree(root))
+    return d
+=====================================
+response ['', 'Verification successful', 'Verification took 2.62 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: min ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if node.left is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m
+=====================================
+response ['', 'Verification successful', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: sum ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0 if node.left is None else sum_nodes(node.left)
+    right_sum = 0 if node.right is None else sum_nodes(node.right)
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@38.12)', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 4.12 
+
+
+Running example: sum ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node) and Result() >= 0)
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0 if node.left is None else sum_nodes(node.left)
+    right_sum = 0 if node.right is None else sum_nodes(node.right)
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. (tmp.py@38.12)', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification failed: Postcondition of sum_nodes might not hold. Assertion (Result() >= 0) might not hold. at line 4.12 
+
+
+Running example: sum ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    if node is None:
+        return 0
+    Unfold(tree(node))
+    left_sum = 0 if node.left is None else sum_nodes(node.left)
+    right_sum = 0 if node.right is None else sum_nodes(node.right)
+    s = node.key + left_sum + right_sum
+    Fold(tree(node))
+    return s
+=====================================
+response ['', 'Verification successful', 'Verification took 2.54 seconds.']
+Verification result:
+ Verification successful 
+
+

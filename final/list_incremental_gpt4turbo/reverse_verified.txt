@@ -1,0 +1,16 @@
+@ContractOnly
+def reverseList(head: Node) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if head.next is None:
+        return head
+    prev = None # type: Optional[Node]
+    ptr = head # type: Optional[Node]
+    while ptr != None:
+        Invariant(Acc(ptr.val) and Acc(ptr.next) and is_list(ptr))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    return prev

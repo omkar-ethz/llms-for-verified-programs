@@ -1,0 +1,14 @@
+def min_depth(root: Optional[TreeNode]) -> int:
+    """Returns the number of nodes along the shortest path from the root node down to the nearest leaf node."""
+    if root is None:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+    if root.left is None:
+        d = 1 + min_depth(root.right)
+        return d
+    if root.right is None:
+        d = 1 + min_depth(root.left)
+        return d
+    d = 1 + min(min_depth(root.left), min_depth(root.right))
+    return d

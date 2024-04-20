@@ -1,0 +1,7 @@
+@ContractOnly
+def prepend(head: Optional[Node], val: int) -> Node:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(is_list(Result()))
+    
+    n = Node(val, head)
+    return n

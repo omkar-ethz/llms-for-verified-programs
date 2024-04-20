@@ -1,0 +1,23 @@
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+            Fold(tree(new_node))
+            Fold(tree(node))
+        else:
+            insert(node.left, key)
+            Fold(tree(node))
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+            Fold(tree(new_node))
+            Fold(tree(node))
+        else:
+            insert(node.right, key)
+            Fold(tree(node))

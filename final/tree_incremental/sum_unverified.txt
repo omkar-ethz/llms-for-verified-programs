@@ -1,0 +1,6 @@
+def sum_nodes(node: Optional[TreeNode]) -> int:
+    """Returns the sum of the keys in the tree rooted at node"""
+    if node is None:
+        return 0
+    s = node.key + sum_nodes(node.left) + sum_nodes(node.right)
+    return s

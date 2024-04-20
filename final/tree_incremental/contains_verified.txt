@@ -1,0 +1,16 @@
+def contains(node: Optional[TreeNode], key: int) -> bool:
+    """Returns whether the tree rooted at node contains the given key"""
+    Requires(Implies(node is not None, tree(node)))
+    Ensures(Implies(node is not None, tree(node)))
+    if node is None:
+        return False
+    Unfold(tree(node))
+    if node.key == key:
+        Fold(tree(node))
+        return True
+    if key < node.key:
+        result = contains(node.left, key)
+    else:
+        result = contains(node.right, key)
+    Fold(tree(node))
+    return result

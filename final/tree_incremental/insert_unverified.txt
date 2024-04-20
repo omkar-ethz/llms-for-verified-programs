@@ -1,0 +1,14 @@
+def insert(node: TreeNode, key: int) -> None:
+    """Insert a node with given key into a binary tree."""
+    if key < node.key:
+        if node.left is None:
+            new_node = TreeNode(key)
+            node.left = new_node
+        else:
+            insert(node.left, key)
+    else:
+        if node.right is None:
+            new_node = TreeNode(key)
+            node.right = new_node
+        else:
+            insert(node.right, key)

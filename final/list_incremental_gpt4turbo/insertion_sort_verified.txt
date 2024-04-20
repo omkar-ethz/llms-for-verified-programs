@@ -1,0 +1,12 @@
+@ContractOnly
+def insertion_sort(head: Node) -> Node:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(is_list(Result()))
+    
+    if head.next is None:
+        return head
+    sorted_rest = insertion_sort(head.next)
+    node_to_insert = head
+    node_to_insert.next = None
+    head = insert_sorted(node_to_insert, sorted_rest)
+    return head

@@ -1,0 +1,11 @@
+@ContractOnly
+def insert(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    head.next = insert(head.next, val, pos - 1)
+    return head

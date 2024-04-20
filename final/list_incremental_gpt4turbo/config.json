@@ -1,0 +1,84 @@
+{
+    "system_prompt": "system_prompt_multi_round.txt",
+    "verif_result_cache": "verif_result.json",
+    "list": {
+        "declaration": "list.py.txt",
+        "examples": {
+            "prepend": {
+                "unverified": "prepend_unverified.txt",
+                "verified": "prepend_verified.txt"
+            },
+            "join_lists": {
+                "unverified": "join_lists_unverified.txt",
+                "verified": "join_lists_verified.txt"
+            },
+            "contains": {
+                "unverified": "contains_unverified.txt",
+                "verified": "contains_verified.txt"
+            },
+            "merge": {
+                "unverified": "merge_unverified.txt",
+                "verified": "merge_verified.txt"
+            },
+            "append": {
+                "unverified": "append_unverified.txt",
+                "verified": "append_verified.txt"
+            },
+            "insert_sorted": {
+                "unverified": "insert_sorted_unverified.txt",
+                "verified": "insert_sorted_verified.txt"
+            },
+            "remove": {
+                "unverified": "remove_unverified.txt",
+                "verified": "remove_verified.txt"
+            },
+            "remove_first": {
+                "unverified": "remove_first_unverified.txt",
+                "verified": "remove_first_verified.txt"
+            },
+            "remove_last": {
+                "unverified": "remove_last_unverified.txt",
+                "verified": "remove_last_verified.txt"
+            },
+            "index_of": {
+                "unverified": "index_of_unverified.txt",
+                "verified": "index_of_verified.txt"
+            },
+            "insert": {
+                "dependencies": ["prepend"],
+                "unverified": "insert_unverified.txt",
+                "verified": "insert_verified.txt"
+            },
+            "drop": {
+                "unverified": "drop_unverified.txt",
+                "verified": "drop_verified.txt"
+            },
+            "drop_iter": {
+                "unverified": "drop_iter_unverified.txt",
+                "verified": "drop_iter_verified.txt"
+            },
+            "reverse": {
+                "unverified": "reverse_unverified.txt",
+                "verified": "reverse_verified.txt"
+            },
+            "insertion_sort": {
+                "dependencies": ["insert_sorted"],
+                "unverified": "insertion_sort_unverified.txt",
+                "verified": "insertion_sort_verified.txt"
+            },
+            "count": {
+                "unverified": "count_unverified.txt",
+                "verified": "count_verified.txt"
+            },
+            "split": {
+                "unverified": "split_unverified.txt",
+                "verified": "split_verified.txt"
+            },
+            "merge_sort": {
+                "dependencies": ["count", "split", "merge"],
+                "unverified": "merge_sort_unverified.txt",
+                "verified": "merge_sort_verified.txt"
+            }
+        }
+    }
+}

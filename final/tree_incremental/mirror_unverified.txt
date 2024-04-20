@@ -1,0 +1,9 @@
+def mirror(root: Optional[TreeNode]) -> None:
+    """Mirrors the tree rooted at root"""
+    if root is None:
+        return
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    mirror(root.left)
+    mirror(root.right)

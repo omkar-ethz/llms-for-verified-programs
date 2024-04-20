@@ -1,0 +1,8 @@
+def contains(head: Node, val: int) -> bool:
+    """Returns True if the list contains the given value."""
+    if head.val == val:
+        return True
+    if head.next is None:
+        return False
+    result = contains(head.next, val)
+    return result

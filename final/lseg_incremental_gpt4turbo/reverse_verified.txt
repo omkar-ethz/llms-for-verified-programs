@@ -1,0 +1,24 @@
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None) and Acc(head.next))
+    Ensures(lseg(Result(), None))
+    if head.next is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    # Initially, we know head is not None, so we unfold lseg(head, None) once
+    Unfold(lseg(head, None))
+    while ptr is not None:
+        tmp = ptr.next
+        ptr.next = prev
+        # After we move 'prev' to 'ptr', we need to fold the segment from 'prev' back
+        if prev is not None:
+            Fold(lseg(prev, None))
+        prev = ptr
+        ptr = tmp
+        # As we advance 'ptr', unfold the segment starting from 'ptr'
+        if ptr is not None:
+            Unfold(lseg(ptr, None))
+    # Finally, we fold the segment to satisfy the postcondition
+    Fold(lseg(prev, None))
+    return prev

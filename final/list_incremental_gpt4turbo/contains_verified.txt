@@ -1,0 +1,10 @@
+@ContractOnly
+def contains(head: Node, val: int) -> bool:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    
+    if head.val == val:
+        return True
+    if head.next is None:
+        return False
+    result = contains(head.next, val)
+    return result

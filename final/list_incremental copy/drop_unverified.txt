@@ -1,0 +1,9 @@
+def drop(head: Optional[Node], val: int) -> Optional[Node]:
+    """Drops nodes until val is found and returns the list starting at val node, or None if not found.
+    Permissions to the list until val node are leaked."""
+    if head is None:
+        return None
+    if head.val == val:
+        return head
+    result = drop(head.next, val)
+    return result

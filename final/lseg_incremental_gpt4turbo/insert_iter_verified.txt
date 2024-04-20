@@ -1,0 +1,29 @@
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        pos -= 1
+    if ptr is None:
+        return head
+    Unfold(lseg(ptr, None))
+    n = Node(val, ptr.next)
+    Fold(lseg(n, None))
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head

@@ -1,0 +1,6 @@
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    if head is None:
+        return 0
+    cnt = 1 + count(head.next)
+    return cnt

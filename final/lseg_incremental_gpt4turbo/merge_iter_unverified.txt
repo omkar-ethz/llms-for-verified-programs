@@ -1,0 +1,25 @@
+def merge_iter(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    result = Node(0) # type: Node
+    ptr = result # type: Node
+    while head1 is not None and head2 is not None:
+        tmp = ptr
+        if head1.val < head2.val:
+            ptr.next = head1
+            head1 = head1.next
+        else:
+            ptr.next = head2
+            head2 = head2.next
+        ptr = ptr.next
+        ptr.next = None
+        join(result, tmp, ptr)
+    if head1 is not None:
+        ptr.next = head1
+    if head2 is not None:
+        ptr.next = head2
+    join(result, ptr, None)
+    return result.next

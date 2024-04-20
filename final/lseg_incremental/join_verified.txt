@@ -1,0 +1,11 @@
+def join(a: Optional[Node], b: Optional[Node], c: Optional[Node]) -> None:
+    """Join two list segments."""
+    Requires(lseg(a, b) and lseg(b, c))
+    Ensures(lseg(a, c))
+    if b is c:
+        return
+    if a is b:
+        return
+    Unfold(lseg(a, b))
+    join(a.next, b, c)
+    Fold(lseg(a, c))

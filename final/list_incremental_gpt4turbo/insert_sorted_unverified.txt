@@ -1,0 +1,9 @@
+def insert_sorted(node: Node, head: Optional[Node]) -> Node:
+    """Inserts the given node (given as a singleton list) into the sorted list."""
+    if head is None:
+        return node
+    if node.val < Unfolding(is_list(head), head.val):
+        node.next = head
+        return node
+    head.next = insert_sorted(node, head.next)
+    return head

@@ -1,0 +1,10 @@
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(Implies(head is not None, is_list(head)))
+    Ensures(Implies(head is not None, is_list(head)))
+    if head is None:
+        return 0
+    Unfold(is_list(head))
+    cnt = 1 + count(head.next)
+    Fold(is_list(head))
+    return cnt

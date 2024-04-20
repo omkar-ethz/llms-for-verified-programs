@@ -1,0 +1,1831 @@
+Running example: join ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def join(a: Optional[Node], b: Optional[Node], c: Optional[Node]) -> None:
+    """Join two list segments."""
+    Requires(lseg(a, b) and lseg(b, c))
+    Ensures(lseg(a, c))
+    if b is c:
+        return
+    if a is b:
+        return
+    Unfold(lseg(a, b))
+    join(a.next, b, c)
+    Fold(lseg(a, c))
+=====================================
+response ['', 'Verification successful', 'Verification took 3.88 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: prepend ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def prepend(head: Optional[Node], val: int) -> Node:
+    """Prepend a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val, head)
+    Fold(lseg(n, None))
+    return n
+=====================================
+response ['', 'Verification successful', 'Verification took 2.36 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove_first ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def remove_first(first: Node, last: Node) -> Optional[Node]:
+    """Remove the first node from the list."""
+    Requires(lseg(first, last))
+    Ensures(lseg(Result(), last))
+    if first is last:
+        return last
+    Unfold(lseg(first, last))
+    rest = first.next
+    Fold(lseg(rest, last))
+    return rest
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access Acc(first.val). (tmp.py@26.4)', 'Verification took 2.08 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access Acc(first.val). at line 9.4 
+
+
+Running example: remove_first ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def remove_first(first: Node, last: Node) -> Optional[Node]:
+    """Remove the first node from the list."""
+    Requires(lseg(first, last))
+    Ensures(lseg(Result(), last))
+    if first is last:
+        Fold(lseg(last, last))
+        return last
+    Unfold(lseg(first, last))
+    rest = first.next
+    return rest
+=====================================
+response ['', 'Verification successful', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: remove_last ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def remove_last(first: Optional[Node], last: Node) -> Optional[Node]:
+    """Remove the last node from the list and returns the new last"""
+    Requires(lseg(first, last))
+    Ensures(lseg(Result(), last))
+    if first is None:
+        return last
+    if first is last:
+        return last
+    Unfold(lseg(first, last))
+    if first.next is last:
+        return first
+    rest = remove_last(first.next, last)
+    return rest
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of remove_last might not hold. There might be insufficient permission to access lseg(Result(), last). (tmp.py@21.12)', 'Verification took 1.86 seconds.']
+Verification result:
+ Verification failed: Postcondition of remove_last might not hold. There might be insufficient permission to access lseg(Result(), last). at line 4.12 
+
+
+Running example: remove_last ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def remove_last(first: Optional[Node], last: Node) -> Optional[Node]:
+    """Remove the last node from the list and returns the new last"""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, Result()))
+    if first is None:
+        return last
+    if first is last:
+        return last
+    Unfold(lseg(first, last))
+    if first.next is last:
+        Fold(lseg(first, first))
+        return first
+    rest = remove_last(first.next, last)
+    Fold(lseg(first, rest))
+    return rest
+=====================================
+response ['', 'Verification successful', 'Verification took 2.38 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: contains ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def contains(first: Optional[Node], last: Optional[Node], val: int) -> bool:
+    """Check if the list contains a node with value val."""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, last))
+    if first is None:
+        return False
+    if first is last:
+        return False
+    if Unfolding(lseg(first, last), first.val) == val:
+        return True
+    Unfold(lseg(first, last))
+    result = contains(first.next, last, val)
+    Fold(lseg(first, last))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.98 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: contains_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def contains_iter(first: Node, last: Optional[Node], val: int) -> bool:
+    """Check if the list contains a node with value val."""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, last))
+    ptr = first  # type: Optional[Node]
+    Fold(lseg(first, ptr))
+    result = False
+    while ptr is not None and ptr is not last:
+        Invariant(lseg(first, ptr))
+        Invariant(lseg(ptr, last))
+        if Unfolding(lseg(ptr, last), ptr.val) == val:
+            result = True
+            break
+        Unfold(lseg(ptr, last))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(first, tmp, ptr)
+    join(first, ptr, last)
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 2.26 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insert(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    Unfold(lseg(head, None))
+    head.next = insert(head.next, val, pos - 1)
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 2.11 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insert_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        pos -= 1
+    if ptr is None:
+        return head
+    Unfold(lseg(ptr, None))
+    n = Node(val, ptr.next)
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@63.4)', 'Verification took 2.77 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 26.4 
+
+
+Running example: insert_iter ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        pos -= 1
+    if ptr is None:
+        return head
+    Unfold(lseg(ptr, None))
+    n = Node(val, ptr.next)
+    ptr.next = n
+    Fold(lseg(ptr, n))
+    Fold(lseg(n, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@54.8)', 'Verification took 2.12 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 17.8 
+
+
+Running example: insert_iter ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    prev = None  # type: Optional[Node]
+    while pos > 0 and ptr is not None:
+        prev = ptr
+        ptr = ptr.next
+        pos -= 1
+    if prev is None:
+        n = Node(val, head)
+        Fold(lseg(n, None))
+        return n
+    else:
+        n = Node(val, ptr)
+        prev.next = n
+        if ptr is not None:
+            Fold(lseg(n, ptr))
+        else:
+            Fold(lseg(n, None))
+        if head is not None:
+            Fold(lseg(head, n))
+        return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Assignment might fail. There might be insufficient permission to access ptr.next. (tmp.py@50.8)', 'Verification took 2.13 seconds.']
+Verification result:
+ Verification failed: Assignment might fail. There might be insufficient permission to access ptr.next. at line 13.8 
+
+
+Running example: insert_iter ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        n = Node(val, head)
+        Fold(lseg(n, None))
+        return n
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        pos -= 1
+    if ptr is None:
+        return head
+    Unfold(lseg(ptr, None))
+    n = Node(val, ptr.next)
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@66.4)', 'Verification took 2.23 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 29.4 
+
+
+Running example: insert_iter ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        n = Node(val, head)
+        Fold(lseg(n, None))
+        return n
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    ptr = head  # type: Optional[Node]
+    prev = None  # type: Optional[Node]
+    while pos > 0 and ptr is not None:
+        pos -= 1
+        prev = ptr
+        ptr = ptr.next
+        if pos > 0 or ptr is None:
+            Unfold(lseg(prev, None))
+    if ptr is not None and prev is not None:
+        n = Node(val, ptr)
+        prev.next = n
+        Fold(lseg(head, None))
+    elif prev is not None:
+        n = Node(val, None)
+        prev.next = n
+        Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Assignment might fail. There might be insufficient permission to access ptr.next. (tmp.py@54.8)', 'Verification took 2.05 seconds.']
+Verification result:
+ Verification failed: Assignment might fail. There might be insufficient permission to access ptr.next. at line 17.8 
+
+
+Running example: insert_iter ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        n = Node(val, head)
+        Fold(lseg(n, None))
+        return n
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    ptr = head  # type: Optional[Node]
+    prev = None  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 0 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        pos -= 1
+        prev = ptr
+        Unfold(lseg(ptr, None))
+        ptr = ptr.next
+        if ptr is not None or pos > 0:
+            Fold(lseg(prev, ptr))
+    if prev is not None:
+        n = Node(val, ptr)
+        prev.next = n
+        if ptr is None:
+            Fold(lseg(n, None))
+        else:
+            Fold(lseg(prev, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@60.12)', 'Verification took 2.75 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 23.12 
+
+
+Running example: insert_iter ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        pos -= 1
+    if ptr is None:
+        return head
+    Unfold(lseg(ptr, None))
+    n = Node(val, ptr.next)
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@63.4)', 'Verification took 2.30 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 26.4 
+
+
+Running example: insert_iter ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    prev = None  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while pos > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(Implies(prev is not None, lseg(prev, ptr)))
+        prev = ptr
+        Unfold(lseg(ptr, None))
+        ptr = ptr.next
+        if prev is not None:
+            Fold(lseg(prev, ptr))
+    if ptr is not None and prev is not None:
+        Unfold(lseg(prev, ptr))
+        n = Node(val)
+        n.next = ptr
+        prev.next = n
+        Fold(lseg(head, n))
+        Fold(lseg(n, None))
+    elif prev is None and ptr is not None: # Position 1 with head not None
+        n = Node(val, head)
+        Fold(lseg(n, None))
+        return n
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access lseg(ptr, None). (tmp.py@53.8)', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access lseg(ptr, None). at line 16.8 
+
+
+Running example: insert_iter ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head  # type: Optional[Node]
+    prev = None  # type: Optional[Node]
+    while pos > 0 and ptr is not None:
+        pos -= 1
+        if pos == 0:
+            n = Node(val, ptr)
+            if prev is not None:
+                prev.next = n
+            else:  # inserting at head
+                head = n
+            break
+        prev = ptr
+        ptr = ptr.next
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Assignment might fail. There might be insufficient permission to access prev.next. (tmp.py@53.16)', 'Verification took 2.08 seconds.']
+Verification result:
+ Verification failed: Assignment might fail. There might be insufficient permission to access prev.next. at line 16.16 
+
+
+Running example: append ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def append(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        n = Node(val)
+        Fold(lseg(n, None))
+        return n
+    Unfold(lseg(head, None))
+    head.next = append(head.next, val)
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: append_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    Fold(lseg(n, None))
+    if head is None:
+        return n
+    ptr = head  # type: Node
+    Fold(lseg(head, ptr))
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+    Unfold(lseg(ptr, None))
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@35.4)', 'Verification took 2.57 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 6.4 
+
+
+Running example: append_iter ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    if head is None:
+        Fold(lseg(n, None))
+        return n
+    ptr = head  # type: Node
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr.next))
+        Invariant(lseg(ptr.next, None))
+        ptr = ptr.next
+    ptr.next = n
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access ptr.next. (tmp.py@40.18)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access ptr.next. at line 11.18 
+
+
+Running example: append_iter ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    if head is None:
+        Fold(lseg(n, None))
+        return n
+    ptr = head  # type: Node
+    while True:
+        Invariant(lseg(head, ptr))
+        Invariant(Acc(ptr.val) and Acc(ptr.next))
+        if ptr.next is None:
+            break
+        ptr = ptr.next
+    ptr.next = n
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(head, ptr). (tmp.py@40.18)', 'Verification took 1.97 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(head, ptr). at line 11.18 
+
+
+Running example: append_iter ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    Fold(lseg(n, None))
+    if head is None:
+        return n
+    ptr = head  # type: Node
+    Fold(lseg(head, ptr))
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+    Unfold(lseg(ptr, None))
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@35.4)', 'Verification took 1.74 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 6.4 
+
+
+Running example: append_iter ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    if head is None:
+        Fold(lseg(n, None))
+        return n
+    ptr = head  # type: Node
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr.next))
+        ptr = ptr.next
+    ptr.next = n
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access ptr.next. (tmp.py@40.18)', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access ptr.next. at line 11.18 
+
+
+Running example: append_iter ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    if head is None:
+        Fold(lseg(n, None))
+        return n
+    ptr = head  # type: Node
+    while True:
+        Invariant(lseg(head, ptr) and Acc(ptr.next))
+        if ptr.next is None:
+            break
+        ptr = ptr.next
+    ptr.next = n
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(head, ptr). (tmp.py@40.18)', 'Verification took 2.58 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(head, ptr). at line 11.18 
+
+
+Running example: append_iter ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    n = Node(val)
+    Fold(lseg(n, None))
+    if head is None:
+        return n
+    ptr = head  # type: Node
+    Fold(lseg(head, ptr))
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+    Unfold(lseg(ptr, None))
+    ptr.next = n
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@35.4)', 'Verification took 1.99 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 6.4 
+
+
+Running example: append_iter ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, Result()))
+    n = Node(val)
+    if head is None:
+        Fold(lseg(n, None))
+        return n
+    ptr = head  # type: Node
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr.next))
+        ptr = ptr.next
+    ptr.next = n
+    Fold(lseg(head, n))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of append_iter might not hold. There might be insufficient permission to access lseg(head, Result()). (tmp.py@33.12)', 'Verification took 1.86 seconds.']
+Verification result:
+ Verification failed: Postcondition of append_iter might not hold. There might be insufficient permission to access lseg(head, Result()). at line 4.12 
+
+
+Running example: append_iter ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def append_iter(head: Optional[Node], val: int) -> Node:
+    """Append a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val)
+    if head is None:
+        Fold(lseg(n, None))
+        return n
+    ptr = head  # type: Node
+    while ptr.next is not None:
+        Invariant(lseg(head, ptr) and Acc(ptr.next))
+        ptr = ptr.next
+    ptr.next = n
+    Fold(lseg(head, n))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(head, ptr). (tmp.py@40.18)', 'Verification took 1.83 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(head, ptr). at line 11.18 
+
+
+Running example: index_of ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def index_of(first: Node, last: Optional[Node], val: int) -> int:
+    """Return the index of the first occurrence of val in the list or -1 if not found"""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, last))
+    ptr = first  # type: Optional[Node]
+    index = 0
+    Fold(lseg(first, ptr))
+    while ptr is not None and ptr is not last:
+        Invariant(lseg(first, ptr))
+        Invariant(lseg(ptr, last))
+        if Unfolding(lseg(ptr, last), ptr.val) == val:
+            join(first, ptr, last)
+            return index
+        Unfold(lseg(ptr, last))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(first, tmp, ptr)
+        index += 1
+    join(first, ptr, last)
+    return -1
+=====================================
+response ['', 'Verification successful', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, head))
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while ptr is not None:
+        Invariant(lseg(prev, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        Fold(lseg(prev, prev))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). (tmp.py@29.18)', 'Verification took 2.43 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). at line 12.18 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, head))
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while ptr is not None:
+        Invariant(lseg(prev, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        if prev is not None:
+            Fold(lseg(prev, None))
+    Fold(lseg(None, None))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). (tmp.py@29.18)', 'Verification took 1.93 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). at line 12.18 
+
+
+Running example: reverse ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr is not None:
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        if prev is not None:
+            Fold(lseg(prev, None))
+    Fold(lseg(None, None))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access lseg(ptr, None). (tmp.py@25.8)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access lseg(ptr, None). at line 8.8 
+
+
+Running example: reverse ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, head))
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while ptr is not None:
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        Fold(lseg(prev, prev))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Postcondition of reverse might not hold. There might be insufficient permission to access lseg(Result(), None). (tmp.py@21.12)', 'Verification took 1.83 seconds.']
+Verification result:
+ Verification failed: Postcondition of reverse might not hold. There might be insufficient permission to access lseg(Result(), None). at line 4.12 
+
+
+Running example: reverse ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr is not None:
+        Invariant(lseg(prev, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+    Fold(lseg(prev, None))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). (tmp.py@25.18)', 'Verification took 2.32 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). at line 8.18 
+
+
+Running example: reverse ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr is not None:
+        Invariant(lseg(prev, None) and lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        if ptr is not None:
+            Unfold(lseg(ptr, None))
+    Fold(lseg(prev, None))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). (tmp.py@25.18)', 'Verification took 1.87 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(prev, None). at line 8.18 
+
+
+Running example: reverse ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, head))  # Since the list now only contains head, it's both the start and end of the segment.
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Unfold(lseg(head, None))
+    while ptr is not None:
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        if ptr is not None:
+            Fold(lseg(ptr, ptr))  # Prepare for the next iteration where ptr is the current node.
+    Fold(lseg(prev, None))  # After the loop, prev points to the new head of the reversed list.
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Assignment might fail. There might be insufficient permission to access ptr.next. (tmp.py@29.8)', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification failed: Assignment might fail. There might be insufficient permission to access ptr.next. at line 12.8 
+
+
+Running example: reverse ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    while ptr is not None:
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        if prev is not None:
+            Fold(lseg(prev, prev))
+    Fold(lseg(prev, None))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Unfold might fail. There might be insufficient permission to access lseg(ptr, None). (tmp.py@25.8)', 'Verification took 1.78 seconds.']
+Verification result:
+ Verification failed: Unfold might fail. There might be insufficient permission to access lseg(ptr, None). at line 8.8 
+
+
+Running example: reverse ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))  # Ensure we start with the permissions for the whole list
+    while ptr is not None:
+        Invariant(lseg(head, prev))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        if prev is not None:
+            Fold(lseg(head, ptr))
+        prev = ptr
+        ptr = tmp
+        if ptr is not None:
+            Fold(lseg(ptr, ptr))  # Prepare for the next iteration.
+    Fold(lseg(prev, None))
+    return prev
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(ptr, None). (tmp.py@27.18)', 'Verification took 1.88 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(ptr, None). at line 10.18 
+
+
+Running example: insert_sorted ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insert_sorted(head: Optional[Node], node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    Requires(lseg(head, None) and lseg(node, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        Fold(lseg(node, None))
+        return node
+    if Unfolding(lseg(node, None), node.val) < Unfolding(lseg(head, None), head.val):
+        Unfold(lseg(node, None))
+        node.next = head
+        Fold(lseg(node, None))
+        return node
+    Unfold(lseg(head, None))
+    head.next = insert_sorted(head.next, node)
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access Acc(first.val). (tmp.py@23.8)', 'Verification took 2.46 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access Acc(first.val). at line 6.8 
+
+
+Running example: insert_sorted ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insert_sorted(head: Optional[Node], node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    Requires(lseg(head, None) and lseg(node, node.next))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        Fold(lseg(node, node.next))
+        return node
+    if Unfolding(lseg(node, node.next), node.val) < Unfolding(lseg(head, None), head.val):
+        node.next = head
+        Fold(lseg(node, None))
+        return node
+    Unfold(lseg(head, None))
+    head.next = insert_sorted(head.next, node)
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access node.next. (tmp.py@20.13)', 'Verification took 1.91 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access node.next. at line 3.13 
+
+
+Running example: insert_sorted ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insert_sorted(head: Optional[Node], node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    Requires(lseg(head, None) and lseg(node, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        return node
+    if node.val < head.val:
+        node.next = head
+        return node
+    head.next = insert_sorted(head.next, node)
+    return head
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access node.val. (tmp.py@24.7)', 'Verification took 1.85 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access node.val. at line 7.7 
+
+
+Running example: insert_sorted ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insert_sorted(head: Optional[Node], node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    Requires(lseg(head, None) and lseg(node, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        return node
+    if Unfolding(lseg(node, None), node.val) < Unfolding(lseg(head, None), head.val):
+        Unfold(lseg(node, None))
+        node.next = head
+        Fold(lseg(node, None))
+        return node
+    Unfold(lseg(head, None))
+    head.next = insert_sorted(head.next, node)
+    Fold(lseg(head, None))
+    return head
+=====================================
+response ['', 'Verification successful', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insertion_sort ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(lseg(None, None))
+    return insert_sorted(sorted_rest, head)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method insert_sorted might not hold. There might be insufficient permission to access lseg(node, None). (tmp.py@45.11)', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification failed: The precondition of method insert_sorted might not hold. There might be insufficient permission to access lseg(node, None). at line 11.11 
+
+
+Running example: insertion_sort ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, None))
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(lseg(head, None))
+    Fold(lseg(None, None))
+    return insert_sorted(sorted_rest, head)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access Acc(first.val). (tmp.py@40.8)', 'Verification took 2.63 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access Acc(first.val). at line 6.8 
+
+
+Running example: insertion_sort ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(lseg(head, head))
+    return insert_sorted(sorted_rest, head)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method insert_sorted might not hold. There might be insufficient permission to access lseg(node, None). (tmp.py@45.11)', 'Verification took 2.18 seconds.']
+Verification result:
+ Verification failed: The precondition of method insert_sorted might not hold. There might be insufficient permission to access lseg(node, None). at line 11.11 
+
+
+Running example: insertion_sort ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(lseg(None, None))
+    return insert_sorted(sorted_rest, head)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method insert_sorted might not hold. There might be insufficient permission to access lseg(node, None). (tmp.py@45.11)', 'Verification took 2.09 seconds.']
+Verification result:
+ Verification failed: The precondition of method insert_sorted might not hold. There might be insufficient permission to access lseg(node, None). at line 11.11 
+
+
+Running example: insertion_sort ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, None))
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(lseg(head, head))
+    return insert_sorted(sorted_rest, head)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access Acc(first.val). (tmp.py@40.8)', 'Verification took 1.92 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access Acc(first.val). at line 6.8 
+
+
+Running example: insertion_sort ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def insertion_sort(head: Node) -> Node:
+    """Sort the list using insertion sort and return the new head"""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    Unfold(lseg(head, None))
+    sorted_rest = insertion_sort(head.next)
+    head.next = None
+    Fold(lseg(None, None))
+    Fold(lseg(head, None))
+    return insert_sorted(sorted_rest, head)
+=====================================
+response ['', 'Verification successful', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: insertion_sort_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(head, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, None))
+    while ptr is not None:
+        Invariant(lseg(sorted_prefix, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(None, None))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@43.4)', 'Verification took 3.55 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 9.4 
+
+
+Running example: insertion_sort_iter ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(head, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, sorted_prefix))
+    while ptr is not None:
+        Invariant(lseg(sorted_prefix, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(tmp, tmp))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(sorted_prefix, None). (tmp.py@45.18)', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(sorted_prefix, None). at line 11.18 
+
+
+Running example: insertion_sort_iter ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(head, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, None))
+    while ptr is not None:
+        Invariant(lseg(sorted_prefix, None) and lseg(ptr, None))
+        tmp = ptr
+        Unfold(lseg(ptr, None))
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(tmp, tmp))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@43.4)', 'Verification took 2.04 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 9.4 
+
+
+Running example: insertion_sort_iter ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(sorted_prefix, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, None))
+    Fold(lseg(None, None))
+    while ptr is not None:
+        Invariant(lseg(sorted_prefix, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(tmp, None))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@43.4)', 'Verification took 2.05 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 9.4 
+
+
+Running example: insertion_sort_iter ; attempt: 2 ; error depth: 2
+Using temperature: 0.4
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(head, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, sorted_prefix))
+    while ptr is not None:
+        Invariant(lseg(sorted_prefix, None) and lseg(ptr, None))
+        tmp_next = ptr.next  # Save next pointer
+        ptr.next = None  # Isolate current node
+        sorted_prefix = insert_sorted(sorted_prefix, ptr)
+        ptr = tmp_next  # Move to next node
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(sorted_prefix, None). (tmp.py@45.18)', 'Verification took 1.96 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(sorted_prefix, None). at line 11.18 
+
+
+Running example: insertion_sort_iter ; attempt: 2 ; error depth: 3
+Using temperature: 0.4
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head.next is None:
+        return head  # List is already sorted if it has only one element.
+    sorted_prefix = None  # Start with an empty sorted prefix.
+    ptr = head  # Iterate over the original list.
+
+    while ptr is not None:
+        current = ptr
+        ptr = ptr.next  # Move to the next node for the next iteration.
+        current.next = None  # Isolate the current node.
+        if sorted_prefix is None or current.val < sorted_prefix.val:
+            # Insert at the beginning of the sorted prefix.
+            current.next = sorted_prefix
+            sorted_prefix = current
+        else:
+            # Find the correct position in the sorted prefix.
+            spot = sorted_prefix
+            while spot.next is not None and spot.next.val < current.val:
+                spot = spot.next
+            current.next = spot.next
+            spot.next = current
+
+    return sorted_prefix
+=====================================
+response ['Runtime Error']
+Verification result:
+ Unknown Error from Nagini: possibly malformed contract or program 
+
+
+Running example: insertion_sort_iter ; attempt: 3 ; error depth: 1
+Using temperature: 0.8
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(sorted_prefix, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, None))
+    Fold(lseg(None, None))
+    while ptr is not None:
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(tmp, None))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access lseg(first.next, last). (tmp.py@43.4)', 'Verification took 2.00 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access lseg(first.next, last). at line 9.4 
+
+
+Running example: insertion_sort_iter ; attempt: 3 ; error depth: 2
+Using temperature: 0.8
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(head, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, sorted_prefix))
+    while ptr is not None:
+        Invariant(lseg(head, sorted_prefix) and lseg(sorted_prefix, None) and lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(tmp, tmp))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+        Fold(lseg(head, sorted_prefix))
+    Fold(lseg(sorted_prefix, None))
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Loop invariant might not hold on entry. There might be insufficient permission to access lseg(sorted_prefix, None). (tmp.py@45.18)', 'Verification took 1.95 seconds.']
+Verification result:
+ Verification failed: Loop invariant might not hold on entry. There might be insufficient permission to access lseg(sorted_prefix, None). at line 11.18 
+
+
+Running example: insertion_sort_iter ; attempt: 3 ; error depth: 3
+Using temperature: 0.8
+Generated program from GPT:
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(head, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(sorted_prefix, sorted_prefix))
+    while ptr is not None:
+        Invariant(lseg(head, sorted_prefix))
+        Invariant(Implies(sorted_prefix is not None, lseg(sorted_prefix.next, None)))  # Adjusted
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(tmp, tmp))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+        # Fold lseg(head, sorted_prefix) is not needed here due to adjusted invariant
+    return sorted_prefix
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Contract might not be well-formed. There might be insufficient permission to access sorted_prefix.next. (tmp.py@46.18)', 'Verification took 1.90 seconds.']
+Verification result:
+ Verification failed: Contract might not be well-formed. There might be insufficient permission to access sorted_prefix.next. at line 12.18 
+
+
+Running example: merge ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    Requires(lseg(head1, None) and lseg(head2, None))
+    Ensures(lseg(Result(), None))
+    if head1 is None:
+        Fold(lseg(head2, None))
+        return head2
+    if head2 is None:
+        Fold(lseg(head1, None))
+        return head1
+    if Unfolding(lseg(head1, None), head1.val) < Unfolding(lseg(head2, None), head2.val):
+        Unfold(lseg(head1, None))
+        head1.next = merge(head1.next, head2)
+        Fold(lseg(head1, None))
+        return head1
+    Unfold(lseg(head2, None))
+    head2.next = merge(head1, head2.next)
+    Fold(lseg(head2, None))
+    return head2
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access Acc(first.val). (tmp.py@23.8)', 'Verification took 1.85 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access Acc(first.val). at line 6.8 
+
+
+Running example: merge ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    Requires(lseg(head1, None) and lseg(head2, None))
+    Ensures(lseg(Result(), None))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if head1.val < head2.val:
+        Unfold(lseg(head1, None))
+        head1.next = merge(head1.next, head2)
+        Fold(lseg(head1, head1.next))
+        return head1
+    Unfold(lseg(head2, None))
+    head2.next = merge(head1, head2.next)
+    Fold(lseg(head2, head2.next))
+    return head2
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Conditional statement might fail. There might be insufficient permission to access head1.val. (tmp.py@26.7)', 'Verification took 2.47 seconds.']
+Verification result:
+ Verification failed: Conditional statement might fail. There might be insufficient permission to access head1.val. at line 9.7 
+
+
+Running example: merge ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    Requires(lseg(head1, None) and lseg(head2, None))
+    Ensures(lseg(Result(), None))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    Unfold(lseg(head1, None))
+    Unfold(lseg(head2, None))
+    if head1.val < head2.val:
+        head1.next = merge(head1.next, head2)
+        Fold(lseg(head1, head1.next))
+        return head1
+    else:
+        head2.next = merge(head1, head2.next)
+        Fold(lseg(head2, head2.next))
+        return head2
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method merge might not hold. There might be insufficient permission to access lseg(head2, None). (tmp.py@29.21)', 'Verification took 1.94 seconds.']
+Verification result:
+ Verification failed: The precondition of method merge might not hold. There might be insufficient permission to access lseg(head2, None). at line 12.21 
+
+
+Running example: merge ; attempt: 2 ; error depth: 1
+Using temperature: 0.4
+Generated program from GPT:
+def merge(head1: Optional[Node], head2: Optional[Node]) -> Optional[Node]:
+    """Merge two sorted lists."""
+    Requires(lseg(head1, None) and lseg(head2, None))
+    Ensures(lseg(Result(), None))
+    if head1 is None:
+        return head2
+    if head2 is None:
+        return head1
+    if Unfolding(lseg(head1, None), head1.val) < Unfolding(lseg(head2, None), head2.val):
+        Unfold(lseg(head1, None))
+        head1.next = merge(head1.next, head2)
+        Fold(lseg(head1, None))
+        return head1
+    Unfold(lseg(head2, None))
+    head2.next = merge(head1, head2.next)
+    Fold(lseg(head2, None))
+    return head2
+=====================================
+response ['', 'Verification successful', 'Verification took 1.84 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    if head is None:
+        return 0
+    Unfold(lseg(head, None))
+    result = 1 + count(head.next)
+    Fold(lseg(head, None))
+    return result
+=====================================
+response ['', 'Verification successful', 'Verification took 1.86 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: count_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def count_iter(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    cnt = 0
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        cnt += 1
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+    join(head, ptr, None)
+    return cnt
+=====================================
+response ['', 'Verification successful', 'Verification took 2.02 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: split ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx. Head to idx is also a list"""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    if idx == 1:
+        Unfold(lseg(head, None))
+        rest = head.next
+        head.next = None
+        Fold(lseg(None, None))
+        Fold(lseg(head, None))
+        return rest
+    Unfold(lseg(head, None))
+    rest = split(head.next, idx - 1)
+    Fold(lseg(head, None))
+    return rest
+=====================================
+response ['', 'Verification successful', 'Verification took 2.47 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: split_iter ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def split_iter(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx. Head to idx is also a list"""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None) and lseg(Result(), None))
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while idx > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        idx -= 1
+    if ptr is None:
+        return None
+    Unfold(lseg(ptr, None))
+    rest = ptr.next
+    ptr.next = None
+    Fold(lseg(None, None))
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return rest
+=====================================
+response ['', 'Verification successful', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification successful 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 1
+Using temperature: 0.0
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    Unfold(lseg(head, None))
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    return merge(head, rest)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'The precondition of method count might not hold. There might be insufficient permission to access lseg(head, None). (tmp.py@75.10)', 'Verification took 2.15 seconds.']
+Verification result:
+ Verification failed: The precondition of method count might not hold. There might be insufficient permission to access lseg(head, None). at line 8.10 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 2
+Using temperature: 0.0
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        Fold(lseg(head, None))
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    return merge(head, rest)
+=====================================
+response ['', 'Verification failed', 'Errors:', 'Fold might fail. There might be insufficient permission to access Acc(first.val). (tmp.py@73.8)', 'Verification took 2.07 seconds.']
+Verification result:
+ Verification failed: Fold might fail. There might be insufficient permission to access Acc(first.val). at line 6.8 
+
+
+Running example: merge_sort ; attempt: 1 ; error depth: 3
+Using temperature: 0.0
+Generated program from GPT:
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    return merge(head, rest)
+=====================================
+response ['', 'Verification successful', 'Verification took 2.63 seconds.']
+Verification result:
+ Verification successful 
+
+
+EvalResult(results={'join': True, 'prepend': True, 'remove_first': True, 'remove_last': True, 'contains': True, 'contains_iter': True, 'insert': True, 'insert_iter': False, 'append': True, 'append_iter': False, 'index_of': True, 'reverse': False, 'insert_sorted': True, 'insertion_sort': True, 'insertion_sort_iter': False, 'merge': True, 'count': True, 'count_iter': True, 'split': True, 'split_iter': True, 'merge_sort': True}, verified_at={'join': (1, 1), 'prepend': (1, 1), 'remove_first': (1, 2), 'remove_last': (1, 2), 'contains': (1, 1), 'contains_iter': (1, 1), 'insert': (1, 1), 'append': (1, 1), 'index_of': (1, 1), 'insert_sorted': (2, 1), 'insertion_sort': (2, 3), 'merge': (2, 1), 'count': (1, 1), 'count_iter': (1, 1), 'split': (1, 1), 'split_iter': (1, 1), 'merge_sort': (1, 3)})

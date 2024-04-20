@@ -1,0 +1,18 @@
+def insert_iter(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Insert a new node with value val at position pos in the list."""
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    ptr = head # type: Optional[Node]
+    while pos > 1 and ptr is not None:
+        tmp = ptr
+        ptr = ptr.next
+        join(head, tmp, ptr)
+        pos -= 1
+    if ptr is None:
+        return head
+    n = Node(val, ptr.next)
+    ptr.next = n
+    join(head, ptr, None)
+    return head

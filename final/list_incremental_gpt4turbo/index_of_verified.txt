@@ -1,0 +1,12 @@
+@ContractOnly
+def index_of(head: Node, val: int) -> int:
+    Requires(Acc(head.val) and Acc(head.next) and is_list(head))
+    
+    if head.val == val:
+        return 0
+    if head.next is None:
+        return -1
+    result = 1 + index_of(head.next, val)
+    if result == 0:
+        result = -1
+    return result

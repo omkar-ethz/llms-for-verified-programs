@@ -1,0 +1,3 @@
+def val_at_head(node: TreeNode) -> int:
+    """Returns the value at the head of the tree rooted at node"""
+    return node.key

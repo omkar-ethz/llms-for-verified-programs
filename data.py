@@ -29,6 +29,13 @@ class Data:
         path = f"{self.data_root}/{self.config[key]['examples'][name][is_verified]}"
         return _read_file(path)
 
+    def get_master_example(self, key: str, name: str) -> str | None:
+        """Returns the master example for the given key and name"""
+        if "master" in self.config[key]["examples"][name]:
+            path = f"{self.data_root}/{self.config[key]['examples'][name]['master']}"
+            return _read_file(path)
+        return None
+
     def get_cached_result(self, key: str, example: str) -> str:
         """Returns the cached result for the unverified example"""
         return self.verif_result[example]
@@ -37,6 +44,10 @@ class Data:
         """Returns the declaration and predicates for the given key"""
         path = f"{self.data_root}/{self.config[key]['declaration']}"
         return _read_file(path)
+
+    def get_dependencies(self, key: str, method_name: str) -> list[str]:
+        """Returns the dependencies for the given method"""
+        return self.config[key]["examples"][method_name].get("dependencies", [])
 
     def combine_method_with_declaration_and_dependencies(self, key: str, method_text: str, method_name: str | None = None) -> tuple[str, int]:
         """Combines the method text with the declaration file and (the transitive closure of) dependent methods and writes the output

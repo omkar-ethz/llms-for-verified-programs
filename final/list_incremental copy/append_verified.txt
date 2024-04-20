@@ -1,0 +1,14 @@
+def append(head: Node, val: int) -> None:
+    """Appends a new node with the given value to the end of the list."""
+    Requires(is_list(head))
+    Ensures(is_list(head))
+    if Unfolding(is_list(head), head.next is None):
+        n = Node(val)
+        Unfold(is_list(head))
+        head.next = n
+        Fold(is_list(n))
+        Fold(is_list(head))
+    else:
+        Unfold(is_list(head))
+        append(head.next, val)
+        Fold(is_list(head))
