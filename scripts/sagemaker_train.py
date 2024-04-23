@@ -7,12 +7,12 @@ from datasets import load_from_disk  # type: ignore
 
 
 output_data_dir = "/opt/ml/checkpoints"
-model_dir = os.environ["SM_MODEL_DIR"]
+model_dir = "/opt/ml/model"
 training_dir = os.environ["SM_CHANNEL_TRAIN"]
 testing_dir = os.environ["SM_CHANNEL_TEST"]
 
 train_dataset = load_from_disk(training_dir)
-eval_dataset = load_from_disk(testing_dir)
+# eval_dataset = load_from_disk(testing_dir)
 
 BASE_MODEL = "codellama/CodeLlama-7b-hf"
 model: LlamaForCausalLM = AutoModelForCausalLM.from_pretrained(
@@ -68,10 +68,10 @@ training_arguments = TrainingArguments(
     output_dir=output_data_dir,
     per_device_train_batch_size=4,
     gradient_accumulation_steps=8,
-    num_train_epochs=4,
+    num_train_epochs=3,
     optim="adamw_torch",
     save_strategy="epoch",
-    evaluation_strategy="epoch",
+    evaluation_strategy="no",
     learning_rate=2e-4,
     max_grad_norm=0.3,
     warmup_ratio=0.03,
@@ -93,7 +93,7 @@ trainer = SFTTrainer(
     model=model,
     tokenizer=tokenizer,
     train_dataset=train_dataset,
-    eval_dataset=eval_dataset,
+    # eval_dataset=eval_dataset,
     dataset_text_field="prompt",
     args=training_arguments,
     peft_config=peft_config,
