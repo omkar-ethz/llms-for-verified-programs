@@ -3,7 +3,7 @@
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Repository containing the dataset, algorithms, experiments and results of the thesis "Large Language Models for Verified Programs".
+Repository containing the dataset, algorithms, experiments and results of the thesis "Large Language Models for Verified Programs" (Report: [thesis.pdf](thesis.pdf)).
 
 ## Getting started
 
