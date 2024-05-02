@@ -1,0 +1,21 @@
+def contains_iter(first: Node, last: Optional[Node], val: int) -> bool:
+    """Check if the list contains a node with value val."""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, last))
+    ptr = first  # type: Optional[Node]
+    result = False
+    Fold(lseg(first, ptr))
+    while ptr is not None and ptr is not last:
+        Invariant(lseg(first, ptr))
+        Invariant(lseg(ptr, last))
+        if Unfolding(lseg(ptr, last), ptr.val) == val:
+            result = True
+            break
+        Unfold(lseg(ptr, last))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(first, tmp, ptr)
+    join(first, ptr, last)
+    return result

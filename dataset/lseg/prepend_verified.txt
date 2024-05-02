@@ -1,0 +1,7 @@
+def prepend(head: Optional[Node], val: int) -> Node:
+    """Prepend a new node with value val to the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    n = Node(val, head)
+    Fold(lseg(n, None))
+    return n

@@ -1,0 +1,22 @@
+def index_of(first: Node, last: Optional[Node], val: int) -> int:
+    """Return the index of the first occurrence of val in the list or -1 if not found"""
+    Requires(lseg(first, last))
+    Ensures(lseg(first, last))
+    ptr = first  # type: Optional[Node]
+    Fold(lseg(first, ptr))
+    index = 0
+    while ptr is not None and ptr is not last:
+        Invariant(lseg(first, ptr))
+        Invariant(lseg(ptr, last))
+        if Unfolding(lseg(ptr, last), ptr.val) == val:
+            join(first, ptr, last)
+            return index
+        Unfold(lseg(ptr, last))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(first, tmp, ptr)
+        index += 1
+    join(first, ptr, last)
+    return -1

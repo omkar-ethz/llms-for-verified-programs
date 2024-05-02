@@ -1,0 +1,13 @@
+def mirror(root: Optional[TreeNode]) -> None:
+    """Mirrors the tree rooted at root"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(root is not None, tree(root)))
+    if root is None:
+        return
+    Unfold(tree(root))
+    temp = root.left
+    root.left = root.right
+    root.right = temp
+    mirror(root.left)
+    mirror(root.right)
+    Fold(tree(root))

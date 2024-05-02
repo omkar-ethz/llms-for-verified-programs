@@ -1,0 +1,20 @@
+def subtree(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    """Returns the subtree rooted at node with the given key if it exists, None otherwise
+    Permissions to the rest of the tree are leaked"""
+    Requires(Implies(root is not None, tree(root)))
+    Ensures(Implies(Result() is not None, tree(Result())))
+    if root is None:
+        return None
+    Unfold(tree(root))
+    if Unfolding(tree(root), root.key) == key:
+        Fold(tree(root))
+        return root
+    Unfold(tree(root))
+    if key < root.key:
+        res = subtree(root.left, key)
+        Fold(tree(root))
+    else:
+        res = subtree(root.right, key)
+        Fold(tree(root))
+    Fold(tree(root))
+    return res

@@ -1,0 +1,12 @@
+def remove_first(first: Node, last: Node) -> Optional[Node]:
+    """Remove the first node from the list."""
+    Requires(lseg(first, last))
+    Ensures(lseg(Result(), last))
+    Unfold(lseg(first, last))
+    if first is last:
+        Fold(lseg(first, last))
+        return last
+    Unfold(lseg(first, last))
+    rest = first.next
+    Fold(lseg(first, rest))
+    return rest

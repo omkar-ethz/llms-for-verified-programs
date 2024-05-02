@@ -1,0 +1,10 @@
+def count(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    if head is None:
+        return 0
+    Unfold(lseg(head, None))
+    result = 1 + count(head.next)
+    Fold(lseg(head, None))
+    return result

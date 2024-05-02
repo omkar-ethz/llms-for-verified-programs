@@ -1,0 +1,6 @@
+def count(node: Optional[TreeNode]) -> int:
+    """Returns the number of nodes in the tree rooted at node"""
+    if node is None:
+        return 0
+    c = 1 + count(node.left) + count(node.right)
+    return c

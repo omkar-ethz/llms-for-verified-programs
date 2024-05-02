@@ -1,0 +1,11 @@
+def count_iter(head: Optional[Node]) -> int:
+    """Counts the number of nodes in the list."""
+    cnt = 0
+    ptr = head # type: Optional[Node]
+    while ptr is not None:
+        cnt += 1
+        tmp = ptr
+        ptr = ptr.next
+        join(head, tmp, ptr)
+    join(head, ptr, None)
+    return cnt

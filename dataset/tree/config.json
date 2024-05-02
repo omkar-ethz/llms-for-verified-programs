@@ -1,0 +1,55 @@
+{
+    "system_prompt": "system_prompt_multi_round.txt",
+    "verif_result_cache": "verif_result.json",
+    "tree": {
+        "declaration": "tree.py.txt",
+        "examples": {
+            "val_head": {
+                "unverified": "val_head_unverified.txt",
+                "verified": "val_head_verified.txt"
+            },
+            "height": {
+                "unverified": "height_unverified.txt",
+                "verified": "height_verified.txt"
+            },
+            "count": {
+                "unverified": "count_unverified.txt",
+                "verified": "count_verified.txt"
+            },
+            "sum": {
+                "unverified": "sum_unverified.txt",
+                "verified": "sum_verified.txt"
+            },
+            "insert": {
+                "unverified": "insert_unverified.txt",
+                "verified": "insert_verified.txt"
+            },
+            "contains": {
+                "unverified": "contains_unverified.txt",
+                "verified": "contains_verified.txt"
+            },
+            "inorder": {
+                "unverified": "inorder_unverified.txt",
+                "verified": "inorder_verified.txt"
+            },
+            "min": {
+                "master": "min_master.txt",
+                "unverified": "min_unverified.txt",
+                "verified": "min_verified.txt"
+            },
+            "mirror": {
+                "unverified": "mirror_unverified.txt",
+                "verified": "mirror_verified.txt"
+            },
+            "subtree": {
+                "master": "subtree_master.txt",
+                "unverified": "subtree_unverified.txt",
+                "verified": "subtree_verified.txt"
+            },
+            "min_depth": {
+                "unverified": "min_depth_unverified.txt",
+                "verified": "min_depth_verified.txt"
+            }
+        }
+    }
+}

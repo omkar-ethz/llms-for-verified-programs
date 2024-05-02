@@ -1,0 +1,10 @@
+def remove_last(first: Optional[Node], last: Node) -> Optional[Node]:
+    """Remove the last node from the list and returns the new last"""
+    if first is None:
+        return last
+    if first is last:
+        return last
+    if first.next is last:
+        return first
+    rest = remove_last(first.next, last)
+    return rest

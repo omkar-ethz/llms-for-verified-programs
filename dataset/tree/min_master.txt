@@ -1,0 +1,13 @@
+def min_value(node: TreeNode) -> int:
+    """Returns the minimum value in the tree rooted at node"""
+    Requires(tree(node))
+    Ensures(tree(node))
+    Unfold(tree(node))
+    if Unfolding(tree(node), node.left) is None:
+        m = node.key
+        Fold(tree(node))
+        return m
+    Unfold(tree(node))
+    m = min_value(node.left)
+    Fold(tree(node))
+    return m

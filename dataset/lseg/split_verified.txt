@@ -1,0 +1,18 @@
+def split(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx. Head to idx is also a list"""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None) and lseg(Result(), None))
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    if idx == 1:
+        Unfold(lseg(head, None))
+        rest = head.next
+        head.next = None
+        Fold(lseg(None, None))
+        Fold(lseg(head, None))
+        return rest
+    Unfold(lseg(head, None))
+    rest = split(head.next, idx - 1)
+    Fold(lseg(head, None))
+    return rest

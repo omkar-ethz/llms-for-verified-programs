@@ -1,0 +1,10 @@
+def index_of(head: Node, val: int) -> int:
+    """Returns the index of the first occurrence of the given value."""
+    if head.val == val:
+        return 0
+    if head.next is None:
+        return -1
+    result = 1 + index_of(head.next, val)
+    if result == 0:
+        result = -1
+    return result

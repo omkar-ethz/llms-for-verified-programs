@@ -1,0 +1,14 @@
+def index_of(first: Node, last: Optional[Node], val: int) -> int:
+    """Return the index of the first occurrence of val in the list or -1 if not found"""
+    ptr = first # type: Optional[Node]
+    index = 0
+    while ptr is not None and ptr is not last:
+        if ptr.val == val:
+            join(first, ptr, last)
+            return index
+        tmp = ptr
+        ptr = ptr.next
+        join(first, tmp, ptr)
+        index += 1
+    join(first, ptr, last)
+    return -1

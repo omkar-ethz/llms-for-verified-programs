@@ -1,0 +1,29 @@
+def split_iter(head: Optional[Node], idx: int) -> Optional[Node]:
+    """Splits the list at the given index. Result is the list starting at idx. Head to idx is also a list"""
+    Requires(lseg(head, None))
+    Ensures(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None:
+        Fold(lseg(None, None))
+        return None
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(head, ptr))
+    while idx > 1 and ptr is not None:
+        Invariant(lseg(head, ptr))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        Fold(lseg(ptr, ptr))
+        Fold(lseg(tmp, ptr))
+        join(head, tmp, ptr)
+        idx -= 1
+    if ptr is None:
+        return None
+    Unfold(lseg(ptr, None))
+    rest = ptr.next
+    ptr.next = None
+    Fold(lseg(None, None))
+    Fold(lseg(ptr, None))
+    join(head, ptr, None)
+    return rest

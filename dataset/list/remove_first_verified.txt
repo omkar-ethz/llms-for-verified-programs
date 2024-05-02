@@ -1,0 +1,6 @@
+def remove_first(head: Node) -> Optional[Node]:
+    """Removes the first node from the list."""
+    Requires(is_list(head))
+    Ensures(Implies(Result() is not None, is_list(Result())))
+    Unfold(is_list(head))
+    return head.next

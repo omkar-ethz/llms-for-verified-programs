@@ -1,0 +1,19 @@
+def reverse(head: Node) -> Optional[Node]:
+    """Reverse the list segment."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if Unfolding(lseg(head, None), head.next) is None:
+        return head
+    prev = None  # type: Optional[Node]
+    ptr = head  # type: Optional[Node]
+    Fold(lseg(prev, None))
+    while ptr is not None:
+        Invariant(lseg(prev, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr.next
+        ptr.next = prev
+        prev = ptr
+        ptr = tmp
+        Fold(lseg(prev, None))
+    return prev

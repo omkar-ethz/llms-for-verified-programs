@@ -1,0 +1,21 @@
+def insertion_sort_iter(head: Node) -> Node:
+    """Sort the list using insertion sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    sorted_prefix = head  # type: Node
+    Unfold(lseg(sorted_prefix, None))
+    ptr = sorted_prefix.next  # type: Optional[Node]
+    sorted_prefix.next = None
+    Fold(lseg(None, None))
+    Fold(lseg(sorted_prefix, None))
+    while ptr is not None:
+        Invariant(lseg(sorted_prefix, None))
+        Invariant(lseg(ptr, None))
+        Unfold(lseg(ptr, None))
+        tmp = ptr
+        ptr = ptr.next
+        tmp.next = None
+        Fold(lseg(None, None))
+        Fold(lseg(tmp, None))
+        sorted_prefix = insert_sorted(sorted_prefix, tmp)
+    return sorted_prefix

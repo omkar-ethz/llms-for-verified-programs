@@ -1,0 +1,112 @@
+{
+    "system_prompt": "sys_prompt_2.txt",
+    "verif_result_cache": "verif_result.json",
+    "lseg": {
+        "declaration": "lseg.py.txt",
+        "examples": {
+            "join": {
+                "master": "join_master.txt",
+                "unverified": "join_unverified.txt",
+                "verified": "join_verified.txt"
+            },
+            "prepend": {
+                "master": "prepend_master.txt",
+                "unverified": "prepend_unverified.txt",
+                "verified": "prepend_verified.txt"
+            },
+            "remove_first": {
+                "master": "remove_first_master.txt",
+                "unverified": "remove_first_unverified.txt",
+                "verified": "remove_first_verified.txt"
+            },
+            "remove_last": {
+                "unverified": "remove_last_unverified.txt",
+                "verified": "remove_last_verified.txt"
+            },
+            "contains": {
+                "master": "contains_master.txt",
+                "unverified": "contains_unverified.txt",
+                "verified": "contains_verified.txt"
+            },
+            "contains_iter": {
+                "dependencies": ["join"],
+                "master": "contains_iter_master.txt",
+                "unverified": "contains_iter_unverified.txt",
+                "verified": "contains_iter_verified.txt"
+            },
+            "insert": {
+                "dependencies": ["prepend"],
+                "master": "insert_master.txt",
+                "unverified": "insert_unverified.txt",
+                "verified": "insert_verified.txt"
+            },
+            "insert_iter": {
+                "dependencies": ["prepend", "join"],
+                "unverified": "insert_iter_unverified.txt",
+                "verified": "insert_iter_verified.txt"
+            },
+            "append": {
+                "master": "append_master.txt",
+                "unverified": "append_unverified.txt",
+                "verified": "append_verified.txt"
+            },
+            "append_iter": {
+                "dependencies": ["join"],
+                "unverified": "append_iter_unverified.txt",
+                "verified": "append_iter_verified.txt"
+            },
+            "index_of": {
+                "dependencies": ["join"],
+                "unverified": "index_of_unverified.txt",
+                "verified": "index_of_verified.txt"
+            },
+            "reverse": {
+                "unverified": "reverse_unverified.txt",
+                "verified": "reverse_verified.txt"
+            },
+            "insert_sorted": {
+                "unverified": "insert_sorted_unverified.txt",
+                "verified": "insert_sorted_verified.txt"
+            },
+            "insertion_sort": {
+                "dependencies": ["insert_sorted"],
+                "master": "insertion_sort_master.txt",
+                "unverified": "insertion_sort_unverified.txt",
+                "verified": "insertion_sort_verified.txt"
+            },
+            "insertion_sort_iter": {
+                "dependencies": ["insert_sorted"],
+                "unverified": "insertion_sort_iter_unverified.txt",
+                "verified": "insertion_sort_iter_verified.txt"
+            },
+            "merge": {
+                "master": "merge_master.txt",
+                "unverified": "merge_unverified.txt",
+                "verified": "merge_verified.txt"
+            },
+            "count": {
+                "unverified": "count_unverified.txt",
+                "verified": "count_verified.txt"
+            },
+            "count_iter": {
+                "dependencies": ["join"],
+                "unverified": "count_iter_unverified.txt",
+                "verified": "count_iter_verified.txt"
+            },
+            "split": {
+                "unverified": "split_unverified.txt",
+                "verified": "split_verified.txt"
+            },
+            "split_iter": {
+                "dependencies": ["join"],
+                "unverified": "split_iter_unverified.txt",
+                "verified": "split_iter_verified.txt"
+            },
+            "merge_sort": {
+                "dependencies": ["count", "split", "merge"],
+                "unverified": "merge_sort_unverified.txt",
+                "verified": "merge_sort_verified.txt"
+            }
+        }
+    }
+}

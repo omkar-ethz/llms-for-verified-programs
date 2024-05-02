@@ -1,0 +1,7 @@
+def join(a: Optional[Node], b: Optional[Node], c: Optional[Node]) -> None:
+    """Join two list segments."""
+    if b is c:
+        return
+    if a is b:
+        return
+    join(a.next, b, c)

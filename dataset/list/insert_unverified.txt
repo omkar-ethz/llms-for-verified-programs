@@ -1,0 +1,8 @@
+def insert(head: Optional[Node], val: int, pos: int) -> Optional[Node]:
+    """Inserts a new node with the given value at the given position."""
+    if pos == 0:
+        return prepend(head, val)
+    if head is None:
+        return None
+    head.next = insert(head.next, val, pos - 1)
+    return head

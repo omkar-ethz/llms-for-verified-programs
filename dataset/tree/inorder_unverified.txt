@@ -1,0 +1,6 @@
+def inorder(node: Optional[TreeNode]) -> None:
+    """Inorder traversal of a binary tree."""
+    if node is None:
+        return
+    inorder(node.left)
+    inorder(node.right)

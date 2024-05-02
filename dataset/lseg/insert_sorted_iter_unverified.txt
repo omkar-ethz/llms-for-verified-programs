@@ -1,0 +1,15 @@
+def insert_sorted_iter(head: Node, node: Node) -> Node:
+    """Insert a new node, given as an lseg with one element, in the sorted list and returns the new head"""
+    val = node.val
+    if val < head.val:
+        node.next = head
+        return node
+    ptr = head # type: Node
+    while ptr.next is not None and val >= Unfolding(lseg(ptr.next, None), ptr.next.val):
+        tmp = ptr
+        ptr = ptr.next
+        join(head, tmp, ptr)
+    node.next = ptr.next
+    ptr.next = node
+    join(head, ptr, None)
+    return head

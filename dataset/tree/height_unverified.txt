@@ -1,0 +1,6 @@
+def height(node: Optional[TreeNode]) -> int:
+    """Returns the height of the tree rooted at node"""
+    if node is None:
+        return 0
+    h = 1 + max(height(node.left), height(node.right))
+    return h

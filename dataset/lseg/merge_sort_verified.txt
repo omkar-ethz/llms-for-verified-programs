@@ -1,0 +1,11 @@
+def merge_sort(head: Optional[Node]) -> Optional[Node]:
+    """Sorts the list using merge sort."""
+    Requires(lseg(head, None))
+    Ensures(lseg(Result(), None))
+    if head is None or Unfolding(lseg(head, None), head.next) is None:
+        return head
+    mid = count(head) // 2
+    rest = split(head, mid)
+    head = merge_sort(head)
+    rest = merge_sort(rest)
+    return merge(head, rest)
