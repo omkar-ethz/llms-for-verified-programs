@@ -60,10 +60,10 @@ The notebook [final.ipynb](final.ipynb) contains an implementation of the "Algor
 on AST analysis of the verified (or master) program which is implemented [ast_util.py](ast_util.py).
 
 ### Fine-tuning on Amazon SageMaker
-With the dataset generated (as a jsonl file), the notebook [fine_tuning.ipynb](fine_tuning.ipynb) contains the code to fine-tune the model on Amazon SageMaker. The training script to be run inside the container is in [scripts/sagemaker_train.py](scripts/sagemaker_train.py).
+With the dataset generated (as a jsonl file), the notebook [finetune.ipynb](finetune.ipynb) contains the code to fine-tune the model on Amazon SageMaker. The training script to be run inside the container is in [scripts/sagemaker_train.py](scripts/sagemaker_train.py).
 
 ### Deploying and evaluating the fine-tuned model
-[fine_tuning.ipynb](fine_tuning.ipynb) also contains code to deploy the fine-tuned model (either synchronously using the
+[finetune.ipynb](finetune.ipynb) also contains code to deploy the fine-tuned model (either synchronously using the
 Estimator object after training finishes, or using the model artifacts from S3). Once deployed, note the predictor endpoint
 name. Then the model can be evaluated using the Evaluation class just like any other (OpenAI / TogetherAI) model. The notebook [eval_finetuned.ipynb](eval_finetuned.ipynb) contains the code and evaluation results of our three fine-tuned models. A custom inference script is required (as we trained using LoRA, need to combine the adapter with the model during initialization) -- this is present in [scripts_inference/inference.py](scripts_inference/inference.py).
 
